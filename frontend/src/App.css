@@ -1,0 +1,1863 @@
+@import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans&family=Chakra+Petch:wght@500&family=Epilogue&family=Fredoka+One&family=Roboto+Condensed&family=Sora&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500&display=swap');
+
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body{
+  background-color: #212332;
+  /* #2a2d3e */
+  color: #FFF;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+body, html{
+  width: 100%;
+}
+
+textarea{
+  resize: none;
+  padding: 10px;
+}
+
+li{
+  list-style-type: none;
+}
+
+a{
+  text-decoration: none;
+}
+
+.mt-1{
+  margin-top: 5px;
+}
+
+.ml-1{
+  margin-left: 5px;
+}
+
+.f{
+  display: flex;
+}
+
+.f-n-s{
+  display: flex;
+  align-items: flex-start;
+}
+
+.a-s-s{
+  align-self: flex-start;
+}
+
+.f-c-c{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.f-n-c{
+  display: flex;
+  align-items: center;
+}
+
+.f-b-c{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.f-b-n{
+  display: flex;
+  justify-content: space-between;
+}
+
+.f-b-e{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.f-cl{
+  display: flex;
+  flex-direction: column;
+}
+
+.f-cl-c{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.a-s-e{
+  align-self: flex-end;
+}
+
+.gap10{
+  gap: 10px;
+}
+
+
+.w-100{
+  width: 100%;
+}
+
+/* Start Dashboard Page */
+
+
+
+
+
+
+#dashboard{
+  height: 100vh;
+  display: flex;
+}
+
+#dashboard .page{
+  width: 100%;
+  padding: 20px;
+}
+
+#dashboard .page .d-navbar .d-left span{
+  color: #9094aa;
+  font-family: 'Fredoka One', cursive;
+  font-size: 17px;
+}
+
+#dashboard .page .d-navbar .d-right .d-search{
+  background-color: #2a2d3e;
+  padding: 0 5px 0 15px;
+  border-radius: 10px;
+  height: 40px;
+}
+
+
+#dashboard .page .d-navbar .d-right .d-search input{
+  background-color: transparent;
+  color: white;
+  border: none;
+  outline: none;
+  width: 250px;
+  height: 40px;
+}
+
+#dashboard .page .d-navbar .d-right .d-icon{
+  background-color: #2697ff;
+  border: none;
+  outline: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+}
+
+#dashboard .page .d-navbar .d-profile{
+  width: 150px;
+  background-color: #2a2d3e;
+  height: 40px;
+  border-radius: 10px;
+  margin-left: 10px;
+  padding: 0 10px;
+}
+
+#dashboard .page .d-navbar .d-profile:hover{
+  cursor: pointer;
+  background-color: #2697ff;
+}
+
+#dashboard .page .d-navbar .d-profile p{
+  margin-left: 7.5px;
+  font-size: 13px;
+}
+
+#dashboard .page .d-navbar .d-profile span{
+  color: #8f919b;
+  font-size: 10px;
+}
+
+#dashboard .page .grid-split{
+  display: grid;
+  grid-template-columns: 8fr 3fr;
+  margin: 20px 0;
+}
+
+.grid-split .games-state{
+  background-color: #2a2d3e;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+
+#dashboard .page .statistics{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+#dashboard .page .statistics .statistic-card{
+  background-color: #2a2d3e;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+#dashboard .page .statistics .statistic-card .bg-icon{
+  height: 35px;
+  width: 35px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+#dashboard .page .statistics .statistic-card .numbers{
+  font-size: 18px;
+  color: #7f88b4;
+  font-family: 'Fredoka One', cursive;
+}
+
+#dashboard .page .statistics .statistic-card .s-name{
+  margin-top: 10px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.541);
+  display: flex;
+  justify-content: flex-end;
+  font-family: 'Fredoka One', cursive;
+}
+
+#dashboard .page .tables{
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 4fr 3fr;
+  width: 100%;
+  gap: 10px;
+}
+
+#dashboard .page .tables .competition-table,
+#dashboard .page .tables .games-table{
+  background-color: #2a2d3e;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+#dashboard .page .tables .competition-table .t-top,
+#dashboard .page .tables .games-table .t-top{
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #FFFFFF99;
+  font-family: 'Chakra Petch', sans-serif;
+}
+
+#dashboard .page .tables .t-top p,
+#dashboard .page .tables .t-top p{
+  font-size: 14px;
+  color: #FFFFFFCC;
+  font-family: 'Chakra Petch', sans-serif;
+}
+
+
+#dashboard .page .tables .t-top span,
+#dashboard .page .tables .t-top span{
+  font-size: 13px;
+  display: inline-block;
+  background-color: #2697ff;
+  color: white;
+  padding: 7.5px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#dashboard .page .tables .t-top span:hover,
+#dashboard .page .tables .t-top span:hover{
+  background-color: #338adb;
+}
+
+#dashboard .page .tables  table,
+#competition .page .table table,
+#game .page .table table,
+#player .page .table table{
+  width: 100%;
+  border-spacing: 0;
+  table-layout:fixed;
+  text-align: left;
+  font-family: 'Chakra Petch', sans-serif;
+}
+
+#dashboard .page .tables  table tr,
+#competition .page .table table tr,
+#game .page .table table tr,
+#player .page .table table tr{
+  font-size: 12px;
+  color: #d1dde7af;
+}
+
+#competition .page .table-table table thead,
+#dashboard .page .competition-table .table table thead,
+#game .page .table table thead,
+#player .page .table table thead{
+  background-color: #212332;
+}
+
+
+
+#dashboard .page .tables  table th,
+#competition .page .table table th,
+#game .page .table table th,
+#player .page .table table th{
+  font-size: 12px;
+  color: #ffffffb4;
+}
+
+#dashboard .page .tables  table tr,
+#dashboard .page .tables  table th,
+#competition .page .table table tr,
+#competition .page .table table th,
+#game .page .table table tr,
+#game .page .table table th,
+#player .page .table table tr,
+#player .page .table table th{
+  height: 40px;
+}
+
+#dashboard .page .tables  table tr td:first-child,
+#dashboard .page .tables  table th:first-child,
+#competition .page .table table tr td:first-child,
+#competition .page .table table th:first-child,
+#game .page .table table tr td:first-child,
+#game .page .table table th:first-child,
+#player .page .table table tr td:first-child,
+#player .page .table table th:first-child{
+  padding: 0px 10px;
+}
+
+#dashboard .page .tables  table tr td.actions,
+#competition .page .table table tr td.actions,
+#game .page .table table tr td.actions,
+#player .page .table table tr td.actions{
+  height: 40px;
+}
+
+#competition .page .table table tr td.actions div,
+#game .page .table table tr td.actions div,
+#player .page .table table tr td.actions div{
+  height: 27.5px;
+  width: 27.5px;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+#competition .page .table table tr td.actions div a,
+#game .page .table table tr td.actions div a,
+#player .page .table table tr td.actions div a{
+  color: #FFF;
+  display: flex;
+  align-self: center;
+}
+
+#game .page .table table tr:nth-child(even) td.actions div,
+#player .page .table table tr:nth-child(even) td.actions div,
+#competition .page .table table tr:nth-child(even) td.actions div{
+  background-color: #2a2d3e;
+}
+
+
+
+#game .page .table table tr:nth-child(odd) td.actions div,
+#player .page .table table tr:nth-child(odd) td.actions div,
+#competition .page .table table tr:nth-child(odd) td.actions div{
+  background-color: #323449;
+}
+
+
+
+
+
+#dashboard .page .tables  table tr td.c-name,
+#competition .page .table table tr td.c-name,
+#game .page .table table tr td.c-name,
+#player .page .table table tr td.c-name{
+  height: 40px;
+  font-size: 12px;
+}
+
+#competition .page .table table tr td.c-name img,
+#game .page .table table tr td.c-name img,
+#player .page .table table tr td.c-name img{
+  border-radius: 5px;
+  width: 30px;
+  height: 30px;
+}
+
+#dashboard .page .tables  table tr td.c-name span,
+#competition .page .table table tr td.c-name span,
+#game .page .table table tr td.c-name span,
+#player .page .table table tr td.c-name span{
+  margin-left: 5px;
+}
+
+
+#dashboard .page .tables  table tr td .c-level,
+#competition .page .table table tr td .c-level,
+#game .page .table table tr td .c-level,
+#player .page .table table tr td .c-level{
+  width: 60px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  font-size: 12px;
+  color: #fff;
+  border-radius: 5px;
+  display: inline-block;
+  background-color: #5321af;
+}
+
+
+#dashboard .page .tables  table tr:nth-child(even),
+#competition .page .table table tr:nth-child(even),
+#game .page .table table tr:nth-child(even),
+#player .page .table table tr:nth-child(even){
+  background-color: #212332;
+}
+
+#dashboard .page .tables  table tr:nth-child(odd),
+#competition .page .table table tr:nth-child(odd),
+#game .page .table table tr:nth-child(odd),
+#player .page .table table tr:nth-child(odd){
+  background-color: #2a2d3e;
+}
+
+#dashboard .page .tables  table tr:hover,
+#competition .page .table table tr:hover,
+#game .page .table table tr:hover,
+#player .page .table table tr:hover{
+  cursor: pointer;
+  background:  #252838
+}
+
+
+#dashboard .page .grid-split .games-state{
+  display: flex;
+  justify-content: center;
+}
+
+#dashboard .page .grid-split .games-state canvas{
+  width: 250px !important;
+  height: 250px !important;
+  padding: 20px;
+}
+
+#dashboard .page .grid-split .games-state .chart-infos div.i-bo{
+  background-color: #323449;
+  border: 2px solid #252838;
+  margin-bottom: 5px;
+  width: 200px;
+  padding: 5px 10px;
+  font-family: 'Chakra Petch', sans-serif;
+}
+
+#dashboard .page .grid-split .games-state .chart-infos .squar{
+  padding: 10px;
+  border-radius: 5px;
+  margin: 0 15px;
+}
+
+#dashboard .page .grid-split .games-state .chart-infos .chart-tooltip p{
+  font-size: 13px;
+  margin-bottom: -5px;
+}
+
+#dashboard .page .grid-split .games-state .chart-infos .chart-tooltip span{
+  font-size: 11px;
+  color: #94959c;
+  font-family: 'Fredoka One', cursive;
+}
+
+
+
+
+
+/* End Dashboard Page */
+
+
+
+
+
+
+
+
+
+
+
+
+/* Start Competition ( Some Game Page Styling ) Page */
+
+
+
+
+
+
+
+#competition,
+#game,
+#player,
+#token,
+#offer,
+#group{
+  height: 100vh;
+  display: flex;
+}
+
+#competition .page,
+#game .page,
+#player .page,
+#token .page,
+#offer .page,
+#group .page{
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+#competition .page .title,
+#game .page .title,
+#player .page .title,
+#token .page .title,
+#offer .page .title,
+#group .page .title{
+  color: #9094aa;
+  font-family: 'Fredoka One', cursive;
+  font-size: 17px;
+}
+
+#competition .page .title button,
+#game .page .title button,
+#player .page .title button,
+#token .page .title button,
+#offer .page .title button,
+#group .page .title button{
+  background-color: #2697ff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  font-size: 13px;
+  transition: .2s ease-in;
+}
+
+#competition .page .title button:hover,
+#game .page .title button:hover,
+#player .page .title button:hover,
+#token .page .title button:hover,
+#offer .page .title button:hover,
+#group .page .title button:hover{
+  background-color: #FFF;
+  color: #2697ff;
+  cursor: pointer;
+}
+
+#competition .page .title button span,
+#game .page .title button span,
+#player .page .title button span,
+#offer .page .title button span,
+#group .page .title button span{
+  margin-left: 5px;
+}
+
+
+#competition .page .table-table table thead,
+#game .page .table-table table thead,
+#player .page .table-table table thead{
+  background-color: #212332;
+}
+
+#competition .page .table-table,
+#game .page .table-table,
+#player .page .table-table{
+  background-color: #2a2d3e;
+  border-radius: 10px;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+#competition .page .table-table .c-top,
+#game .page .table-table .c-top,
+#player .page .table-table .c-top{
+  background-color: #212332;
+  border-radius: 5px;
+  padding: 5px 5px 5px 12.5px;
+  display: inline-block;
+  align-self: flex-end;
+  margin-bottom: 20px;
+}
+
+#competition .page .table-table .c-top input,
+#game .page .table-table .c-top input,
+#player .page .table-table .c-top input{
+  width: 260px;
+  height: 30px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 14px;
+}
+
+#competition .page .table-table .c-top button,
+#game .page .table-table .c-top button,
+#player .page .table-table .c-top button{
+  width: 30px;
+  height: 30px;
+  background-color: #2697ff;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 14px;
+}
+
+
+#competition .page .competition-pagination,
+#game .page .game-pagination,
+#player .page .player-pagination{
+  margin-top: 20px;
+}
+
+
+
+
+
+
+/* End Comeptitions Page */
+
+
+
+
+
+
+
+
+
+
+
+
+/* Start Games Page */
+
+
+
+
+
+
+
+
+
+
+
+
+
+#game .page .table table tr td .g-level,
+#competition .page .table table tr td .g-level{
+  padding: 5px 10px;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  color: #fff;
+  font-size: 10px;
+  font-family: 'Chakra Petch', sans-serif;
+  font-weight: 500;
+}
+
+#game .page .table table tr td .g-p,
+#competition .page .table table tr td .g-p{
+  background-color: #338adb;
+}
+
+#game .page .table table tr td .g-i,
+#competition .page .table table tr td .g-i{
+  background-color: #d32138;
+}
+
+#game .page .table table tr td .g-a,
+#competition .page .table table tr td .g-a{
+  background-color: #178140;
+}
+
+
+
+
+
+
+
+/* End Games Page */
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Start Tokens Page */
+
+
+
+
+
+
+
+
+
+
+/* End Tokens Page */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#token .page .token-navbar{
+  margin: 20px 0;
+  background-color: #2a2d3e;
+  height: 50px;
+  border-radius: 10px;
+  padding: 0 30px;
+}
+
+
+#token .page .token-navbar .token-links{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 50px;
+}
+
+#token .page .token-navbar .token-links li{
+  margin-left: 20px;
+  color: #9094aa;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+#token .page .token-navbar .token-links li span{
+  margin-left: 5px;
+}
+
+#token .page .token-navbar .token-links li.token-navbar-active{
+  color: #ffffff;
+}
+
+#token .page .token-holder{
+  width: 100%;
+}
+
+#token .page .token-holder .wrapper{
+  width: 100%;
+}
+
+#token .page .token-holder .wrapper{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+#token .page .token-holder .wrapper .token-offer{
+  background-color: #2a2d3e;
+  border-radius: 0px;
+  padding: 15px;
+  border: 2px solid #323449;
+}
+
+#token .page .token-holder .wrapper .token-offer .t-offer .profile-pic{
+  margin-right: 15px;
+}
+
+#token .page .token-holder .wrapper .token-offer .t-offer .t-info{
+  padding-top: 5px;
+  width: 100%;
+}
+
+#token .page .token-holder .wrapper .token-offer .t-offer .t-info h4{
+  font-size: 15px;
+  color: #b6bacf;
+}
+
+#token .page .token-holder .wrapper .token-offer .t-offer .t-info span.offer{
+  font-size: 13px;
+  color: #7f88b4;
+}
+
+#token .page .token-holder .wrapper .token-offer .t-offer .t-info span.offer{
+  font-size: 13px;
+  color: #7f88b4;
+}
+
+#token .page .token-holder .wrapper .token-offer .t-offer .t-info span.price{
+  font-size: 10px;
+  color: #7f88b4;
+}
+
+#token .page .token-holder .wrapper .token-offer .token-actions{
+  display: flex;
+  margin-top: 20px;
+}
+
+#token .page .token-holder .wrapper .token-offer .token-actions .left .reject,
+#token .page .token-holder .wrapper .token-offer .token-actions .left .accept,
+#token .page .token-holder .wrapper .token-offer .token-actions .right .photo-check{
+  border-radius: 5px;
+  height: 25px;
+  width: 30px;
+}
+
+#token .page .token-holder .wrapper .token-offer .token-actions .left .reject{
+  margin-left: 5px;
+  background-color: #d321392d;
+  color: #d32138;
+}
+
+#token .page .token-holder .wrapper .token-offer .token-actions .left .accept{
+  background-color: #1781402D;
+  color: #178140;
+}
+
+#token .page .token-holder .wrapper .token-offer .token-actions .right .photo-check{
+  background-color: #3b05302d;
+}
+
+#token .page .token-pagination{
+  margin-top: 10px;
+  background-color: #2a2d3e;
+  padding: 10px;
+}
+
+
+
+
+/* End Tokens Page */
+
+
+
+
+
+
+
+
+
+
+/* Start Offer Page */
+
+
+
+
+
+
+
+
+
+
+
+
+#offer .page .offer-holder{
+  margin-top: 20px;
+}
+
+#offer .page .offer-holder .wrapper{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+#offer .page .offer-holder .wrapper .offer{
+  padding: 20px;
+  background-color: #2a2d3e;
+  border: 2px solid #323449;
+  text-align: center;
+}
+
+#offer .page .offer-holder .wrapper .offer .o-top h4{
+  font-size: 15px;
+  color: #FFF;
+  font-family: 'Fredoka One', cursive;
+}
+
+#offer .page .offer-holder .wrapper .offer .o-top p{
+  font-size: 12px;
+  color: #7f88b4;
+  font-family: 'Chakra Petch', sans-serif;
+  line-height: 14px;
+  min-height: 50px;
+}
+
+#offer .page .offer-holder .wrapper .offer  .o-price{
+  margin: 10px 0;
+}
+
+#offer .page .offer-holder .wrapper .offer  .o-price p{
+  font-size: 18px;
+  color: #2697ff;
+  font-family: 'Fredoka One', cursive;
+}
+
+#offer .page .offer-holder .wrapper .offer  .o-infos  img{
+  margin-right: 5px;
+  width: 14px;
+}
+
+#offer .page .offer-holder .wrapper .offer  .o-infos span{
+  font-size: 13px;
+  font-family: 'Chakra Petch', sans-serif;
+  color: #7f88b4;
+}
+
+#offer .page .offer-holder .wrapper .offer .o-options{
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:5px;
+  padding: 0 20px;
+}
+
+#offer .page .offer-holder .wrapper .offer .o-options button{
+  height: 30px;
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+#offer .page .offer-holder .wrapper .offer .o-options button.edit{
+  background-color: #2697ff;
+}
+
+#offer .page .offer-holder .wrapper .offer .o-options button.edit:hover{
+  background-color: white;
+  color: #2697ff;
+}
+
+
+#offer .page .offer-holder .wrapper .offer .o-options button.delete{
+  background-color: #d32138;
+}
+
+#offer .page .offer-holder .wrapper .offer .o-options button.delete:hover{
+  background-color: white;
+  color: #d32138;
+}
+
+
+
+
+
+/*          End Offer Page          */
+
+
+
+
+
+
+/*          Start Group (Community) Page               */
+
+
+
+
+
+
+
+#group .page .wrapper{
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+#group .page .group-wrapper{
+  background-color: #2a2d3e;
+  color: white;
+  width: 350px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid #323449;
+}
+
+#group .page .group-wrapper .left img{
+  width: 100px;
+  border-radius: 5px;
+}
+
+#group .page .group-wrapper .right{
+  width: 240px;
+}
+
+#group .page .group-wrapper .right h3{
+  font-family: 'Fredoka One', cursive;
+  color: #FFF;
+  font-size: 15px;
+}
+
+#group .page .group-wrapper .right p{
+  color: #FFFFFF;
+  font-size: 12px;
+
+}
+
+#group .page .group-wrapper .right span{
+  color: #FFFFFF99;
+  font-family: 'Fredoka One', cursive;
+  font-size: 12px;
+}
+
+#group .page .group-wrapper .right .check-btns{
+  margin-top: 10px;
+}
+
+#group .page .group-wrapper .right .check-btns .buttons{
+  gap: 5px;
+}
+
+#group .page .group-wrapper .right .check-btns button{
+  background-color: #2697ff;
+  border: none;
+  color: #FFF;
+  font-size: 13px;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+}
+
+
+
+#group form .c-button button{
+  border: none;
+  background-color: #2697ff;
+  color: white;
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  cursor: pointer;
+  font-family: 'Chakra Petch', sans-serif;
+  margin-top: 10px;
+} 
+
+
+
+
+/*          End Group (Community) Page               */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*                    Organizer Styling                     */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#dashboard-org,
+#post,
+#shop,
+#historic{
+  display: flex;
+}
+
+#dashboard-org .page,
+#post .page,
+#shop .page,
+#historic .page{
+  width: 100%;
+  overflow-y: auto;
+  height: 100vh;
+  padding: 20px;
+}
+
+#dashboard-org .page .d-navbar .d-left span,
+#post .page .d-navbar .d-left span,
+#shop .page .d-navbar .d-left span,
+#historic .page .title span{
+  color: #9094aa;
+  font-family: 'Fredoka One', cursive;
+  font-size: 17px;
+}
+
+#dashboard-org .page .d-navbar .d-right .d-search{
+  background-color: #2a2d3e;
+  padding: 0 5px 0 15px;
+  border-radius: 10px;
+  height: 40px;
+}
+
+
+#dashboard-org .page .d-navbar .d-right .d-search input{
+  background-color: transparent;
+  color: white;
+  border: none;
+  outline: none;
+  width: 250px;
+  height: 40px;
+}
+
+
+#dashboard-org .page .d-navbar .d-right .d-icon{
+  background-color: #2697ff;
+  border: none;
+  outline: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+}
+
+#dashboard-org .page .d-navbar .d-notification{
+  margin: 0 10px;
+  color: #8f919b;
+  background-color: #2a2d3e;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  position: relative;
+}
+
+#dashboard-org .page .d-navbar .d-notification:hover{
+  color: #FFF;
+  background-color: #2697ff;
+  cursor: pointer;
+}
+
+#dashboard-org .page .d-navbar .d-notification .unchecked-notifications{
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #2697ff;
+  color: #fff;
+  border-radius: 3px;
+  padding: 2px 3px;
+  font-size: 8px;
+}
+
+#dashboard-org .page .d-navbar .d-profile,
+#post .page .d-navbar .d-profile,
+#shop .page .d-navbar .d-profile{
+  width: 150px;
+  background-color: #2a2d3e;
+  height: 40px;
+  border-radius: 10px;
+  padding: 0 10px;
+}
+
+#dashboard-org .page .d-navbar .d-profile:hover,
+#post .page .d-navbar .d-profile:hover,
+#shop .page .d-navbar .d-profile:hover{
+  cursor: pointer;
+  background-color: #2697ff;
+}
+
+#dashboard-org .page .d-navbar .d-profile p,
+#post .page .d-navbar .d-profile p,
+#shop .page .d-navbar .d-profile p{
+  margin-left: 7.5px;
+  font-size: 12px;
+}
+
+#dashboard-org .page .d-navbar .d-profile span,
+#post .page .d-navbar .d-profile span,
+#shop .page .d-navbar .d-profile span{
+  color: #8f919b;
+  font-size: 10px;
+}
+
+
+#dashboard-org .page .org-dashboard{
+  margin-top: 20px;
+}
+
+#dashboard-org .page .org-dashboard .split{
+  display: grid;
+  grid-template-columns: 5fr 2fr;
+  gap: 10px;
+}
+
+#dashboard-org .page .org-dashboard .statistics{
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+#dashboard-org .page .org-dashboard .statistics .statistic-card{
+  background-color: #2a2d3e;
+  padding: 15px;
+  border-radius: 10px;
+  width: 200px;
+}
+
+
+#dashboard .page .statistics .statistic-card .bg-icon{
+  height: 35px;
+  width: 35px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+#dashboard-org .page .statistics .statistic-card .numbers{
+  margin-left: 20px;
+  font-size: 18px;
+  color: #7f88b4;
+  font-family: 'Fredoka One', cursive;
+}
+
+#dashboard-org .page .statistics .statistic-card .s-name{
+  margin-top: 10px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.541);
+  display: flex;
+  justify-content: flex-end;
+  font-family: 'Fredoka One', cursive;
+}
+
+
+#dashboard-org .page .competition-table{
+  margin-top: 10px;
+  background-color: #2a2d3e;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#dashboard-org .page .competition-table .table{
+  margin-top: 20px;
+}
+
+#dashboard-org .page .tables .competition-table{
+  background-color: #2a2d3e;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+#dashboard-org .page .tables .competition-table .t-top{
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #FFFFFF99;
+  font-family: 'Chakra Petch', sans-serif;
+}
+
+#dashboard-org .page .competition-table .t-top p,
+#dashboard-org .page .top-ranked-orgs .top-orgs p{
+  font-size: 15px;
+  color: #9094aa;
+  font-family: 'Fredoka One', cursive;
+}
+
+
+#dashboard-org .page .competition-table .t-top span{
+  font-size: 13px;
+  display: inline-block;
+  background-color: #2697ff;
+  color: white;
+  padding: 7.5px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Fredoka One', cursive;
+}
+
+#dashboard-org .page .competition-table .t-top span:hover{
+  background-color: #338adb;
+}
+
+#dashboard-org .page .competition-table .table table,
+#historic .page  table{
+  width: 100%;
+  border-spacing: 0;
+  table-layout:fixed;
+  text-align: left;
+  font-family: 'Chakra Petch', sans-serif;
+}
+
+
+
+#dashboard-org .page .table  table tr,
+#historic .page  table tr{
+  font-size: 12px;
+  color: #d1dde7af;
+}
+
+#dashboard-org .page .table table thead,
+#historic .page  table thead{
+  background-color: #212332;
+}
+
+
+
+#dashboard-org .page .table  table th,
+#historic .page  table th{
+  font-size: 12px;
+  color: #ffffffb4;
+}
+
+#dashboard-org .page .table  table tr,
+#dashboard-org .page .table  table th,
+#historic .page  table tr,
+#historic .page  table th{
+  height: 40px;
+}
+
+#dashboard-org .page .table  table tr td:first-child,
+#dashboard-org .page .table  table th:first-child,
+#historic .page  table tr td:first-child,
+#historic .page  table th:first-child{
+  padding: 0px 10px;
+}
+
+#dashboard-org .page .table  table tr td.actions,
+#historic .page  table tr td.actions{
+  height: 40px;
+}
+
+#dashboard-org .page .table table tr td.actions div,
+#historic .page  table tr td.actions div{
+  height: 27.5px;
+  width: 27.5px;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+#dashboard-org .page .table table tr td.actions div a,
+#historic .page  table tr td.actions div a{
+  color: #FFF;
+  display: flex;
+  align-self: center;
+}
+
+
+#dashboard-org  .page .table table tr:nth-child(even) td.actions div,
+#historic .page  table tr:nth-child(even) td.actions div{
+  background-color: #2a2d3e;
+}
+
+#dashboard-org .page .table table tr:nth-child(odd) td.actions div,
+#historic .page  table tr:nth-child(odd) td.actions div{
+  background-color: #323449;
+}
+
+
+
+
+#dashboard-org .page .tables  table tr td.c-name,
+#historic .page  table tr td.c-name{
+  height: 40px;
+  font-size: 12px;
+}
+
+#dashboard-org .page .table table tr td.c-name img,
+#historic .page  table tr td.c-name img{
+  border-radius: 5px;
+  width: 25px;
+  height: 25px;
+}
+
+#historic .page  table tr td.c-name span{
+  margin-left: 10px;
+}
+
+
+#dashboard-org .page .table  table tr td .c-level,
+#historic .page  table tr td .c-level{
+  width: 60px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  font-size: 12px;
+  color: #fff;
+  border-radius: 5px;
+  display: inline-block;
+  background-color: #5321af;
+}
+
+
+#dashboard-org .page .table  table tr:nth-child(even),
+#historic .page  table tr:nth-child(even){
+  background-color: #212332;
+}
+
+#dashboard-org .page .table  table tr:nth-child(odd),
+#historic .page  table tr:nth-child(odd){
+  background-color: #2a2d3e;
+}
+
+#dashboard-org .page .table  table tr:hover,
+#historic .page  table tr:hover{
+  cursor: pointer;
+  background:  #252838
+}
+
+
+#dashboard-org .page .top-ranked-orgs{
+  background-color: #2a2d3e;
+  margin-top: 10px;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+#dashboard-org .page .top-ranked-orgs .top-orgs{
+  margin-bottom: 20px;
+}
+
+#dashboard-org .page .top-ranked-orgs .orgs-holder{
+  gap: 7.5px;
+}
+
+#dashboard-org .page .top-ranked-orgs .orgs-holder .org{
+  background-color: #212332;
+  padding: 10px;
+}
+
+
+#dashboard-org .page .top-ranked-orgs .orgs-holder .org .infos{
+  margin-left: 10px;
+}
+
+#dashboard-org .page .top-ranked-orgs .orgs-holder .org .left h4{
+  font-size: 13px;
+  margin-bottom: -3px;
+  font-family: 'Fredoka One', cursive;
+  font-weight: 100;
+}
+
+#dashboard-org .page .top-ranked-orgs .orgs-holder .org .left span{
+  font-size: 11px;
+  color: #7f88b4;
+}
+
+#dashboard-org .page .top-ranked-orgs .orgs-holder .org .right{
+  background-color: #FFF;
+  color: #212332;
+  padding: 5px 13px;
+  font-size: 10px;
+  border-radius: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+#competition .page .org-com-top .competitions-status{
+  width: 275px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 12px;
+  color: #7f88b4;
+  gap: 20px;
+}
+
+#competition .page .org-com-top .competitions-status > div{
+  padding: 7.5px 10px;
+  border-radius: 5px;
+  background-color: #252838;
+  cursor: pointer;
+}
+
+#competition .page .org-com-top .competitions-status .pending{
+  border-left: 7.5px solid #338adb;
+}
+#competition .page .org-com-top .competitions-status .rejected{
+  border-left: 7.5px solid #d32138;
+}
+#competition .page .org-com-top .competitions-status .accepted{
+  border-left: 7.5px solid #178140;
+}
+
+#competition .page .org-com-top .competitions-status .pending:hover{
+  background-color: #338adb;
+  color: white;
+  transition: .2s ease-in-out;
+}
+#competition .page .org-com-top .competitions-status .rejected:hover{
+  background-color: #d32138;
+  color: white;
+  transition: .2s ease-in-out;
+}
+#competition .page .org-com-top .competitions-status .accepted:hover{
+  background-color: #178140;
+  color: white;
+  transition: .2s ease-in-out;
+}
+
+#competition .page .org-com-top .competitions-status > div > span{
+  margin-left: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#post .page .content-page{
+  margin-top: 20px;
+}
+
+#post .page .content-page .right{
+  padding: 20px;
+  background-color: #FFF;
+  color: #212332;
+  border-radius: 10px;
+}
+
+#post .page .content-page .right .form form h3{
+  margin-bottom: 10px;
+  font-family: 'Fredoka One', cursive;
+  color: #2a2d3e;
+  text-align: center;
+}
+
+#post .page .content-page .right .form form .form-input{
+  margin-bottom: 15px;
+}
+
+#post .page .content-page .right .form form .form-input label{
+  font-family: 'Chakra Petch', sans-serif;
+  color: #323449;
+  font-size: 15px;
+}
+
+#post .page .content-page .right .form form .form-input input{
+  padding: 10px;
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid grey;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#shop .page .balance p{
+  font-family: 'Fredoka One', cursive;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+#shop .page .balance .section{
+  font-size: 15px;
+  padding: 10px;
+  background-color: #323449;
+  margin-right: 10px;
+  width: 150px;
+  height: 40px;
+
+  font-family: 'Fredoka One', cursive;
+}
+
+#shop .page .balance .section.gold{
+  border-left: 5px solid gold;
+}
+#shop .page .balance .section.diamond{
+  border-left: 5px solid #5321af;
+}
+
+
+#shop .page .balance .button button{
+  border: 0;
+  height: 40px;
+  width: 150px;
+  background-color: #2697ff;
+  color: white;
+  font-family: 'Fredoka One', cursive;
+  font-size: 13px;
+  font-weight: 100;
+  cursor: pointer;
+}
+
+#shop .page .balance .button button:hover{
+  color: #2697ff;
+  background-color: white;
+  transition: .2s ease-in-out;
+}
+
+#shop .page .balance select#competition-select{
+  appearance: none;
+  border: none;
+  padding: 10px;
+  background-color: #323449;
+  color: #FFF;
+  width: 200px;
+  font-family: 'Fredoka One', cursive;
+  border-left: 5px solid #5321af;
+  font-size: 13px;
+  font-weight: 100;
+  outline: none;
+}
+
+#shop .page .balance select#competition-select option{
+  height: 30px;
+  width: 300px;
+  padding: 20px 0;
+  font-size: 15px;
+  text-align: left;
+}
+
+#shop .page .wrapper{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+#shop .page .balance .section span{
+  margin-left: 10px;
+
+}
+
+#shop .page .historic-holder{
+  margin: 10px 0;
+}
+
+#shop .page .historic-holder .competition-transaction{
+  background-color: #323449;
+  padding: 10px;
+  border-left: 5px solid #338adb;
+}
+
+#shop .page .historic-holder .competition-transaction .name p{
+  margin-left: 5px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 14px;
+  color: #b6bacf;
+  font-weight: 100;
+}
+
+#shop .page .historic-holder .competition-transaction h3{
+  margin-left: 5px;
+  font-family: 'Chakra Petch', sans-serif;
+  color: #7f88b4;
+  font-size: 13px;
+  font-weight: 100;
+  margin: 3px 0 0 0;
+}
+
+#shop .page .historic-holder .competition-transaction .tokens,
+#shop .page .historic-holder .competition-transaction h3{
+  margin-left: 25px;
+}
+
+#shop .page .historic-holder .competition-transaction .tokens > div > span{
+  color: #FFF;
+  font-family: 'Fredoka One', cursive;
+  font-size: 12px;
+  margin-left: 3px;
+}
+
+
+#shop .page .historic-holder .competition-transaction .tokens > div {
+  margin-left: 10px;
+}
+
+
+#shop .page .historic-holder .competitions{
+  background-color: #338adb;
+}
+
+#shop .page .d-navbar button{
+  background-color: #2697ff;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 12px;
+  font-family: 'Chakra Petch', sans-serif;
+  font-weight: 100;
+  padding: 10px;
+  cursor: pointer;
+}
+
+#shop .page .d-navbar{
+  margin-bottom: 20px;
+}
+
+#shop .page .d-navbar button span{
+  margin-left: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#historic .page .background {
+  background-color: #2a2d3e;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #212332;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(255, 255, 255);
+}

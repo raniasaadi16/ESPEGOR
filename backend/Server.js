@@ -50,9 +50,53 @@ app.use(cors());
 // });
 
 // set up the socket
-const socket_server = io(5000);
 
 
+
+app.get('/test', (req, res) => {
+    res.json('jkhg')
+})
+
+// Routing
+app.use('/api/player', playerRoute);
+app.use('/api/organizer', organizerRoute);
+app.use('/api/admin', adminRoute);
+app.use('/api/offer', offerRoutes);
+app.use('/api/transition', transitionRoute);
+app.use('/api/game', gameRoutes);
+app.use('/api/competition', competitionRoute);
+app.use('/api/community', communityRoute);
+app.use('/api/', authRoutes);
+
+
+app.use('/assets/games', express.static(path.join(__dirname, '/assets/games')));
+app.use('/assets/profiles', express.static(path.join(__dirname, '/assets/profiles')));
+app.use('/assets/transitions', express.static(path.join(__dirname, '/assets/transitions')));
+app.use('/assets/competitions', express.static(path.join(__dirname, '/assets/competitions')));
+app.use('/assets/community', express.static(path.join(__dirname, '/assets/community')));
+
+
+// Server Run
+const PORT = process.env.PORT || 8000;
+const server = app.listen(PORT, (req,res)=>{
+    console.log(`Backend running on port : ${PORT}.....`);
+});
+
+
+instrument(socket_server, {auth: false});
+
+process.on('SIGTERM', () => {
+    console.log('SIGTERM recieved');
+    server.close(() => {
+      console.log('Process terminated')
+    })
+  })
+
+const socket_server = io(server, { cors:
+{    
+    origin: '*'
+}
+})
 socket_server.on('connection', (socket) => {
 
     socket.on('send_msg', (data) => {
@@ -73,43 +117,3 @@ socket_server.on('connection', (socket) => {
         console.log(e);
     });
 });
-
-
-app.get('/test', (req, res) => {
-    res.json('jkhg')
-})
-
-// Routing
-app.use('/player', playerRoute);
-app.use('/organizer', organizerRoute);
-app.use('/admin', adminRoute);
-app.use('/offer', offerRoutes);
-app.use('/transition', transitionRoute);
-app.use('/game', gameRoutes);
-app.use('/competition', competitionRoute);
-app.use('/community', communityRoute);
-app.use('/', authRoutes);
-
-
-app.use('/assets/games', express.static(path.join(__dirname, '/assets/games')));
-app.use('/assets/profiles', express.static(path.join(__dirname, '/assets/profiles')));
-app.use('/assets/transitions', express.static(path.join(__dirname, '/assets/transitions')));
-app.use('/assets/competitions', express.static(path.join(__dirname, '/assets/competitions')));
-app.use('/assets/community', express.static(path.join(__dirname, '/assets/community')));
-
-
-// Server Run
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
-    
-});
-
-
-instrument(socket_server, {auth: false});
-
-process.on('SIGTERM', () => {
-    console.log('SIGTERM recieved');
-    server.close(() => {
-      console.log('Process terminated')
-    })
-  })

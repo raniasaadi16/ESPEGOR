@@ -1527,3 +1527,58 @@ div.ql-container.ql-snow{
 .join-page button:hover{
     background-color: #2287e6;
 }
+
+@media screen and (max-width: 992px) {
+    .header-content img{
+        width: 400px !important;
+        height: 400px !important;
+    }
+}
+@media screen and (max-width: 768px) {
+    .header-content{
+      display: block !important;
+      height: auto !important;
+    }
+    .header-content img{
+        display: block;
+        width: 300px !important;
+        height: 300px !important;
+        margin: auto;
+    }
+    .header-content .right-side{
+        margin: auto !important;
+        display: block;
+        width: max-content;
+    }
+    .tourn{
+        width: 100% !important;
+    }
+    .container{
+        width: 100%;
+        padding: 0 10px;
+    }
+    
+}
+@media screen and (max-width: 576px) {
+    .header-content .right-side .f{
+        display:  block !important;
+        gap: 5px !important
+    }
+    .header-content .right-side a{
+        display: block !important;
+    }
+    .tourn{
+        display: block !important;
+    }
+    .tourn .left img{
+        width: 100% !important;
+        height: auto !important;
+    }
+    .g-home .games .categories .game{
+        width: 100% !important;
+    }
+    .g-home .games .categories .game .top img{
+        width: 100% !important;
+        height: auto !important;
+    }
+}

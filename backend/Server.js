@@ -32,29 +32,25 @@ dotenv.config();
 app.use(fileupload());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-var corsOptions = {
-    origin: ['https://egorfront.vercel.app', 'http://localhost:3001'],
-    credentials : true
-}
-app.use(cors(corsOptions));
-
-app.enable('trust proxy')
+// var corsOptions = {
+//     origin: ['https://egorfront.vercel.app', 'http://localhost:3000'],
+//     credentials : true
+// }
+// app.use(cors(corsOptions));
+app.use(cors());
+// app.enable('trust proxy')
 //app.options('*', cors())
-app.use(function (req, res, next) {
-  // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:19002');
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type', 'X-HTTP-Method-Override', 'X-Requested-With');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  next();
-});
+// app.use(function (req, res, next) {
+//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+// //   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type', 'X-HTTP-Method-Override', 'X-Requested-With');
+//   res.setHeader('Access-Control-Allow-Credentials', true);
+//   next();
+// });
 
 // set up the socket
-const socket_server = io(5000, {
-    cors: {
-        origin: '*',
-    }
-});
+const socket_server = io(5000);
 
 
 socket_server.on('connection', (socket) => {
@@ -103,7 +99,7 @@ app.use('/assets/community', express.static(path.join(__dirname, '/assets/commun
 
 
 // Server Run
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
     
 });

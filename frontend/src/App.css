@@ -1861,3 +1861,12 @@ a{
 ::-webkit-scrollbar-thumb {
   background: rgb(255, 255, 255);
 }
+
+@media screen and (max-width: 768px) {
+  .header-content{
+    display: block;
+  }
+}
+@media screen and (max-width: 576px) {
+  
+}

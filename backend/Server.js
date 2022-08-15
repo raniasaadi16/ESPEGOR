@@ -91,10 +91,13 @@ process.on('SIGTERM', () => {
     })
   })
 
-const socket_server = io(server, { cors:
-{    
-    origin: '*'
-}
+const socket_server = io(server, { 
+    cors: {
+        origin: "https://egorgaming.com",
+        methods: ["GET", "POST"],
+        allowedHeaders: ["my-custom-header"],
+        credentials: true
+      }
 })
 socket_server.on('connection', (socket) => {
 

@@ -83,7 +83,6 @@ const server = app.listen(PORT, (req,res)=>{
 });
 
 
-instrument(socket_server, {auth: false});
 
 process.on('SIGTERM', () => {
     console.log('SIGTERM recieved');
@@ -117,3 +116,4 @@ socket_server.on('connection', (socket) => {
         console.log(e);
     });
 });
+instrument(socket_server, {auth: false});

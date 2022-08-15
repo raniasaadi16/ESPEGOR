@@ -93,7 +93,7 @@ process.on('SIGTERM', () => {
 
 const socket_server = io(server, { cors:
 {    
-    origin: '*'
+    origin: 'https://egorgaming.com'
 }
 })
 socket_server.on('connection', (socket) => {

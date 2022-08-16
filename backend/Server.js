@@ -69,11 +69,11 @@ app.use('/api/community', communityRoute);
 app.use('/api/', authRoutes);
 
 
-app.use('/assets/games', express.static(path.join(__dirname, '/assets/games')));
-app.use('/assets/profiles', express.static(path.join(__dirname, '/assets/profiles')));
-app.use('/assets/transitions', express.static(path.join(__dirname, '/assets/transitions')));
-app.use('/assets/competitions', express.static(path.join(__dirname, '/assets/competitions')));
-app.use('/assets/community', express.static(path.join(__dirname, '/assets/community')));
+app.use('/api/assets/games', express.static(path.join(__dirname, '/assets/games')));
+app.use('/api/assets/profiles', express.static(path.join(__dirname, '/assets/profiles')));
+app.use('/api/assets/transitions', express.static(path.join(__dirname, '/assets/transitions')));
+app.use('/api/assets/competitions', express.static(path.join(__dirname, '/assets/competitions')));
+app.use('/api/assets/community', express.static(path.join(__dirname, '/assets/community')));
 
 
 // Server Run
@@ -91,11 +91,13 @@ process.on('SIGTERM', () => {
     })
   })
 
-const socket_server = io(server, { cors:
-{    
-    origin: 'https://egorgaming.com'
-}
+const socket_server = io(server, { 
+    cors: {
+        origin: "*",
+      }
 })
+
+instrument(socket_server, {auth: false});
 socket_server.on('connection', (socket) => {
 
     socket.on('send_msg', (data) => {
@@ -110,10 +112,8 @@ socket_server.on('connection', (socket) => {
     socket.on('disconnect', function(){
         console.log(`disconnection ${socket.id}`);
     });
-
-    
+ 
     socket.on('error', function(e){
         console.log(e);
     });
 });
-instrument(socket_server, {auth: false});

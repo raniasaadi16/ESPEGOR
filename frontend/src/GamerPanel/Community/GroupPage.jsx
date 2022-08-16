@@ -13,8 +13,7 @@ import { GroupPost } from './GroupPost'
 import { io } from 'socket.io-client';
 import Interweave from 'interweave'
 
-let socket = io('https://31.187.72.239:8000');
-
+let socket = io('https://api.egorgaming.com');
 
 export const GroupPage = () => {
 

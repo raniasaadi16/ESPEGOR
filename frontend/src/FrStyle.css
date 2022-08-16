@@ -1366,6 +1366,7 @@ div.ql-container.ql-snow{
     display: flex;
     justify-content: center;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
 .footer .foo-wrapper h3{
@@ -1527,11 +1528,90 @@ div.ql-container.ql-snow{
 .join-page button:hover{
     background-color: #2287e6;
 }
-
+.h-menu{
+    display: none;
+}
+.champ .f{
+    flex-wrap: wrap !important;
+}
+@media screen and (max-width: 1250px) {
+    .container{
+        width: 100%;
+        padding: 0 40px;
+    }
+    #dashboard .page .grid-split{
+        grid-template-columns: 1fr;
+        grid-gap: 10px;
+    }
+}
 @media screen and (max-width: 992px) {
     .header-content img{
         width: 400px !important;
         height: 400px !important;
+    }
+    .navbar .right-side{
+        display: none;
+    }
+    .navbar.opened .right-side .links{
+        display: block !important;
+    }
+    .navbar.opened .f-b-c{
+        display: block !important;
+    }
+    .navbar.opened .right-side{
+        height: 100vh;
+        background: #192236;
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 55px;
+        z-index: 100;
+    }
+    .navbar.opened .right-side li{
+        margin: 40px 0;
+    }
+    .h-menu{
+        display: block !important;
+        cursor: pointer;
+    }
+    .h-container{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        width: 100%;
+    }
+    .sidebar .h-container{
+        padding: 20px 10px !important;
+    }
+    .container{
+        width: 100%;
+        padding: 0 10px;
+    }
+    #competition, #game, #player, #token, #offer, #group, #dashboard{
+        display: block !important;
+    }
+    .sidebar{
+        width: 100% !important;
+        height: auto !important;
+    }
+    .sidebar .logout,.sidebar.opened .logout,.sidebar .s-links{
+        display: none;
+    }
+    .sidebar.opened .s-links{
+        display: block !important;
+    }
+    .sidebar.opened .logout{
+        display: flex !important;
+        margin-top: 10px;
+    }
+    .sidebar .s-logo{
+        padding: 0 !important;
+    }
+    #offer .page .offer-holder .wrapper{
+        grid-template-columns: repeat(3,1fr) !important;
     }
 }
 @media screen and (max-width: 768px) {
@@ -1553,11 +1633,31 @@ div.ql-container.ql-snow{
     .tourn{
         width: 100% !important;
     }
-    .container{
-        width: 100%;
-        padding: 0 10px;
+    .community .community-navbar{
+        height: auto !important;
+        padding: 7px 0;
     }
-    
+    .community .f-b-c{
+        flex-wrap: wrap;
+    }
+    .community .news{
+        justify-content: center;
+    }
+    .community .holder .wrapper{
+        grid-template-columns: 1fr;
+    }
+    .grouppage .wrapper{
+        flex-wrap: wrap;
+    }
+    .grouppage .wrapper .left{
+        width: 100% !important;
+    }
+    #dashboard .page .tables{
+        grid-template-columns: 1fr !important;
+    }
+    #offer .page .offer-holder .wrapper{
+        grid-template-columns: repeat(2,1fr) !important;
+    }
 }
 @media screen and (max-width: 576px) {
     .header-content .right-side .f{
@@ -1580,5 +1680,34 @@ div.ql-container.ql-snow{
     .g-home .games .categories .game .top img{
         width: 100% !important;
         height: auto !important;
+    }
+    #profile .profile #infos{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    #dashboard .page .statistics{
+        grid-template-columns: 1fr;
+    }
+    .d-navbar.f-b-c, .d-navbar .f-n-c{
+        flex-wrap: wrap;
+    }
+    .table{
+        overflow: auto;
+    }
+    #dashboard .page .tables{
+        display: block !important;
+    }
+    .grid-split{
+        display: block !important;
+    }
+    #dashboard .page .tables .competition-table, #dashboard .page .tables .games-table{
+        margin: 10px 0;
+    }
+    #offer .page .offer-holder .wrapper{
+        grid-template-columns: 1fr !important;
+    }
+    #login .login-form .wrapper, #register .login-form .wrapper{
+        padding: 0 7px;
+        width: 100% !important;
     }
 }

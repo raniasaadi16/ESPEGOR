@@ -5,11 +5,11 @@ dotenv.config({path: __dirname + './../../.env'});
 
 
 const pool = mysql.createPool({
-    host: 'b6abklgm9cxtpc6ahwlq-mysql.services.clever-cloud.com',
-    database: 'b6abklgm9cxtpc6ahwlq',
-    user: 'uuqyuudj1mix11ix',
-    password: 'phcy9cupOttT6GdxrT6V',
-    port: 3306
+    host: process.env.DB_HOST,
+    database: process.env.DB_DATABASE,
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT
 });
 
 exports.pool = pool;

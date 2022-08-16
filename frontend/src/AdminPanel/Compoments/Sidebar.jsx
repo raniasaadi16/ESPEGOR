@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './../../Cstyle.css'
 import  {MdOutlineDashboard, MdOutlineGeneratingTokens, MdOutlineLocalOffer} from 'react-icons/md'
 import  {FaSignOutAlt} from 'react-icons/fa'
@@ -9,11 +9,12 @@ import {CgListTree} from 'react-icons/cg'
 
 import Cookies from 'universal-cookie';
 import {Link, useHistory} from 'react-router-dom';
+import { AiOutlineMenu } from 'react-icons/ai'
 
 
 
 export const Sidebar = (props) => {
-
+    const [openNav, setopenNav] = useState(false);
     const cookies = new Cookies();
     const authCookie = cookies.get('auth_token');
 
@@ -21,13 +22,18 @@ export const Sidebar = (props) => {
 
 
     return (
-        <div className="sidebar">
-            <div className="s-logo f-c-c">
-                <div className="logo">
-                    <img src="./../logo.png" alt=""/>
+        <div className={`${openNav && 'opened'} sidebar`}>
+            <div className="h-container">
+                <div className="s-logo f-c-c">
+                    <div className="logo">
+                        <img src="./../logo.png" alt=""/>
+                    </div>
+                    <div className="name">
+                        <h3>EGOR</h3>
+                    </div>
                 </div>
-                <div className="name">
-                    <h3>EGOR</h3>
+                <div className="h-menu" onClick={() => setopenNav(prev => !prev)}>
+                    <AiOutlineMenu/>
                 </div>
             </div>
             <div className="s-links">

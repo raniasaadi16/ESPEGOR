@@ -7,9 +7,10 @@ import { FiLogIn } from 'react-icons/fi';
 import { AiOutlineSave } from 'react-icons/ai';
 import Cookies from 'universal-cookie';
 
-
+import { AiOutlineMenu } from "react-icons/ai";
+import { useState } from 'react';
 export const Navbar = () => {
-
+    const [openNav, setopenNav] = useState(false);
     const cookies = new Cookies();
     const authCookie = cookies.get('auth_token');
 
@@ -21,10 +22,16 @@ export const Navbar = () => {
     }
 
     return (
-        <div className="navbar">
+        <div className={`${openNav && 'opened'} navbar`}>
             <div className="container navigation f-b-c">
-                <Link to="/"><div className="f-c-c"><img src="./../logo.png" alt="" width="30" /><h3 className="logo">ESPEGOR</h3></div></Link>
+                <div className='h-container'>
+                    <Link to="/"><div className="f-c-c"><img src="./../logo.png" alt="" width="30" /><h3 className="logo">ESPEGOR</h3></div></Link>
+                    <div className='h-menu' onClick={() => setopenNav(prev => !prev)}>
+                        <AiOutlineMenu/>
+                    </div>
+                </div>
                 <div className="right-side">
+
                     <ul className="links">
                         {authCookie ? 
                         <>

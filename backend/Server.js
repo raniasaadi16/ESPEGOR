@@ -32,22 +32,22 @@ dotenv.config();
 app.use(fileupload());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-// var corsOptions = {
-//     origin: ['https://egorgaming.com', 'http://localhost:3000'],
-//     credentials : true
-// }
-// app.use(cors(corsOptions));
-app.use(cors());
+var corsOptions = {
+    origin: ['https://egorgaming.com', 'http://localhost:3000'],
+    credentials : true
+}
+app.use(cors(corsOptions));
+// app.use(cors());
 // app.enable('trust proxy')
 // app.options('*', cors())
-// app.use(function (req, res, next) {
-//   res.setHeader('Access-Control-Allow-Origin', 'https://egorgaming.com');
-// //   res.setHeader('Access-Control-Allow-Origin', '*');
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type', 'X-HTTP-Method-Override', 'X-Requested-With');
-//   res.setHeader('Access-Control-Allow-Credentials', true);
-//   next();
-// });
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type', 'X-HTTP-Method-Override', 'X-Requested-With');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+});
 
 // set up the socket
 

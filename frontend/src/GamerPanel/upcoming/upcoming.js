@@ -17,7 +17,7 @@ function Upcoming() {
     useEffect(() => {
 
         axios.get(`${process.env.REACT_APP_SERVER_END_POINT}/competition/recent`, {headers: {
-            "Access-Control-Allow-Origin": "*"
+            "Access-Control-Allow-Origin": "https://egorgaming.com"
         }}).then(res=>{
             const comps = res.data;
             comps.forEach(element => {
@@ -26,7 +26,7 @@ function Upcoming() {
         });
 
         axios.get(`${process.env.REACT_APP_SERVER_END_POINT}/game/top`, {headers: {
-            "Access-Control-Allow-Origin": "*"
+            "Access-Control-Allow-Origin": "https://egorgaming.com"
         }}).then(res=>{
             const gams = res.data;
             gams.forEach(element => {

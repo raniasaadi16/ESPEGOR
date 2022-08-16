@@ -4,7 +4,7 @@ import Cookies from "universal-cookie";
 const API = axios.create({
     baseURL: `${process.env.REACT_APP_SERVER_END_POINT}`,
     headers: {
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": "https://egorgaming.com"
     }
 });
         

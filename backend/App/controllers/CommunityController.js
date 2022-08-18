@@ -96,7 +96,7 @@ function GetGroups(req, res){
                 connection.release();
                 res.json({
                     'groups': result,
-                    'pages': Math.ceil(resCount[0].count/limit),
+                   // 'pages': Math.ceil(resCount[0].count/limit),
                     'current_number':page,
                 });
             });

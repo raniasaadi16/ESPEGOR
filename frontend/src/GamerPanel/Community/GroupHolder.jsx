@@ -29,7 +29,7 @@ export const GroupHolder = () => {
             const groupList = res.data.groups;
             setPages(parseInt(res.data.pages));
             setShowpagination(true);
-            groupList.forEach(element => {
+            groupList &&  groupList.forEach(element => {
                 setGroups((list) => [...list, element]);
             });
         });

@@ -25,7 +25,7 @@ export const Navbar = () => {
         <div className={`${openNav && 'opened'} navbar`}>
             <div className="container navigation f-b-c">
                 <div className='h-container'>
-                    <Link to="/"><div className="f-c-c"><img src="./../logo.png" alt="" width="30" /><h3 className="logo">ESPEGOR</h3></div></Link>
+                    <Link to="/"><div className="f-c-c"><img src="./../logo.png" alt="" width="30" /><h3 className="logo">EGOR GAMING</h3></div></Link>
                     <div className='h-menu' onClick={() => setopenNav(prev => !prev)}>
                         <AiOutlineMenu/>
                     </div>

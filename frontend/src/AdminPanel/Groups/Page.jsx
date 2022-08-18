@@ -26,7 +26,7 @@ export const Page = (props) => {
             const data = res.data.groups;
             setPages(parseInt(res.data.pages));
             setShowpagination(true);
-            data.forEach(element => {
+            data && data.forEach(element => {
                 setGroups((list) => [...list, element]);
             });
         });

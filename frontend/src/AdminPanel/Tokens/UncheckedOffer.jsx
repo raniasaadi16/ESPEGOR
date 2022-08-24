@@ -13,7 +13,7 @@ export const UncheckedOffer = (props) => {
     }
 
     const CheckReceipt = (value) => {
-        axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/transition/check/${props.data.id}`, {status: value}).then((res) => {
+        axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/transition/check/${props.data.id}/${props.data.user_id}`, {status: value}).then((res) => {
             props.SetReloadPage(props.reloadPage + 1);
         });
     }
@@ -26,12 +26,12 @@ export const UncheckedOffer = (props) => {
                 </div>
                 <div className="t-info">
                     <div className="t-i f-b-c">
-                        <h4>Sami Egor</h4>
-                        <span className="offer">P-43667</span>
+                        <h4>{props.data.name}</h4>
+                        <span className="offer">{props.data.id}</span>
                     </div>
                     <div className="mt-1 t-i f-b-c">
-                        <span className="offer">offer 3</span>
-                        <span className="price">14500DA</span>
+                    <span className="offer">{props.data.offer_name}</span>
+                        <span className="price">{props.data.price}DA</span>
                     </div>
                 </div>
             </div>

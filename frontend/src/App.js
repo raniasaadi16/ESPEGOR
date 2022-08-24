@@ -49,92 +49,99 @@ import { GroupPage } from './GamerPanel/Community/GroupPage';
 import { PagePage } from './GamerPanel/Community/PagePage';
 import { useEffect, useState } from 'react';
 import API from './Services/AuthIntercepteurs';
+import { UserContext } from './context/UserContext';
+import 'swiper/swiper.min.css'
 
 function App() {
 
-  const [userType, setUserType] = useState(0);
+  const [userType, setUserType] = useState(10);
+  
 
   useEffect(() => {
     API.get(`${process.env.REACT_APP_SERVER_END_POINT}/get/auth/user`).then((res) => {
       setUserType(res.data.type);
   });
   }, []);
-  
+  if(userType === 10){
+    return null
+  }
   return (
-    <div className="App">
-      <Router>
-        <Switch>
-          <PrivateRouteAdmin exact path="/dashboard" userType = {userType} component={Dashboard}></PrivateRouteAdmin>
-          <PrivateRouteAdmin exact path="/dashboard/competitions" userType = {userType} component={Competition}></PrivateRouteAdmin>
-          <PrivateRouteAdmin exact path="/dashboard/games" userType = {userType} component={Game}></PrivateRouteAdmin>
-          <PrivateRouteAdmin exact path="/dashboard/tokens" userType = {userType} component={Token}></PrivateRouteAdmin>
-          <PrivateRouteAdmin exact path="/dashboard/players" userType = {userType} component={Player}></PrivateRouteAdmin>
-          <PrivateRouteAdmin exact path="/dashboard/offers" userType = {userType} component={Offer}></PrivateRouteAdmin>
-          <PrivateRouteAdmin exact path="/dashboard/group" userType = {userType} component={Group}></PrivateRouteAdmin>
-          <PrivateRouteAdmin exact path="/competition/:id" userType = {userType} component={CompetitionDetail}></PrivateRouteAdmin>
-          <PrivateRouteAdmin exact path="/game/:id" userType = {userType} component={GameDetail}></PrivateRouteAdmin>
-          <PrivateRouteAdmin exact path="/player/:id" userType = {userType} component={PlayerDetail}></PrivateRouteAdmin>
-          <PrivateRouteAdmin exact path="/group/:id" userType = {userType} component={GroupDetail}></PrivateRouteAdmin>
-        </Switch>
+    <UserContext.Provider value={{userType, setUserType}}>
+      <div className="App">
+        <Router>
+          <Switch>
+            <PrivateRouteAdmin exact path="/dashboard" userType = {userType} component={Dashboard}></PrivateRouteAdmin>
+            <PrivateRouteAdmin exact path="/dashboard/competitions" userType = {userType} component={Competition}></PrivateRouteAdmin>
+            <PrivateRouteAdmin exact path="/dashboard/games" userType = {userType} component={Game}></PrivateRouteAdmin>
+            <PrivateRouteAdmin exact path="/dashboard/tokens" userType = {userType} component={Token}></PrivateRouteAdmin>
+            <PrivateRouteAdmin exact path="/dashboard/players" userType = {userType} component={Player}></PrivateRouteAdmin>
+            <PrivateRouteAdmin exact path="/dashboard/offers" userType = {userType} component={Offer}></PrivateRouteAdmin>
+            <PrivateRouteAdmin exact path="/dashboard/group" userType = {userType} component={Group}></PrivateRouteAdmin>
+            <PrivateRouteAdmin exact path="/competition/:id" userType = {userType} component={CompetitionDetail}></PrivateRouteAdmin>
+            <PrivateRouteAdmin exact path="/game/:id" userType = {userType} component={GameDetail}></PrivateRouteAdmin>
+            <PrivateRouteAdmin exact path="/player/:id" userType = {userType} component={PlayerDetail}></PrivateRouteAdmin>
+            <PrivateRouteAdmin exact path="/group/:id" userType = {userType} component={GroupDetail}></PrivateRouteAdmin>
+          </Switch>
 
 
-        <Switch>
-          <Route exact path="/organizer/home">
-            <DashboardOrganizer />
-          </Route>
-          <Route exact path="/organizer/competitions">
-            <CompetitionOrganizer />
-          </Route>
-          <Route exact path="/organizer/shop">
-            <Shop />
-          </Route>
-          <Route exact path="/organizer/historics">
-            <Historic />
-          </Route>
-        </Switch>
+          <Switch>
+            <Route exact path="/organizer/home">
+              <DashboardOrganizer />
+            </Route>
+            <Route exact path="/organizer/competitions">
+              <CompetitionOrganizer />
+            </Route>
+            <Route exact path="/organizer/shop">
+              <Shop />
+            </Route>
+            <Route exact path="/organizer/historics">
+              <Historic />
+            </Route>
+          </Switch>
 
 
 
-        <Switch>
-          <Route exact path="/register">
-            <Register />
-          </Route>
-          
-          <Route exact path="/login">
-            <Login />
-          </Route>
+          <Switch>
+            <Route exact path="/register">
+              <Register />
+            </Route>
+            
+            <Route exact path="/login">
+              <Login />
+            </Route>
 
-          <Route exact path="/">
-            <Upcoming />
-          </Route>
+            <Route exact path="/">
+              <Upcoming />
+            </Route>
 
-          <Route exact path="/store">
-            <Store />
-          </Route>
+            <Route exact path="/store">
+              <Store />
+            </Route>
 
-          <Route exact path="/champion/:id">
-            <Champion />
-          </Route>
+            <Route exact path="/champion/:id">
+              <Champion />
+            </Route>
 
-          <Route exact path="/games">
-            <Games />
-          </Route>
+            <Route exact path="/games">
+              <Games />
+            </Route>
 
-          <Route exact path="/competitions">
-            <Competitions />
-          </Route>
+            <Route exact path="/competitions">
+              <Competitions />
+            </Route>
 
-          
-          <PrivateRoute exact path="/profile" userType = {userType} component={Profile}></PrivateRoute>
-          <PrivateRoute exact path="/join/:comp_id" userType = {userType} component = {JoinPage}></PrivateRoute>
-          <PrivateRoute exact path="/community" userType = {userType} component = {Community}></PrivateRoute>
-          <PrivateRoute exact path="/community/group/:id" userType = {userType} component = {GroupPage}></PrivateRoute>
-          <PrivateRoute exact path="/community/page/:id" userType = {userType} component = {PagePage}></PrivateRoute>
+            
+            <PrivateRoute exact path="/profile" userType = {userType} component={Profile}></PrivateRoute>
+            <PrivateRoute exact path="/join/:comp_id" userType = {userType} component = {JoinPage}></PrivateRoute>
+            <PrivateRoute exact path="/community" userType = {userType} component = {Community}></PrivateRoute>
+            <PrivateRoute exact path="/community/group/:id" userType = {userType} component = {GroupPage}></PrivateRoute>
+            <PrivateRoute exact path="/community/page/:id" userType = {userType} component = {PagePage}></PrivateRoute>
 
-        </Switch>
+          </Switch>
 
-      </Router>
-    </div>
+        </Router>
+      </div>
+    </UserContext.Provider>
   );
 }
 

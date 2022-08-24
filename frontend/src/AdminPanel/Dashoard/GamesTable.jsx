@@ -32,7 +32,7 @@ export const GamesTable = () => {
                         {games.map((item, index) => {
                             return <tr key={index}>
                                 <td>G-{item.id}</td>
-                                <td className="c-name f-n-c"><img src={`${process.env.REACT_APP_SERVER_END_POINT}/assets/games/`+item.icon} alt="" width="18" /><span>{item.name}</span></td>
+                                <td className="c-name f-n-c"><img src={item.icon} alt="" width="18" /><span>{item.name}</span></td>
                                 <td>{item.comps}</td>
                                 <td>{item.game_status===0?"Pending":item.game_status===1?"Inactive":"Active"}</td>
                             </tr>

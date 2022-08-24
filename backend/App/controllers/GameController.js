@@ -1,54 +1,60 @@
 const conn = require('../database/connection').pool;
 const path = require('path');
+const cloudinary = require('../utils/cloudinary')
 
 
-function CreateGame(req, res){
+async function CreateGame(req, res){
 
-    if (!req.files || Object.keys(req.files).length === 0){
+    if (!req.file || Object.keys(req.file).length === 0){
         return res.json({msg: 'No File Is Here'});
     }
-
-    try {
-        const {name, description, status} = req.body;
-        const file = req.files.icon;
-        const game = {
-            name: name,
-            description: description,
-            game_status: status,
-            icon: file.name,
-        };
-
-        var uploadDir = './assets/games/' + file.name;
-        file.mv(uploadDir);
-        
-        conn.getConnection((err, connection) => {
-            connection.query('INSERT INTO games SET ?', game, (err, result) => {
-                connection.release();
-                res.json({
-                    msg: 'data has been inserted successfully',
-                });
+    const {name, description, status} = req.body;
+    let picture
+    console.log(req.file)
+    try{
+        if(req.file){
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'egor',
+                use_filename: true
+            });
+            picture = result.secure_url;
+        }
+    }catch(err){
+        console.log(err)
+    }
+    const game = {
+        name: name,
+        description: description,
+        game_status: status,
+        icon: picture,
+    };
+    conn.getConnection((err, connection) => {
+        connection.query('INSERT INTO games SET ?', game, (err, result) => {
+            connection.release();
+            res.json({
+                game,
+                msg: 'data has been inserted successfully',
             });
         });
-    } catch (error) {
-        console.log(error);
-    }
+    });
 }
 
-function UpdateGame(req, res){
-
+async function UpdateGame(req, res){
+    
+    const {name, description, status} = req.body;
     const id = req.params.id;
-
+    let picture
     try {
-        const {name, description, status} = req.body;
-
-        if (req.files && Object.keys(req.files).length !== 0){
-            const file = req.files.icon;
-            var uploadDir = './assets/games/' + file.name;
-            file.mv(uploadDir);
+        if (req.file){
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'egor',
+                use_filename: true
+            });
+            picture = result.secure_url;
 
             conn.getConnection((err, connection) => {
                 const query = `UPDATE games SET name = ?, description = ?, icon = ?, game_status = ?  WHERE id = ?`
-                connection.query(query, [name, description, file.name, status, id], (err, result) => {
+                connection.query(query, [name, description, picture, status, id], (err, result) => {
                     connection.release();
                     res.json({
                         msg: 'Data has been updated successfully',

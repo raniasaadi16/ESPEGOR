@@ -3,7 +3,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const path = require('path');
-const fileupload = require("express-fileupload");
+// const fileupload = require("express-fileupload");
 
 
 const io = require('socket.io');
@@ -29,7 +29,7 @@ dotenv.config();
 
 
 // Init Packages Middlewares
-app.use(fileupload());
+// app.use(fileupload());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 var corsOptions = {
@@ -41,7 +41,7 @@ app.use(cors(corsOptions));
  app.enable('trust proxy')
 // app.options('*', cors())
 app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', 'https://egorgaming.com');
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 //  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type', 'X-HTTP-Method-Override', 'X-Requested-With');

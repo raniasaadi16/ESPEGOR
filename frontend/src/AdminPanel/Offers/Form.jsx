@@ -3,6 +3,7 @@ import {FaWpforms} from 'react-icons/fa'
 import {CgClose} from 'react-icons/cg'
 import {RiSendPlaneLine} from 'react-icons/ri'
 import axios from 'axios'
+import { MdOutlineAddPhotoAlternate } from 'react-icons/md'
 
 
 export const Form = ({offer}) => {
@@ -14,26 +15,48 @@ export const Form = ({offer}) => {
     const [newPrice, setNewPrice] = useState(0);
     const [golds, setGolds] = useState(0);
     const [diamonds, setDiamonds] = useState(0);
+    const [picture, setpicture] = useState('');
+    const [preview, setpreview] = useState('');
 
+    const upload = e => {
+        var reader = new FileReader();
+        var url = reader.readAsDataURL(e.target.files[0]);
+        if(e.target.files[0].type.split('/')[0] == 'image'){
+            reader.onloadend = function (e) {
+                setpreview(reader.result);
+            }
+            setpicture(e.target.files[0]);
+        }else{
+           console.log('err')
+        }
+    };
     const SubmitOffer = async (e) => {
         e.preventDefault();
 
-        const offer = {
-            name,
-            description, 
-            oldPrice,
-            newPrice, 
-            golds,
-            diamonds
-        };
+        // const offer = {
+        //     name,
+        //     description, 
+        //     oldPrice,
+        //     newPrice, 
+        //     golds,
+        //     diamonds
+        // };
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("description", description);
+        formData.append("oldPrice", oldPrice);
+        formData.append("newPrice", newPrice);
+        formData.append("golds", golds);
+        formData.append("diamonds", diamonds);
+        formData.append("picture", picture);
 
         if (id) {
-            await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/offer/update/${id}`, offer).then( res => {
-                console.log('Update')
+            await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/offer/update/${id}`, formData).then( res => {
+                console.log('Update', res)
             });
         } else {
-            await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/offer/create`, offer).then( res => {
-                console.log('Create')
+            await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/offer/create`, formData).then( res => {
+                console.log('Create', res)
             });
         }
 
@@ -51,6 +74,8 @@ export const Form = ({offer}) => {
         setNewPrice(id?offer.new_price:0);
         setGolds(id?offer.gold_amount:0);
         setDiamonds(id?offer.diamonds_amount:0);    
+        setpicture(id?offer.picture:'');    
+
     }, [offer]);
 
     return (
@@ -119,6 +144,20 @@ export const Form = ({offer}) => {
                                     />
                                 </div>
                             </div>
+                            <label class="uploadLabel f-b-c">
+                                    <MdOutlineAddPhotoAlternate />
+                                    <span className="upload-file-span">Game Icon</span>
+                                    <input 
+                                        type="file"
+                                        class="uploadButton" 
+                                        onChange={upload} 
+                                        accept="image/*"
+                                        name="icon"
+                                    />
+                            </label>
+                            {preview && (
+                                <img src={preview} alt="" style={{width: '100%', margin: '5px 0'}} />
+                            )}
                             <div className=" f-cl">
                                 <button type="submit" className="full-submit-btn f-c-c">
                                     <RiSendPlaneLine />

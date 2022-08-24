@@ -227,6 +227,7 @@ function GetPlayerBalance (req, res){
     });
 }
 
+
 function GetAuthPlayer(req, res){
 
     const user = req.user;

@@ -6,14 +6,15 @@ import { HiOutlineLogout } from 'react-icons/hi';
 import { FiLogIn } from 'react-icons/fi';
 import { AiOutlineSave } from 'react-icons/ai';
 import Cookies from 'universal-cookie';
-
+import { useContext } from 'react'
+import { UserContext } from '../../context/UserContext'
 import { AiOutlineMenu } from "react-icons/ai";
 import { useState } from 'react';
 export const Navbar = () => {
     const [openNav, setopenNav] = useState(false);
     const cookies = new Cookies();
     const authCookie = cookies.get('auth_token');
-
+    const { userType} = useContext(UserContext)
     const history = useHistory();
 
     const Logout  = () => {
@@ -35,21 +36,30 @@ export const Navbar = () => {
                     <ul className="links">
                         {authCookie ? 
                         <>
-                            <li>
-                                <Link to="/community" className="link"><div className="f-c-c nav-link"><FcCollaboration size={20} /><span>Community</span></div></Link>
-                            </li>
-                            <li>
-                                <Link to="/store" className="link"><div className="f-c-c nav-link"><FcShop size={20} /><span>Market</span></div></Link>
-                            </li>
-                            <li>
-                                <Link to="/competitions" className="link"><div className="f-c-c nav-link"><FcParallelTasks size={20} /><span>Competitions</span></div></Link>
-                            </li>
-                            <li>
-                                <Link to="/games" className="link"><div className="f-c-c nav-link"><FcSteam size={20} /><span>Games</span></div></Link>
-                            </li>
-                            <li>
-                                <Link to="/profile" className="link"><div className="f-c-c nav-link"><FcBusinessman size={20} /><span>Profile</span></div></Link>
-                            </li>
+                            {userType === 2 ? (
+                                <li>
+                                    <Link to="/dashboard" className="link"><div className="f-c-c nav-link"><FcBusinessman size={20} /><span>dashboard</span></div></Link>
+                               </li>
+                            ) : (
+                                <>
+                                    <li>
+                                        <Link to="/community" className="link"><div className="f-c-c nav-link"><FcCollaboration size={20} /><span>Community</span></div></Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/store" className="link"><div className="f-c-c nav-link"><FcShop size={20} /><span>Market</span></div></Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/competitions" className="link"><div className="f-c-c nav-link"><FcParallelTasks size={20} /><span>Competitions</span></div></Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/games" className="link"><div className="f-c-c nav-link"><FcSteam size={20} /><span>Games</span></div></Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/profile" className="link"><div className="f-c-c nav-link"><FcBusinessman size={20} /><span>Profile</span></div></Link>
+                                    </li>
+                                </>
+
+                            )}
                             <button className="f-c-c" onClick={Logout}><HiOutlineLogout size={15} /><span className="ml-1">Log out</span></button>
                         </>
                         : 

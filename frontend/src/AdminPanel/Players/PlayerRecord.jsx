@@ -16,7 +16,7 @@ export const PlayerRecord = (props) => {
     return (
         <tr>
             <td>P-{props.data.id}</td>
-            <td className="c-name"><div className="f-n-c"><img src={`${process.env.REACT_APP_SERVER_END_POINT}/assets/profiles/${props.data.profile_image}`} alt={`name profile pic`} /><span>{props.data.name}</span></div></td>
+            <td className="c-name"><div className="f-n-c"><img src={props.data.profile_image} alt={`name profile pic`} /><span>{props.data.name}</span></div></td>
             <td>{props.data.email}</td>
             <td>{props.data.joined_at}</td>
             <td><div className="f-n-c"><img src="./../coin.png" alt="" width="12" /><span className="ml-1">{props.data.golds}</span></div></td>

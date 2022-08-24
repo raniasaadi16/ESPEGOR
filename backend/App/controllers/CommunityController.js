@@ -1,4 +1,5 @@
 const conn = require('../database/connection').pool;
+const cloudinary = require('../utils/cloudinary')
 
 function CreateNewGroup(req, res) {
     const user = req.user;
@@ -286,28 +287,26 @@ function JoinGroup(req, res){
     });
 }
 
-function GroupPost(req, res) {
+async function GroupPost(req, res) {
 
-    if (!req.files || Object.keys(req.files).length === 0){
+    if (!req.file){
         return res.json({msg: 'No File Is Here'});
     }
-
     try {
+        let picture 
+        const result = await cloudinary.uploader.upload(req.file.path, {
+            folder: 'egor',
+            use_filename: true
+        });
+        picture = result.secure_url;
 
-
+        const record = {
+            title: req.body.title,
+            path: picture,
+            user_id: req.user.id,
+            group_id: req.params.group_id,
+        };
         conn.getConnection((err, connection) => {
-
-            const file = req.files.file; 
-
-            const record = {
-                title: req.body.title,
-                path: file.name,
-                user_id: req.user.id,
-                group_id: req.params.group_id,
-            };
-                        
-            const uploadDir = './assets/community/' +  file.name;
-            file.mv(uploadDir);
     
             const query  = 'INSERT INTO groupposts SET ?';
     
@@ -320,32 +319,33 @@ function GroupPost(req, res) {
         });
 
     } catch (error) {
-        
+        console.log(err)
     }
     
 }
 
-function PagePost(req, res) {
+async function PagePost(req, res) {
 
     
-    if (!req.files || Object.keys(req.files).length === 0){
+    if (!req.file){
         return res.json({msg: 'No File Is Here'});
     }
 
     try {
+        let picture 
+        const result = await cloudinary.uploader.upload(req.file.path, {
+            folder: 'egor',
+            use_filename: true
+        });
+        picture = result.secure_url;
+        const record = {
+            title: req.body.title,
+            path: picture,
+            page_id: req.params.page_id,
+        };
+
         conn.getConnection((err, connection) => {
 
-            const file = req.files.file; 
-
-            const record = {
-                title: req.body.title,
-                path: file.name,
-                page_id: req.params.page_id,
-            };
-
-                        
-            const uploadDir = './assets/community/' + file.name;
-            file.mv(uploadDir);
     
             const query  = 'INSERT INTO pageposts SET ?';
     

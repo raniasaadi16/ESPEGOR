@@ -3,6 +3,7 @@ import { Navbar } from '../Global Components/navbar'
 import { InfosHolder } from './InfosHolder';
 import { CompetitionsHolder } from './CompetitionsHolder';
 import { TransitionsHolder } from './TransitionsHolder';
+import API from '../../Services/AuthIntercepteurs';
 
 export const Profile = () => {
     
@@ -11,7 +12,18 @@ export const Profile = () => {
     const ChangeNavbarFunc = (value) => {
         setNavbarChanges(value);
     }
+    const [transitions, setTransitions] = useState([]);
 
+    useEffect(() => {
+        API.get(`${process.env.REACT_APP_SERVER_END_POINT}/transition/auth`).then(res=>{
+            const transitionsList = res.data.transitions;
+            console.log(res.data)
+            transitionsList.forEach(element => {
+                setTransitions((list) => [...list, element]);
+            });
+
+        });
+    }, []);
     return (
         <div id="profile">
             <Navbar />
@@ -28,9 +40,9 @@ export const Profile = () => {
                             </div>
                             <div className="holder">
                                 <div className="data">
-                                    {navbarChanges === 0 &&  <InfosHolder />}
+                                    {navbarChanges === 0 &&  <InfosHolder transitions={transitions} />}
                                     {navbarChanges === 1 &&  <CompetitionsHolder />}
-                                    {navbarChanges === 2 &&  <TransitionsHolder />}
+                                    {navbarChanges === 2 &&  <TransitionsHolder transitions={transitions} />}
                                 </div>
                             </div>
                         </div>

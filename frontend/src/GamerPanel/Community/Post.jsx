@@ -21,12 +21,12 @@ export const Post = (props) => {
     return (
         <div className="post">
             <div className="top f-n-c">
-                <img src={`${process.env.REACT_APP_SERVER_END_POINT}/assets/community/${props.data.icon}`} alt="" />
+                <img src={props.data.icon} alt="" />
                 <span className="ml-1">{props.data.name}</span>
             </div>
             <p>{props.data.title}</p>
             <div className="post-doc">
-                <img src={`${process.env.REACT_APP_SERVER_END_POINT}/assets/community/${props.data.path}`} alt="" />
+                <img src={props.data.path} alt="" />
             </div>
             <div className="post-inter f-b-c">
                 <div className="lef f gap10">

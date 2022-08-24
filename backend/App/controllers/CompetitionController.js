@@ -1,17 +1,24 @@
 const conn = require('../database/connection').pool;
+const cloudinary = require('../utils/cloudinary')
 
 
-function CreateCompetition(req, res){
+async function CreateCompetition(req, res){
 
-    if (!req.files || Object.keys(req.files).length === 0){
+    if (!req.file){
         return res.json({msg: 'No File Is Here'});
     }
 
-
+    let picture
+    console.log(req.file)
     try {
         const {name, description, maxPlayers, golds, diamonds, date, game, organizer, location, status} = req.body;
-        const file = req.files.icon;
-        const icon = file.name;
+        if(req.file){
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'egor',
+                use_filename: true
+            });
+            picture = result.secure_url;
+        }
         const competition = {
             game_id: game,
             name: name,
@@ -20,19 +27,17 @@ function CreateCompetition(req, res){
             price_gold: golds,
             price_diamond: diamonds,
             // Icon
-            icon: icon,
+            icon: picture,
             location: location,
             competition_status: status,
             organizer_id: organizer,
             competition_date: date
         };
-
-        var uploadDir = './assets/competitions/' + icon;
-        file.mv(uploadDir);
         
         conn.getConnection((err, connection) => {
             connection.query('INSERT INTO competitions SET ?', competition, (err, result) => {
                 connection.release();
+                console.log(result, err)
                 res.json({
                     msg: 'data has been inserted successfully',
                 });
@@ -43,18 +48,20 @@ function CreateCompetition(req, res){
     }
 }
 
-function UpdateCompetition(req, res){
+async function UpdateCompetition(req, res){
 
     const id = req.params.id;
 
     try {
         const {name, description, maxPlayers, golds, diamonds, date, game, organizer, location, status} = req.body;
 
-        if (req.files && Object.keys(req.files).length !== 0){
-
-            const file = req.files.icon;
-            var uploadDir = './assets/competitions/' + file.name;
-            file.mv(uploadDir);
+        if (req.file){
+            let picture
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'egor',
+                use_filename: true
+            });
+            picture = result.secure_url;
 
             conn.getConnection((err, connection) => {
                 const query = `UPDATE competitions SET 
@@ -68,10 +75,11 @@ function UpdateCompetition(req, res){
                         location = ?,
                         competition_status = ?,
                         organizer_id = ?,
-                        competition_date = ?,
+                        competition_date = ?
                     WHERE id = ?`;
-                connection.query(query, [game, name, description, maxPlayers, golds, diamonds, file.name, location, status, organizer, date, id], (err, result) => {
+                connection.query(query, [game, name, description, maxPlayers, golds, diamonds, picture, location, status, organizer, date, id], (err, result) => {
                     connection.release();
+                    console.log(err)
                     res.json({
                         msg: 'Data has been updated successfully',
                     });
@@ -89,10 +97,11 @@ function UpdateCompetition(req, res){
                         location = ?,
                         competition_status = ?,
                         organizer_id = ?,
-                        competition_date = ?,
+                        competition_date = ?
                     WHERE id = ?`;
                 connection.query(query, [game, name, description, maxPlayers, golds, diamonds, location, status, organizer, date, id], (err, result) => {
                     connection.release();
+                    console.log(err)
                     res.json({
                         msg: 'Data has been updated successfully',
                     });

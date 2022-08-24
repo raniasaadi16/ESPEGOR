@@ -13,6 +13,8 @@ import axios from 'axios'
 export const Form = ({competiton}) => {
 
     const id = competiton ? competiton.id : undefined;
+    const [organziersList, setOrganziersList] = useState([]);
+    const [gamesList, setGamesList] = useState([]);
 
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -27,9 +29,21 @@ export const Form = ({competiton}) => {
     const [status, setStatus] = useState(0);
 
 
-    const [organziersList, setOrganziersList] = useState([]);
-    const [gamesList, setGamesList] = useState([]);
 
+    const [preview, setpreview] = useState('');
+
+    const upload = e => {
+        var reader = new FileReader();
+        var url = reader.readAsDataURL(e.target.files[0]);
+        if(e.target.files[0].type.split('/')[0] == 'image'){
+            reader.onloadend = function (e) {
+                setpreview(reader.result);
+            }
+            setIcon(e.target.files[0]);
+        }else{
+           console.log('err')
+        }
+    };
 
     const closeGame = () => {
         document.getElementById("popup-form").style.display = 'none';
@@ -46,7 +60,7 @@ export const Form = ({competiton}) => {
         formData.append('golds', golds);
         formData.append('diamonds', diamonds);
         formData.append('date', date);
-        formData.append('icon', icon);
+        formData.append('picture', icon);
         formData.append('game', game);
         formData.append('organizer', organizer);
         formData.append('location', location);
@@ -62,7 +76,7 @@ export const Form = ({competiton}) => {
             });
         }
 
-        window.location.reload();
+       window.location.reload();
 
     }
 
@@ -77,6 +91,8 @@ export const Form = ({competiton}) => {
             res[1].data.organizers.forEach(element => {
                 setOrganziersList((list) => [...list, element]);
             });
+            setOrganizer(res[1].data.organizers[0].id)
+            setGame(res[0].data.games[0].id)
         });
 
 
@@ -91,6 +107,7 @@ export const Form = ({competiton}) => {
         setOrganizer(id?competiton.organizer_id:0);
         setLocation(id?competiton.location:'');
         setStatus(id?competiton.competition_status:0);
+        setpreview(id?competiton.icon:'');
 
     }, [competiton]);
 
@@ -139,8 +156,16 @@ export const Form = ({competiton}) => {
                                     <label class="uploadLabel f-b-c">
                                         <MdOutlineAddPhotoAlternate />
                                         <span className="upload-file-span">Competition Icon</span>
-                                        <input type="file" class="uploadButton" name="icon" value={icon} onChange={(e) => setIcon(e.target.files[0])} />
+                                        <input type="file"
+                                        class="uploadButton" 
+                                        onChange={upload} 
+                                        accept="image/*"
+                                        name="icon"
+                                        />
                                     </label>
+                                    {preview && (
+                                        <img src={preview} alt="" style={{width: '100%', margin: '5px 0'}} />
+                                    )}
                                 </div>
                             </div>
 
@@ -155,7 +180,7 @@ export const Form = ({competiton}) => {
                                 </div>
                                 <div className="games f-cl">
                                     <label htmlFor="games">Game</label>
-                                    <select name="games" id="gamess" value={game} onChange={(e) => setGame(e.target.value)}>
+                                    <select name="games" id="gamess" value={game} onChange={(e) => {setGame(e.target.value);console.log(e.target.value)}}>
                                         {gamesList.map((item, index) => {
                                             return <option key={index} value={item.id}>{item.name}</option>;
                                         })}

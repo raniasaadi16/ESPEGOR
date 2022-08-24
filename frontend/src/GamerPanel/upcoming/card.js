@@ -5,7 +5,7 @@ export const CompetitionCard = (props) => {
     return (
         <div className="tourn f">
             <div className="left">
-                <img src={`${process.env.REACT_APP_SERVER_END_POINT}/assets/competitions/${props.data.icon}`} alt="" />
+                <img src={props.data.icon} alt="" />
             </div>
             <div className="right f-cl">
                 <h2>{props.data.name}</h2>

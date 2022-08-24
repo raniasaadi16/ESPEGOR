@@ -21,7 +21,7 @@ export const GameRecord = (props) => {
     return (
         <tr>
             <td>U-{props.data.id}</td>
-            <td className="c-name"><div className="f-n-c"><img src={`${process.env.REACT_APP_SERVER_END_POINT}/assets/games/` + props.data.icon} alt="" /><span>{props.data.name}</span></div></td>
+            <td className="c-name"><div className="f-n-c"><img src={props.data.icon} alt="" /><span>{props.data.name}</span></div></td>
             <td>{props.data.comps}</td>
             <td>
                 <span className={"g-level " + (status === 0?"g-p":status===1?"g-i":"g-a")}>

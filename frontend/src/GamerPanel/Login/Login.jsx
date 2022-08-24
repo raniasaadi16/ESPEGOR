@@ -4,8 +4,8 @@ import {Redirect} from 'react-router-dom';
 import { Form } from './Form';
 import Cookies from 'universal-cookie';
 
-export const Login = () => {
 
+export const Login = () => {
     const cookies = new Cookies();
     let check = cookies.get('auth_token');
     typeof check === 'undefined' ? check = false : check = true;

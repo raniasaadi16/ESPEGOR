@@ -21,7 +21,7 @@ export const CompetitionRecord = (props) => {
     return (
         <tr>
             <td>C-{props.data.id}</td>
-            <td className="c-name"><div className="f-n-c"><img src={`${process.env.REACT_APP_SERVER_END_POINT}/assets/competitions/` + props.data.icon} alt="" /><span>{props.data.name}</span></div></td>
+            <td className="c-name"><div className="f-n-c"><img src={props.data.icon} alt="" /><span>{props.data.name}</span></div></td>
             <td>{props.data.competition_date}</td>
             <td>{props.data.players}</td>
             <td>{props.data.max_players}</td>

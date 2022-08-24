@@ -28,7 +28,7 @@ export const GroupRecord = (props) => {
   return (
     <div className="group-wrapper f gap10">
         <div className="left">
-            <img src={`${process.env.REACT_APP_SERVER_END_POINT}/assets/community/${props.data.icon}`} alt="" />
+            <img src={props.data.icon} alt="" />
         </div>
         <div className="right">
             <h3 style={{marginBottom: "5px"}}>{props.data.name}</h3>

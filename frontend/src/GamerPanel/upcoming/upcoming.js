@@ -8,7 +8,9 @@ import React, { useEffect, useState } from 'react';
 
 import axios from 'axios';
 import API from '../../Services/AuthIntercepteurs';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
+// Import Swiper styles
 function Upcoming() {
 
     const [competitions, setCompetitions] = useState([]);
@@ -41,6 +43,25 @@ function Upcoming() {
         <div className="g-home">
             <div className="header">
                 <Navbar />
+                <div style={{marginTop: '60px'}}>
+                    <Swiper
+                        spaceBetween={50}
+                        slidesPerView={1}
+                        onSlideChange={() => console.log('slide change')}
+                        onSwiper={(swiper) => console.log(swiper)}
+                        autoplay={true}
+                        >
+                        <SwiperSlide>
+                            <img src='./g1.jpg' style={{width: '100%'}} />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <img src='./g2.jpg' style={{width: '100%'}} />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <img src='./g3.jpg' style={{width: '100%'}} />
+                        </SwiperSlide>
+                    </Swiper>
+                </div>
                 <div className="header-content">
                     <img src="./../introimage.png" alt="" className="img" />
                     <div className="right-side">

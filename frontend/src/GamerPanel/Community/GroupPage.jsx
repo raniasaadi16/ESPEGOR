@@ -13,8 +13,8 @@ import { GroupPost } from './GroupPost'
 import { io } from 'socket.io-client';
 import Interweave from 'interweave'
 
-let socket = io('https://egorgaming.com');
-
+// let socket = io('https://egorgaming.com');
+let socket = io('http://localhost:8000');
 export const GroupPage = () => {
 
 
@@ -32,7 +32,7 @@ export const GroupPage = () => {
     const [username, setUsername] = useState('');
     const [msg, setMsg] = useState('');
     const [messageList, setMessageList] = useState([]);
-
+    const [preview, setpreview] = useState('');
 
     const group_id = useParams('group_id');
 
@@ -46,7 +46,18 @@ export const GroupPage = () => {
     };
 
 
-    
+    const upload = e => {
+        var reader = new FileReader();
+        var url = reader.readAsDataURL(e.target.files[0]);
+        if(e.target.files[0].type.split('/')[0] == 'image'){
+            reader.onloadend = function (e) {
+                setpreview(reader.result);
+            }
+            setFile(e.target.files[0]);
+        }else{
+           console.log('err')
+        }
+    };
 
 
     const CreateNewPostGroup = (e) => {
@@ -56,7 +67,7 @@ export const GroupPage = () => {
         const formData = new FormData();
 
         formData.append('title', title);
-        formData.append('file', file);
+        formData.append('picture', file);
 
         API.post(`${process.env.REACT_APP_SERVER_END_POINT}/community/group/post/${group_id.id}`, formData).then(res => {
             window.location.reload();
@@ -233,8 +244,11 @@ export const GroupPage = () => {
                                             <MdOutlineAddPhotoAlternate />
                                             <span className="upload-file-span ml-1">Select Group Icon</span>
                                             <input type="file" className="uploadButton" name="icon"
-                                                onChange={(e) => setFile(e.target.files[0])} />
+                                                onChange={upload} />
                                         </label>
+                                        {preview && (
+                                            <img src={preview} alt="" style={{width: '100%', margin: '5px 0'}} />
+                                        )}
                                     </div>
                                     <div className="c-button">
                                         <button className='w-100' onClick={CreateNewPostGroup}>Post</button>

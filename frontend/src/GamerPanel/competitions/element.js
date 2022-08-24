@@ -10,7 +10,7 @@ function Element(props) {
         <div className="card-element f">
            <div className="left">
                <div className="icon">
-                    <img src={`${process.env.REACT_APP_SERVER_END_POINT}/assets/competitions/`+ props.data.icon} alt="" />
+                    <img src={props.data.icon} alt="" />
                </div>
            </div>
            

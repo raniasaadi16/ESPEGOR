@@ -12,7 +12,7 @@ export const Token = () => {
             <Sidebar index={4} />
             <Page SetImg={setImg} />
             <Form />
-            <ImagePopup img={`${process.env.REACT_APP_SERVER_END_POINT}/assets/transitions/${img}`} />
+            <ImagePopup img={img} />
         </div>
     );
 }

@@ -45,7 +45,7 @@ export const CompetitionDetail = () => {
                     <div className="competition-detail">
                         <div className="competition-left">
                             <div className="img">
-                                <img src={`${process.env.REACT_APP_SERVER_END_POINT}/assets/competitions/${comp.icon}`} alt="" width="250" />
+                                <img src={comp.icon} alt="" width="250" />
                             </div>
                             <div className="info">
                                 <div className="name f-b-c">
@@ -94,7 +94,7 @@ export const CompetitionDetail = () => {
                                 players.map((item, i) => {
                                     return (
                                     <div className="player f-n-c" key={i}>
-                                        <img src={`${process.env.REACT_APP_SERVER_END_POINT}/assets/profiles/${item.profile_image}`} alt="" width="18" />
+                                        <img src={item.profile_image} alt="" width="18" />
                                         <span>{item.name}</span>
                                     </div>
                                     )

@@ -20,7 +20,7 @@ export const PagePage = () => {
 
     const [infos, setInfos] = useState({});
 
-
+    const [preview, setpreview] = useState('');
     const page_id = useParams('page_id');
 
     
@@ -32,6 +32,20 @@ export const PagePage = () => {
         document.getElementById("popup-form").style.display = 'none';
     };
 
+    const upload = e => {
+        var reader = new FileReader();
+        var url = reader.readAsDataURL(e.target.files[0]);
+        if(e.target.files[0].type.split('/')[0] == 'image'){
+            reader.onloadend = function (e) {
+                setpreview(reader.result);
+            }
+            setFile(e.target.files[0]);
+        }else{
+           console.log('err')
+        }
+    };
+
+
     const CreateNewPostPage = (e) => {
 
         e.preventDefault();
@@ -39,7 +53,7 @@ export const PagePage = () => {
         const formData = new FormData();
 
         formData.append('title', title);
-        formData.append('file', file);
+        formData.append('picture', file);
 
         API.post(`${process.env.REACT_APP_SERVER_END_POINT}/community/page/post/${page_id.id}`, formData).then(res => {
             window.location.reload();
@@ -142,8 +156,11 @@ export const PagePage = () => {
                                             <MdOutlineAddPhotoAlternate />
                                             <span className="upload-file-span ml-1">Select Group Icon</span>
                                             <input type="file" className="uploadButton" name="icon"
-                                                onChange={(e) => setFile(e.target.files[0])} />
+                                                onChange={upload} />
                                         </label>
+                                        {preview && (
+                                            <img src={preview} alt="" style={{width: '100%', margin: '5px 0'}} />
+                                        )}
                                     </div>
                                     <div className="c-button">
                                         <button className='w-100' onClick={CreateNewPostPage}>Post</button>

@@ -1,33 +1,35 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Cookies from 'universal-cookie';
 import { useHistory } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
+import Popup from '../../Components/Popup';
 
 
 
 export const Form = () => {
-
+    const { setUserType } = useContext(UserContext)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const [err, seterr] = useState('');
     const history = useHistory();
 
     const SubmitForm = (e) => {
         e.preventDefault();
-        
+        seterr('')
         const user = {
             email,
             password,
         };
  
         axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/signin`, user, {headers: {
-            "Access-Control-Allow-Origin": "https://egorfront.vercel.app"
+            "Access-Control-Allow-Origin": "https://egorgaming.com"
         }}).then(res => {
             if (res.data.logged === true){
                 const cookies = new Cookies();
                 cookies.set('auth_token', res.data.token);
                 const type = res.data.type;
-
+                setUserType(type)
                 switch (type) {
                     case 0:
                         history.push("/");
@@ -39,12 +41,17 @@ export const Form = () => {
                         history.push('/dashboard');
                         break;
                 }
+            }else{
+                setPassword('')
+                setEmail('')
+                seterr(res.data.msg)
             }
-        });
+        })
     }
 
     return (
         <div className="form">
+            <Popup isOpen={err} setIsOpen={seterr} />
             <form className="f-cl" onSubmit={SubmitForm}>
                 <input type="email" name="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required />
                 <input type="password" name="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} required />

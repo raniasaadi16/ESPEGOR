@@ -2,6 +2,7 @@ const express = require('express');
 const communityRoute = express.Router();
 const communityController = require('../controllers/CommunityController');
 const {checkAuthToken} = require('./../services/jwt');
+const upload = require('../utils/uploadPhotos')
 
 communityRoute.post('/create/group', checkAuthToken, communityController.CreateNewGroup);
 communityRoute.post('/update/group/:id', checkAuthToken, communityController.UpdateGroup);
@@ -17,7 +18,7 @@ communityRoute.get('/check/group/:groupid', checkAuthToken, communityController.
 
 
 
-communityRoute.post('/group/post/:group_id', checkAuthToken, communityController.GroupPost);
+communityRoute.post('/group/post/:group_id',upload, checkAuthToken, communityController.GroupPost);
 communityRoute.get('/group/posts/:group_id', checkAuthToken, communityController.GetGroupPosts);
 communityRoute.get('/page/posts/:page_id', checkAuthToken, communityController.GetPagePosts);
 communityRoute.get('/get/group/name/:group_id', checkAuthToken, communityController.GetGroupName);
@@ -29,7 +30,7 @@ communityRoute.post('/post/page/reaction', checkAuthToken, communityController.P
 
 communityRoute.get('/check/page/:page_id', checkAuthToken, communityController.CheckFollowPage);
 communityRoute.post('/follow/page', checkAuthToken, communityController.FollowPage);
-communityRoute.post('/page/post/:page_id', checkAuthToken, communityController.PagePost);
+communityRoute.post('/page/post/:page_id', upload, checkAuthToken, communityController.PagePost);
 
 
 

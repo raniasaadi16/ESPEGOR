@@ -71,7 +71,7 @@ function Info(props) {
             <div className="container">
                 <div className="wrapper f">
                     <div className="img">
-                        <img src={`${process.env.REACT_APP_SERVER_END_POINT}/assets/competitions/` + comp.icon} alt="" width="400" />
+                        <img src={comp.icon} alt="" width="400" />
                     </div>
                     <div className="infos">
                         <h2>{comp.name}</h2>

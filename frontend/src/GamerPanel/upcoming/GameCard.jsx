@@ -7,7 +7,7 @@ export const GameCard = (props) => {
     return (
         <div className="game">
             <div className="top">
-                <img src={`${process.env.REACT_APP_SERVER_END_POINT}/assets/games/${props.data.icon}`} alt="" />
+                <img src={props.data.icon} alt="" />
             </div>
             <div className="bottom">
                 <h4>{props.data.name}</h4>

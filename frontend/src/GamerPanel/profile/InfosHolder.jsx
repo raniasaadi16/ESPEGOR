@@ -4,17 +4,16 @@ import API from './../../Services/AuthIntercepteurs';
 import Interweave from 'interweave';
 import ReactQuill from 'react-quill';
 
-export const InfosHolder = () => {
+export const InfosHolder = ({transitions}) => {
     const [profileInfo, setProfileInfo] = useState({});
     useEffect(() => {
-
         API.get(`${process.env.REACT_APP_SERVER_END_POINT}/player/profile`).then(res => {
             setProfileInfo(res.data);
             setName(res.data.name);
             setDesc(res.data.bio);
             setProfile(res.data.profile_image);
         });
-    }, []);
+    }, [transitions]);
 
     const [editNavbar, setEditNavbar] = useState(0);
 
@@ -97,7 +96,7 @@ export const InfosHolder = () => {
         <div id="infos">
             <div className="p-left f f-cl">
                 <div className="p-profile">
-                    <img src={`${process.env.REACT_APP_SERVER_END_POINT}/assets/profiles/${profile}`} alt="" width="300" />
+                    <img src={profile} alt="" width="300" />
                     <div className="change-profile f-c-c" onClick={ShowUploadProfileButton}>
                         <label htmlFor="change-profile-id"><img src="./../add-image.svg" alt="" width="20" /></label>
                         <input type="file" name="profile" id="change-profile-id" accept="images/*" 

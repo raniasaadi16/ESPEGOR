@@ -4,7 +4,6 @@ import {FcCamera} from 'react-icons/fc'
 import axios from 'axios'
 
 export const AcceptedOffer = (props) => {
-
     const SeeReceipt = () => {
         props.SetImg(props.data.photo);
         document.getElementById("image-popup").style.display = 'block';
@@ -24,12 +23,12 @@ export const AcceptedOffer = (props) => {
                 </div>
                 <div className="t-info">
                     <div className="t-i f-b-c">
-                        <h4>Sami Egor</h4>
-                        <span className="offer">P-43667</span>
+                        <h4>{props.data.name}</h4>
+                        <span className="offer">{props.data.id}</span>
                     </div>
                     <div className="mt-1 t-i f-b-c">
-                        <span className="offer">offer 3</span>
-                        <span className="price">14500DA</span>
+                        <span className="offer">{props.data.offer_name}</span>
+                        <span className="price">{props.data.price}DA</span>
                     </div>
                 </div>
             </div>

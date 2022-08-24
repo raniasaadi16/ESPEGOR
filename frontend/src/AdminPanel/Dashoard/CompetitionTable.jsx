@@ -32,7 +32,7 @@ export const CompetitionTable = () => {
                        {competitions.map((item, index) => {
                            return <tr key={index}>
                                 <td>U-{item.id}</td>
-                                <td className="c-name f-n-c"><img src={`${process.env.REACT_APP_SERVER_END_POINT}/assets/competitions/` + item.icon} alt="" width="18" /><span>{item.name}</span></td>
+                                <td className="c-name f-n-c"><img src={item.icon} alt="" width="18" /><span>{item.name}</span></td>
                                 <td>{item.competition_date}</td>
                             </tr>
                        })}

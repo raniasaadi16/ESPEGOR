@@ -4,7 +4,7 @@ import '../../App.css';
 
 function Element(props) {
     
-
+    console.log(props.data)
     const OpenScreenShoot = () => {
         props.SetSelectedOffer(props.data);
         document.getElementById("popup-form").style.display = 'block';
@@ -15,7 +15,7 @@ function Element(props) {
         <div className="card-element f">
            <div className="left">
                <div className="icon">
-                    <img src="logo.png" alt="" />
+                {!props.data.picture ? <img src="logo.png" alt="" /> : <img src={props.data.picture} alt="" />}
                </div>
            </div>
            <div className="right">
@@ -24,7 +24,7 @@ function Element(props) {
                 <p className="price">{props.data.new_price} DA or {(props.data.new_price/200).toFixed(2)} £</p>
                 <div className="c-d f" >
                     <div className="golds f-c-c">
-                        <img src="coin.png" alt="" width="16" />
+                        <img src="coin.png" alt="" width="16" /> 
                         <span>{props.data.gold_amount}</span>
                     </div>
                     <div className="diamonds f-c-c">

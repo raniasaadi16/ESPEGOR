@@ -1,7 +1,20 @@
 const conn = require('../database/connection').pool;
-
-function CreateOffer(req, res){
+const cloudinary = require('../utils/cloudinary')
+async function CreateOffer(req, res){
     const {name, description, oldPrice, newPrice, golds, diamonds} = req.body;
+    let picture
+    console.log(req.file)
+    try{
+        if(req.file){
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'egor',
+                use_filename: true
+            });
+            picture = result.secure_url;
+        }
+    }catch(err){
+        console.log(err)
+    }
     const offer = {
         name: name,
         description: description,
@@ -9,11 +22,13 @@ function CreateOffer(req, res){
         new_price: newPrice,
         gold_amount: golds,
         diamonds_amount: diamonds,
+        picture: picture
     };
 
     conn.getConnection((err, connection) => {
         connection.query('INSERT INTO offers SET ?', offer, (err, result) => {
             connection.release();
+            console.log(offer)
             res.json({
                 msg: 'data has been inserted successfully',
             });

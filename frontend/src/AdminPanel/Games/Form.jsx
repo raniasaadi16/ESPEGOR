@@ -22,6 +22,20 @@ export const Form = ({game}) => {
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState(0);
     const [icon, setIcon] = useState(null);
+    const [preview, setpreview] = useState('');
+
+    const upload = e => {
+        var reader = new FileReader();
+        var url = reader.readAsDataURL(e.target.files[0]);
+        if(e.target.files[0].type.split('/')[0] == 'image'){
+            reader.onloadend = function (e) {
+                setpreview(reader.result);
+            }
+            setIcon(e.target.files[0]);
+        }else{
+           console.log('err')
+        }
+    };
 
     const closeGame = () => {
         document.getElementById("popup-form").style.display = 'none';
@@ -34,7 +48,7 @@ export const Form = ({game}) => {
         formData.append("name", name);
         formData.append("description", description);
         formData.append("status", status);
-        formData.append("icon", icon);
+        formData.append("picture", icon);
 
         if (id) {
             await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/game/update/${id}`, formData).then( res => {
@@ -88,6 +102,9 @@ export const Form = ({game}) => {
                                     <option value="2">Active</option>
                                 </select>
                             </div>
+                            {preview && (
+                                <img src={preview} alt="" style={{width: '100%', margin: '5px 0'}} />
+                            )}
                             <div className="file-submit f-b-c">
                                 <label class="uploadLabel f-b-c">
                                     <MdOutlineAddPhotoAlternate />
@@ -95,7 +112,7 @@ export const Form = ({game}) => {
                                     <input 
                                         type="file"
                                         class="uploadButton" 
-                                        onChange={(e) => setIcon(e.target.files[0])} 
+                                        onChange={upload} 
                                         accept="image/*"
                                         name="icon"
                                     />

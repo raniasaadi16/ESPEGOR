@@ -12,6 +12,7 @@ import 'react-quill/dist/quill.snow.css';
 
 
 import axios from 'axios';
+import Popup from '../../Components/Popup'
 
 
 export const Form = ({game}) => {
@@ -23,7 +24,7 @@ export const Form = ({game}) => {
     const [status, setStatus] = useState(0);
     const [icon, setIcon] = useState(null);
     const [preview, setpreview] = useState('');
-
+    const [err, seterr] = useState('');
     const upload = e => {
         var reader = new FileReader();
         var url = reader.readAsDataURL(e.target.files[0]);
@@ -33,7 +34,7 @@ export const Form = ({game}) => {
             }
             setIcon(e.target.files[0]);
         }else{
-           console.log('err')
+           seterr('please insert a valid file')
         }
     };
 
@@ -44,12 +45,14 @@ export const Form = ({game}) => {
     const SubmitGame = async (e) => {
 
         e.preventDefault();
+        seterr('')
+
         const formData = new FormData();
         formData.append("name", name);
         formData.append("description", description);
         formData.append("status", status);
         formData.append("picture", icon);
-
+        if(!name || !description || !icon) return seterr('missed field')
         if (id) {
             await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/game/update/${id}`, formData).then( res => {
                 console.log(res.data);
@@ -58,6 +61,7 @@ export const Form = ({game}) => {
             await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/game/create`, formData).then( res => {
                 console.log(res.data);
             });
+            
         }
 
         window.location.reload();
@@ -69,6 +73,7 @@ export const Form = ({game}) => {
         setDescription(id?game.description:'');
         setStatus(id?game.game_status:0),
         setIcon(null);
+        
     }, [game]);
 
 
@@ -84,6 +89,7 @@ export const Form = ({game}) => {
                         <p>Lorem ipsum dolor sit amet,.</p>
                         <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et similique quod laudantium dolore porro aliquid iusto.</span>
                     </div>
+                    <Popup err={err} seterr={seterr} />
                     <div className="form">
                         <form onSubmit={SubmitGame}>
                             <div className="name f-cl">

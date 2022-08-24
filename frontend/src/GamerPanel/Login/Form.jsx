@@ -51,10 +51,10 @@ export const Form = () => {
 
     return (
         <div className="form">
-            <Popup isOpen={err} setIsOpen={seterr} />
+            <Popup err={err} seterr={seterr} />
             <form className="f-cl" onSubmit={SubmitForm}>
-                <input type="email" name="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required />
-                <input type="password" name="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} required />
+                <input type="email" name="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                <input type="password" name="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                 <div className="rem-for f-b-c">
                     <div className="remember f-n-c">
                         <input type="checkbox" name="remember" id="remember" />

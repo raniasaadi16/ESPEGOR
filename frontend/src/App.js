@@ -50,7 +50,7 @@ import { PagePage } from './GamerPanel/Community/PagePage';
 import { useEffect, useState } from 'react';
 import API from './Services/AuthIntercepteurs';
 import { UserContext } from './context/UserContext';
-import 'swiper/swiper.min.css'
+import 'swiper/css'
 
 function App() {
 

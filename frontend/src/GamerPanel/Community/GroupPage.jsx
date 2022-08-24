@@ -13,8 +13,8 @@ import { GroupPost } from './GroupPost'
 import { io } from 'socket.io-client';
 import Interweave from 'interweave'
 
-// let socket = io('https://egorgaming.com');
-let socket = io('http://localhost:8000');
+let socket = io('https://egorgaming.com');
+// let socket = io('http://localhost:8000');
 export const GroupPage = () => {
 
 

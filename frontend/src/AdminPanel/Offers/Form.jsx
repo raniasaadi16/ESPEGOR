@@ -4,6 +4,7 @@ import {CgClose} from 'react-icons/cg'
 import {RiSendPlaneLine} from 'react-icons/ri'
 import axios from 'axios'
 import { MdOutlineAddPhotoAlternate } from 'react-icons/md'
+import Popup from '../../Components/Popup'
 
 
 export const Form = ({offer}) => {
@@ -17,6 +18,7 @@ export const Form = ({offer}) => {
     const [diamonds, setDiamonds] = useState(0);
     const [picture, setpicture] = useState('');
     const [preview, setpreview] = useState('');
+    const [err, seterr] = useState('');
 
     const upload = e => {
         var reader = new FileReader();
@@ -27,20 +29,13 @@ export const Form = ({offer}) => {
             }
             setpicture(e.target.files[0]);
         }else{
-           console.log('err')
+           seterr('please insert a valid file')
         }
     };
     const SubmitOffer = async (e) => {
         e.preventDefault();
-
-        // const offer = {
-        //     name,
-        //     description, 
-        //     oldPrice,
-        //     newPrice, 
-        //     golds,
-        //     diamonds
-        // };
+        seterr('')
+    
         const formData = new FormData();
         formData.append("name", name);
         formData.append("description", description);
@@ -49,7 +44,7 @@ export const Form = ({offer}) => {
         formData.append("golds", golds);
         formData.append("diamonds", diamonds);
         formData.append("picture", picture);
-
+        if(!name || !description ) return seterr('missed field !')
         if (id) {
             await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/offer/update/${id}`, formData).then( res => {
                 console.log('Update', res)
@@ -90,6 +85,7 @@ export const Form = ({offer}) => {
                         <p>{ id ? "Update Offer For Gamers" : "Add New Offer For Sell" }</p> 
                         <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et similique quod laudantium dolore porro aliquid iusto.</span>
                     </div>
+                    <Popup err={err} seterr={seterr} />
                     <div className="form">
                         <form onSubmit={SubmitOffer}>
                             <div className="name f-cl">

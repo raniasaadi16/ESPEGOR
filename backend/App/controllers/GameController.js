@@ -10,7 +10,6 @@ async function CreateGame(req, res){
     }
     const {name, description, status} = req.body;
     let picture
-    console.log(req.file)
     try{
         if(req.file){
             const result = await cloudinary.uploader.upload(req.file.path, {

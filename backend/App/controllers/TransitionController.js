@@ -1,6 +1,7 @@
 const conn = require('../database/connection').pool;
+const cloudinary = require('../utils/cloudinary')
 
-function CreateTransiiton(req, res){
+async function CreateTransiiton(req, res){
 
     const isPlayer = req.user.type === 0;
 
@@ -8,26 +9,30 @@ function CreateTransiiton(req, res){
         const msg = 'You Are Not a Gamer You Cannot Buy Tokens';
         return res.json(msg);
     }
-
+    const {offer_id, price, golds, diamonds} = req.body;
+    const user_id = req.user.id;
+    let picture
+    try{
+        if(req.file){
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'egor',
+                use_filename: true
+            });
+            picture = result.secure_url;
+        }
+    }catch(err){
+        console.log(err)
+    }
+    const transition = {
+        user_id,
+        offer_id: parseInt(offer_id), 
+        price: parseInt(price), 
+        golds: parseInt(golds), 
+        diamonds: parseInt(diamonds), 
+        photo: picture,
+    };
     conn.getConnection((err, connection) => {
-        // get data then post it
-        if (req.files && Object.keys(req.files).length > 0){
-            const file = req.files.photo;
-            const photo = file.name;
-            var uploadDir = './assets/transitions/' + photo;
-            file.mv(uploadDir);
-
-            const {offer_id, price, golds, diamonds} = req.body;
-            const user_id = req.user.id;
-
-            const transition = {
-                user_id,
-                offer_id: parseInt(offer_id), 
-                price: parseInt(price), 
-                golds: parseInt(golds), 
-                diamonds: parseInt(diamonds), 
-                photo,
-            };
+        // get data then post it      
 
             const transitionquery = 'INSERT INTO transitions SET ?';
             connection.query(transitionquery, transition, (err, result) => {
@@ -36,11 +41,6 @@ function CreateTransiiton(req, res){
                     msg: 'data has been inserted successfully',
                 });
             });
-        } else {
-            return res.json({
-                msg: "You Have To Upload An Image"
-            });
-        }
     });
 }
 
@@ -123,16 +123,18 @@ function GetTransitionsType(req, res){
         const countQuery = `SELECT COUNT(*) AS count FROM transitions WHERE status=${status}`;
 
         connection.query(paginatedTransitionsQuery, status, (err, result) => {
-            connection.query(countQuery, function (err, countResult){
-                connection.release();
-                if (err) throw err;
-                var jsonResult = {
-                    'pages': Math.ceil(countResult[0].count/limit),
-                    'current_number':page,
-                    'transitions':result,
-                }
-                res.json(jsonResult);
-            });
+            if(result){
+                connection.query(countQuery, function (err, countResult){
+                    connection.release();
+                    if (err) throw err;
+                    var jsonResult = {
+                        'pages': Math.ceil(countResult[0].count/limit),
+                        'current_number':page,
+                        'transitions':result,
+                    }
+                    res.json(jsonResult);
+                });
+            }
         });
     });
 }

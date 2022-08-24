@@ -37,7 +37,7 @@ export const BuyTokensPopup = (props) => {
         formData.append('price', props.data.new_price);
         formData.append('golds', props.data.gold_amount);
         formData.append('diamonds', props.data.diamonds_amount);
-        formData.append('photo', screenShoot);
+        formData.append('picture', screenShoot);
 
         await API.post(`${process.env.REACT_APP_SERVER_END_POINT}/transition/create`, formData).then(res => {
             console.log(res.data);

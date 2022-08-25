@@ -31,13 +31,13 @@ async function CreateTransiiton(req, res){
         diamonds: parseInt(diamonds), 
         photo: picture,
     };
+    const transitionquery = 'INSERT INTO transitions SET ?';
     conn.getConnection((err, connection) => {
         // get data then post it      
-
-            const transitionquery = 'INSERT INTO transitions SET ?';
             connection.query(transitionquery, transition, (err, result) => {
                 connection.release();
                 res.json({
+                    transition,
                     msg: 'data has been inserted successfully',
                 });
             });
@@ -52,6 +52,7 @@ function CheckTransition(req, res){
     // 1 ====> reject
     // 2 ====> accept
     const updateBalanceQuery =`UPDATE players p JOIN (SELECT SUM(golds) golds_s , SUM(diamonds) diamonds_s, user_id FROM transitions WHERE status = 2 GROUP BY user_id) t ON p.user_id = t.user_id SET p.golds = golds_s, p.diamonds = diamonds_s WHERE p.user_id = ?`;
+    console.log(status, user)
     if(status === 2 && user){
         conn.getConnection((err, connection) => {
             connection.query('UPDATE transitions SET status=? where id=? ', [status, id] ,(err, result) => {
@@ -119,11 +120,10 @@ function GetTransitionsType(req, res){
         // calculate offset
         const offset = (page - 1) * limit;
         // query for fetching data with page number and offset
-        const paginatedTransitionsQuery = "SELECT users.name, offers.name offer_name, transitions.id, transitions.price FROM transitions JOIN users ON users.id = transitions.user_id JOIN offers ON transitions.offer_id = offers.id WHERE status= ? LIMIT " + limit + " OFFSET " + offset;
+        const paginatedTransitionsQuery = "SELECT users.name, offers.name offer_name, transitions.id, transitions.price,transitions.user_id, transitions.photo FROM transitions JOIN users ON users.id = transitions.user_id JOIN offers ON transitions.offer_id = offers.id WHERE status= ? LIMIT " + limit + " OFFSET " + offset;
         const countQuery = `SELECT COUNT(*) AS count FROM transitions WHERE status=${status}`;
 
         connection.query(paginatedTransitionsQuery, status, (err, result) => {
-            if(result){
                 connection.query(countQuery, function (err, countResult){
                     connection.release();
                     if (err) throw err;
@@ -134,7 +134,7 @@ function GetTransitionsType(req, res){
                     }
                     res.json(jsonResult);
                 });
-            }
+            
         });
     });
 }

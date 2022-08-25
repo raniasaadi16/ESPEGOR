@@ -26,16 +26,14 @@ export const Page = (props) => {
     const [reloadPage, setReloadPage] = useState(0);
 
     useEffect(() => {
-        const formData = new FormData();
-        formData.append("status", status);
-
-        axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/transition/type?page=${currentPage}`, formData).then( res => {
+        axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/transition/type?page=${currentPage}`, {status}).then( res => {
             const data = res.data.transitions;
             setPages(parseInt(res.data.pages));
             setShowpagination(true);
             data.forEach(element => {
                 setTransitions((list) => [...list, element]);
             });
+            console.log(data)
         });
         return () => {
             setShowpagination(false);

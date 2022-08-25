@@ -2,8 +2,9 @@ const express = require('express');
 const transitionRoute = express.Router();
 const transitionController = require('../controllers/TransitionController');
 const {checkAuthToken} = require('./../services/jwt');
+const upload = require('../utils/uploadPhotos')
 
-transitionRoute.post('/create', checkAuthToken, transitionController.CreateTransiiton);
+transitionRoute.post('/create', upload, checkAuthToken, transitionController.CreateTransiiton);
 transitionRoute.get('/delete/:id', transitionController.DeleteTransition);
 transitionRoute.get('/auth', checkAuthToken, transitionController.GetAuthTransitions);
 transitionRoute.post('/type', transitionController.GetTransitionsType);

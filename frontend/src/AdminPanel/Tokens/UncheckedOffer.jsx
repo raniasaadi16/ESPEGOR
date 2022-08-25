@@ -6,13 +6,13 @@ import {FcCamera} from 'react-icons/fc'
 import axios from 'axios'
 
 export const UncheckedOffer = (props) => {
-
     const SeeReceipt = () => {
         props.SetImg(props.data.photo);
         document.getElementById("image-popup").style.display = 'block';
     }
 
     const CheckReceipt = (value) => {
+        console.log(value)
         axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/transition/check/${props.data.id}/${props.data.user_id}`, {status: value}).then((res) => {
             props.SetReloadPage(props.reloadPage + 1);
         });

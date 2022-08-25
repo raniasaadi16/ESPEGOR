@@ -9,7 +9,6 @@ import API from './../../Services/AuthIntercepteurs';
 
 export const BuyTokensPopup = (props) => {
 
-    
     const closeTokenScreenShoot = () => {
         document.getElementById("popup-form").style.display = 'none';
     }

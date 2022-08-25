@@ -10,6 +10,11 @@ const pool = mysql.createPool({
     user: 'uuqyuudj1mix11ix',
     password: 'phcy9cupOttT6GdxrT6V',
     port:3306
+    // host: 'localhost',
+    // database: 'egor',
+    // user: 'root',
+    // password: '',
+    // port:3307
 });
 
 exports.pool = pool;

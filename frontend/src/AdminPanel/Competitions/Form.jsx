@@ -9,6 +9,7 @@ import 'react-quill/dist/quill.snow.css';
 
 import axios from 'axios'
 import Popup from '../../Components/Popup'
+import Loading from '../../Components/Loading'
 
 
 export const Form = ({competiton}) => {
@@ -29,7 +30,7 @@ export const Form = ({competiton}) => {
     const [location, setLocation] = useState('');
     const [status, setStatus] = useState(0);
     const [err, seterr] = useState('');
-
+    const [loading, setloading] = useState(false);
 
     const [preview, setpreview] = useState('');
 
@@ -68,17 +69,27 @@ export const Form = ({competiton}) => {
         formData.append('location', location);
         formData.append('status', status);
         if(!name || !description || !date || !icon ) return seterr('missed field!')
+        setloading(true)
         if (id) {
             await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/competition/update/${id}`, formData).then( res => {
-                console.log(res.data);
+                if(!res.data.success){
+                    seterr('something went very wrong please try again')
+                }else{
+                    window.location.reload();
+                }
             });
         } else {
             await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/competition/create`, formData).then( res => {
-                console.log(res.data);
+                if(!res.data.success){
+                    seterr('something went very wrong please try again')
+                }
+                else{
+                    window.location.reload();
+                }
             });
         }
+        setloading(false)
 
-       window.location.reload();
 
     }
 
@@ -103,8 +114,8 @@ export const Form = ({competiton}) => {
         setMaxPlayers(id?competiton.max_players:1);
         setGolds(id?competiton.price_gold:0);
         setDiamonds(id?competiton.price_diamond:0);
-        setIcon(null);
         setDate(id?competiton.competition_date:'');
+        setIcon(id?competiton.icon:'');
         setGame(id?competiton.game_id:0);
         setOrganizer(id?competiton.organizer_id:0);
         setLocation(id?competiton.location:'');
@@ -116,6 +127,7 @@ export const Form = ({competiton}) => {
 
     return (
         <div id="popup-form">
+            {loading && <Loading/>}
             <div className="f-c-c">
                 <div className="form-content double">
                     <div className="pop-top f-b-c">

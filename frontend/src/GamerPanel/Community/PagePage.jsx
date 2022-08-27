@@ -6,6 +6,9 @@ import { CgClose } from 'react-icons/cg'
 import { FaWpforms } from 'react-icons/fa'
 import { MdOutlineAddPhotoAlternate, MdPeopleOutline } from 'react-icons/md'
 import { useParams } from 'react-router-dom'
+import Loading from '../../Components/Loading'
+import Popup from '../../Components/Popup'
+import Success from '../../Components/Success'
 import API from '../../Services/AuthIntercepteurs'
 import { Navbar } from '../Global Components/navbar'
 import { PagePost } from './PagePost'
@@ -21,6 +24,10 @@ export const PagePage = () => {
     const [infos, setInfos] = useState({});
 
     const [preview, setpreview] = useState('');
+    const [msg, setmsg] = useState('');
+    const [err, seterr] = useState('');
+    const [loading, setloading] = useState(false);
+
     const page_id = useParams('page_id');
 
     
@@ -55,9 +62,15 @@ export const PagePage = () => {
         formData.append('title', title);
         formData.append('picture', file);
 
+        setloading(true)
         await API.post(`${process.env.REACT_APP_SERVER_END_POINT}/community/page/post/${page_id.id}`, formData).then(res => {
+            if(!res.data.success){
+                seterr(res.data.msg)
+            }else{
+                setmsg(res.data.msg)
+            }
         });
-        window.location.reload();
+        setloading(false)
 
     }
 
@@ -84,6 +97,9 @@ export const PagePage = () => {
     return (
         <div className="grouppage f">
             <Navbar />
+            {loading && <Loading/>}
+            <Success msg={msg} setmsg={setmsg} action={() => window.location.reload()} />
+            <Popup err={err} seterr={seterr} />
             <div className="container">
                 <div className="wrapper f">
                     <div className="left">

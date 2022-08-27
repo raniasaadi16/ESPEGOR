@@ -18,24 +18,25 @@ async function CreateGame(req, res){
             });
             picture = result.secure_url;
         }
-    }catch(err){
-        console.log(err)
-    }
-    const game = {
-        name: name,
-        description: description,
-        game_status: status,
-        icon: picture,
-    };
-    conn.getConnection((err, connection) => {
-        connection.query('INSERT INTO games SET ?', game, (err, result) => {
-            connection.release();
-            res.json({
-                game,
-                msg: 'data has been inserted successfully',
+        const game = {
+            name: name,
+            description: description,
+            game_status: status,
+            icon: picture,
+        };
+        conn.getConnection((err, connection) => {
+            connection.query('INSERT INTO games SET ?', game, (err, result) => {
+                connection.release();
+                res.json({
+                    game,
+                    success: true,
+                    msg: 'data has been inserted successfully',
+                });
             });
         });
-    });
+    }catch(err){
+        res.json({msg: 'something went very wrong'})
+    }
 }
 
 async function UpdateGame(req, res){
@@ -56,6 +57,7 @@ async function UpdateGame(req, res){
                 connection.query(query, [name, description, picture, status, id], (err, result) => {
                     connection.release();
                     res.json({
+                        success: true,
                         msg: 'Data has been updated successfully',
                     });
                 });
@@ -66,13 +68,14 @@ async function UpdateGame(req, res){
                 connection.query(query, [name, description, status, id], (err, result) => {
                     connection.release();
                     res.json({
+                        success: true,
                         msg: 'Data has been updated successfully',
                     });
                 });
             });
         }
     } catch (error) {
-        console.log(error);
+        res.json({msg: 'something ent very wrong'})
     }
 }
 

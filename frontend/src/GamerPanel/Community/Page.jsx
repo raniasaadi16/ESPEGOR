@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import API from '../../Services/AuthIntercepteurs'
 
 export const Page = (props) => {
-
     const [isAlreadyFollowed, setIsAlreadyFollowed] = useState(false);
 
     useEffect(() => {
@@ -25,7 +24,7 @@ export const Page = (props) => {
     return (
         <div className="c-card">
             <div className="top f-b-c">
-                <h2>Title of Group</h2>
+                <h2>{props.data.name}</h2>
                 {
                     !isAlreadyFollowed ?
                         <button className="join" onClick={FollowPage}>Follow</button> : 

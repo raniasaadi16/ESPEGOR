@@ -5,6 +5,7 @@ import ReactQuill from 'react-quill'
 import { MdOutlineAddPhotoAlternate } from 'react-icons/md'
 import API from '../../Services/AuthIntercepteurs'
 import Popup from '../../Components/Popup'
+import Loading from '../../Components/Loading'
 
 
 export const Form = ({group}) => {
@@ -15,6 +16,7 @@ export const Form = ({group}) => {
     const [icon, setIcon] = useState(null);
     const [preview, setpreview] = useState('');
     const [err, seterr] = useState('');
+    const [loading, setloading] = useState(false);
 
     const upload = e => {
         var reader = new FileReader();
@@ -41,16 +43,26 @@ export const Form = ({group}) => {
         formData.append('name', name);
         formData.append('description', description);
         formData.append('picture', icon);
-
+        setloading(true)
         if (id) {
             await API.post(`${process.env.REACT_APP_SERVER_END_POINT}/community/update/group/${id}`, formData).then(res => {
-               
+               if(!res.data.success){
+                seterr(res.data.msg)
+               }else{
+                    window.location.reload();
+               }
             });
         } else {
             await API.post(`${process.env.REACT_APP_SERVER_END_POINT}/community/create/group`, formData).then(res => {
+                if(!res.data.success){
+                    seterr(res.data.msg)
+                   }else{
+                        window.location.reload();
+                   }
             });
         }
-        window.location.reload();
+        setloading(false)
+        
     }
 
 
@@ -58,13 +70,14 @@ export const Form = ({group}) => {
     useEffect(() => {        
         setName(id?group.name:'');
         setDescription(id?group.description:'');
-        setIcon(null);
+        setIcon(id?group.icon: null);
         setpreview(group? group.icon : '')
     }, [group]);
 
 
     return (
         <div id="popup-form">
+            {loading && <Loading/>}
             <Popup err={err} seterr={seterr} />
             <div className="f-c-c">
                 <div className="form-content">

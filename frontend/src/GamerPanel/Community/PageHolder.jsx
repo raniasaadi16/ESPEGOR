@@ -3,6 +3,9 @@ import { CgClose } from 'react-icons/cg'
 import { FaWpforms } from 'react-icons/fa'
 import { MdAdd, MdOutlineAddPhotoAlternate } from 'react-icons/md'
 import ReactQuill from 'react-quill'
+import Loading from '../../Components/Loading'
+import Popup from '../../Components/Popup'
+import Success from '../../Components/Success'
 import API from '../../Services/AuthIntercepteurs'
 import { Pagination } from '../Compoments/Pagination'
 import { Page } from './Page'
@@ -37,7 +40,8 @@ export const PageHolder = () => {
 
 
     const [pages, setPages] = useState([]);
-
+    const [loading, setloading] = useState(false);
+    const [msg, setmsg] = useState('');
 
 
 
@@ -75,14 +79,23 @@ export const PageHolder = () => {
         formData.append('name', name);
         formData.append('description', description);
         formData.append('picture', icon);
-
-        await API.post(`${process.env.REACT_APP_SERVER_END_POINT}/community/create/page`, formData);
-        window.location.reload()
+        setloading(true)
+        await API.post(`${process.env.REACT_APP_SERVER_END_POINT}/community/create/page`, formData).then(res => {
+            if(!res.data.success){
+                seterr(res.data.msg)
+            }else{
+                setmsg(res.data.msg)
+            }
+        });
+        setloading(false)
     }
 
 
     return (
         <>
+        {loading && <Loading/>}
+        <Success msg={msg} setmsg={setmsg} action={() => window.location.reload()} />
+        <Popup err={err} seterr={seterr} />
             <div className="content">
                 <div className="top-section f-b-c">
                     <h3>Page List</h3>

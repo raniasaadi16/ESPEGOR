@@ -6,6 +6,8 @@ import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import Popup from '../../Components/Popup';
 import { useHistory } from 'react-router-dom';
+import Loading from '../../Components/Loading';
+import Success from '../../Components/Success'
 
 export const Form = () => {
     
@@ -17,6 +19,8 @@ export const Form = () => {
     const [value, setvalue] = useState();
     const [err, seterr] = useState('');
     const [preview, setpreview] = useState('');
+    const [loading, setloading] = useState(false);
+    const [msg, setmsg] = useState('');
     const history = useHistory()
 
     const upload = e => {
@@ -31,7 +35,7 @@ export const Form = () => {
            console.log('err')
         }
     };
-    const Register = (e) => {
+    const Register = async (e) => {
 
         e.preventDefault();
 
@@ -43,16 +47,22 @@ export const Form = () => {
         fm.append('bio', description);
         fm.append('phone', value);
         if(!value) return seterr('please insert your phone')
-
-        axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/player/register`, fm).then(res=>{
+        setloading(true)
+        await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/player/register`, fm).then(res=>{
             if(res.data.logged){
-                history.push('/login')
+                setmsg('user register successfullym please login')
+                
+            }else{
+                seterr('something went very wrong , please try again')
             }
         });
+        setloading(false)
     }
     
     return (
         <div className="form" onSubmit={Register}>
+            {loading && <Loading/>}
+            <Success msg={msg} setmsg={setmsg} action={() => history.push('/login')} />
             <Popup err={err} seterr={seterr} />
            <form className="f-cl">
                 <input type="text" name="name" placeholder="Name" onChange={(e) => setName(e.target.value)} value={name} required/>

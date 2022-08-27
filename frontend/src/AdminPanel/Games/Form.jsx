@@ -13,6 +13,7 @@ import 'react-quill/dist/quill.snow.css';
 
 import axios from 'axios';
 import Popup from '../../Components/Popup'
+import Loading from '../../Components/Loading'
 
 
 export const Form = ({game}) => {
@@ -25,6 +26,8 @@ export const Form = ({game}) => {
     const [icon, setIcon] = useState(null);
     const [preview, setpreview] = useState('');
     const [err, seterr] = useState('');
+    const [loading, setloading] = useState(false);
+
     const upload = e => {
         var reader = new FileReader();
         var url = reader.readAsDataURL(e.target.files[0]);
@@ -53,32 +56,44 @@ export const Form = ({game}) => {
         formData.append("status", status);
         formData.append("picture", icon);
         if(!name || !description || !icon) return seterr('missed field')
+        setloading(true)
         if (id) {
             await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/game/update/${id}`, formData).then( res => {
-                console.log(res.data);
+                if(!res.data.success){
+                    seterr(res.data.msg)
+                }else{
+                    window.location.reload()
+                }
             });
         } else {
             await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/game/create`, formData).then( res => {
-                console.log(res.data);
+                if(!res.data.success){
+                    seterr(res.data.msg)
+                }else{
+                    window.location.reload()
+                }
             });
             
         }
+        setloading(false)
 
-        window.location.reload();
     }
 
 
     useEffect(() => {        
         setName(id?game.name:'');
         setDescription(id?game.description:'');
-        setStatus(id?game.game_status:0),
-        setIcon(null);
+        setStatus(id?game.game_status:0)
+        setIcon(id?game.icon:0)
+        setpreview(id?game.icon:0)
+
         
     }, [game]);
 
 
     return (
         <div id="popup-form">
+            {loading && <Loading />}
             <div className="f-c-c">
                 <div className="form-content">
                     <div className="pop-top f-b-c">

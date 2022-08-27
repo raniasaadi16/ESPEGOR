@@ -9,7 +9,6 @@ async function CreateCompetition(req, res){
     }
 
     let picture
-    console.log(req.file)
     try {
         const {name, description, maxPlayers, golds, diamonds, date, game, organizer, location, status} = req.body;
         if(req.file){
@@ -39,12 +38,13 @@ async function CreateCompetition(req, res){
                 connection.release();
                 console.log(result, err)
                 res.json({
+                    success: true,
                     msg: 'data has been inserted successfully',
                 });
             });
         });
     } catch (error) {
-        console.log(error);
+        res.json({msg: 'something went very wrong'})
     }
 }
 
@@ -81,6 +81,7 @@ async function UpdateCompetition(req, res){
                     connection.release();
                     console.log(err)
                     res.json({
+                        success: true,
                         msg: 'Data has been updated successfully',
                     });
                 });
@@ -103,13 +104,14 @@ async function UpdateCompetition(req, res){
                     connection.release();
                     console.log(err)
                     res.json({
+                        success: true,
                         msg: 'Data has been updated successfully',
                     });
                 });
             });
         }
     } catch (error) {
-        console.log(error);
+        res.json({msg: 'something went very wrong'})
     }
 }
 

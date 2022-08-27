@@ -12,6 +12,9 @@ import { GroupPost } from './GroupPost'
 
 import { io } from 'socket.io-client';
 import Interweave from 'interweave'
+import Popup from '../../Components/Popup'
+import Loading from '../../Components/Loading'
+import Success from '../../Components/Success'
 
 let socket = io('https://egorgaming.com');
 // let socket = io('http://localhost:8000');
@@ -33,6 +36,9 @@ export const GroupPage = () => {
     const [msg, setMsg] = useState('');
     const [messageList, setMessageList] = useState([]);
     const [preview, setpreview] = useState('');
+    const [loading, setloading] = useState('');
+    const [Smsg, setSmsg] = useState('');
+    const [err, seterr] = useState('');
 
     const group_id = useParams('group_id');
 
@@ -68,10 +74,15 @@ export const GroupPage = () => {
 
         formData.append('title', title);
         formData.append('picture', file);
-
+        setloading(true)
         await API.post(`${process.env.REACT_APP_SERVER_END_POINT}/community/group/post/${group_id.id}`, formData).then(res => {
+            if(!res.data.success){
+                seterr(res.data.msg)
+            }else{
+                setSmsg(res.data.msg)
+            }
         });
-        window.location.reload();
+        setloading(false)
 
     }
 
@@ -144,6 +155,9 @@ export const GroupPage = () => {
     return (
         <div className="grouppage f">
             <Navbar />
+            <Popup err={err} seterr={seterr} />
+            <Success msg={Smsg} setmsg={setSmsg} action={() => window.location.reload()} />
+            {loading && <Loading/>}
             <div className="container">
                 <div className="wrapper f">
                     <div className="left">

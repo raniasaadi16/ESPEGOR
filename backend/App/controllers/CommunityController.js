@@ -31,12 +31,13 @@ async function CreateNewGroup(req, res) {
             connection.query('INSERT INTO groups SET ?', group, (err, result) => {
                 connection.release();
                 res.json({
+                    success: true,
                     msg: 'data has been inserted successfully',
                 });
             });
         });
     } catch (error) {
-        console.log(error);
+        res.json({msg: 'something went very wrong'})
     }
 }
 
@@ -66,12 +67,13 @@ async function CreateNewPage(req, res) {
             connection.query('INSERT INTO pages SET ?', page, (err, result) => {
                 connection.release();
                 res.json({
+                    success: true,
                     msg: 'data has been inserted successfully',
                 });
             });
         });
     } catch (error) {
-        console.log(error);
+        res.json({msg: 'something went very wrong'})
     }
 }
 
@@ -198,6 +200,7 @@ async function UpdateGroup (req, res){
                 connection.query(query, [name, description, picture, id], (err, result) => {
                     connection.release();
                     res.json({
+                        success: true,
                         msg: 'Data has been updated successfully',
                     });
                 });
@@ -211,13 +214,14 @@ async function UpdateGroup (req, res){
                 connection.query(query, [name, description, id], (err, result) => {
                     connection.release();
                     res.json({
+                        success: true,
                         msg: 'Data has been updated successfully',
                     });
                 });
             });
         }
     } catch (error) {
-        console.log(error);
+        res.json({msg: 'something went very wrong'})
     }
 }
 
@@ -315,13 +319,14 @@ async function GroupPost(req, res) {
             connection.query(query, record, (err, result) => {
                 connection.release();
                 res.json({
+                    success: true,
                     msg: 'Post Has Been Saved',
                 });
             });
         });
 
     } catch (error) {
-        console.log(err)
+        res.json({msg: 'something went very wrong'})
     }
     
 }
@@ -354,13 +359,14 @@ async function PagePost(req, res) {
             connection.query(query, record, (err, result) => {
                 connection.release();
                 res.json({
+                    success: true,
                     msg: 'Post Has Been Saved',
                 });
             });
         });
 
     } catch (error) {
-        
+        res.json({msg: 'something went very wrong'})
     }
     
 }

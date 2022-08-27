@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CgClose } from 'react-icons/cg';
 import { FaWpforms } from 'react-icons/fa';
 import { MdOutlineAddPhotoAlternate } from 'react-icons/md'
 import { useHistory } from "react-router-dom"
 import Cookies from 'universal-cookie';
+import Loading from '../../Components/Loading';
 import Popup from '../../Components/Popup';
-
+import Success from '../../Components/Success'
 import API from './../../Services/AuthIntercepteurs';
 
 export const BuyTokensPopup = (props) => {
@@ -17,7 +18,8 @@ export const BuyTokensPopup = (props) => {
     const [err, seterr] = useState('');
     const [screenShoot, setScreenShoot] = useState(null);
     const [preview, setpreview] = useState('');
-
+    const [loading, setloading] = useState(false);
+    const [msg, setmsg] = useState('');
     const upload = e => {
         var reader = new FileReader();
         var url = reader.readAsDataURL(e.target.files[0]);
@@ -34,7 +36,7 @@ export const BuyTokensPopup = (props) => {
 
     const submitOffer = async (e) => {
         e.preventDefault();
-
+    
 
         const cookies = new Cookies();
 
@@ -50,18 +52,33 @@ export const BuyTokensPopup = (props) => {
         formData.append('golds', props.data.gold_amount);
         formData.append('diamonds', props.data.diamonds_amount);
         formData.append('picture', screenShoot);
-
+        setloading(true)
         await API.post(`${process.env.REACT_APP_SERVER_END_POINT}/transition/create`, formData).then(res => {
-            console.log(res.data);
+            if(!res.data.transition){
+                seterr(res.data.msg)
+            }else{
+                setmsg(res.data.msg)
+            }
         });
         closeTokenScreenShoot();
-        window.location.reload()
+        setloading(false)
+        setpreview('')
+        
+       // window.location.reload()
     }
+
+    useEffect(() => {
+       seterr('')
+       setmsg('')
+       setloading(false)
+    }, []);
 
 
     return (
         <div id="popup-form">
+            {loading && <Loading/>}
             <Popup err={err} seterr={seterr} />
+            <Success msg={msg} setmsg={setmsg} />
             <div className="f-c-c">
                 <div className="form-content">
                     <div className="pop-top f-b-c">

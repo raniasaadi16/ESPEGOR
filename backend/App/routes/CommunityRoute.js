@@ -4,10 +4,10 @@ const communityController = require('../controllers/CommunityController');
 const {checkAuthToken} = require('./../services/jwt');
 const upload = require('../utils/uploadPhotos')
 
-communityRoute.post('/create/group', checkAuthToken, communityController.CreateNewGroup);
-communityRoute.post('/update/group/:id', checkAuthToken, communityController.UpdateGroup);
+communityRoute.post('/create/group',upload, checkAuthToken, communityController.CreateNewGroup);
+communityRoute.post('/update/group/:id',upload, checkAuthToken, communityController.UpdateGroup);
 communityRoute.get('/delete/group/:id', checkAuthToken, communityController.DeleteGroup);
-communityRoute.post('/create/page', checkAuthToken, communityController.CreateNewPage);
+communityRoute.post('/create/page',upload, checkAuthToken, communityController.CreateNewPage);
 communityRoute.get('/get/groups', checkAuthToken, communityController.GetGroups);
 communityRoute.get('/get/pages', checkAuthToken, communityController.GetPages);
 communityRoute.get('/my/groups', checkAuthToken, communityController.GetMyGroups);

@@ -12,7 +12,21 @@ export const PageHolder = () => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [icon, setIcon] = useState(null);
+    const [preview, setpreview] = useState('');
+    const [err, seterr] = useState('');
 
+    const upload = e => {
+        var reader = new FileReader();
+        var url = reader.readAsDataURL(e.target.files[0]);
+        if(e.target.files[0].type.split('/')[0] == 'image'){
+            reader.onloadend = function (e) {
+                setpreview(reader.result);
+            }
+            setIcon(e.target.files[0]);
+        }else{
+           seterr('please insert a valid file')
+        }
+    };
 
 
     
@@ -52,7 +66,7 @@ export const PageHolder = () => {
         document.getElementById("popup-form").style.display = 'none';
     };
 
-    const CreateNewPage = (e) => {
+    const CreateNewPage = async (e) => {
 
         e.preventDefault();
 
@@ -60,9 +74,10 @@ export const PageHolder = () => {
 
         formData.append('name', name);
         formData.append('description', description);
-        formData.append('icon', icon);
+        formData.append('picture', icon);
 
-        API.post(`${process.env.REACT_APP_SERVER_END_POINT}/community/create/page`, formData);
+        await API.post(`${process.env.REACT_APP_SERVER_END_POINT}/community/create/page`, formData);
+        window.location.reload()
     }
 
 
@@ -109,8 +124,11 @@ export const PageHolder = () => {
                                             <MdOutlineAddPhotoAlternate />
                                             <span className="upload-file-span ml-1">Select Page Icon</span>
                                             <input type="file" class="uploadButton" name="icon" accept='image/*'
-                                                 onChange={(e) => setIcon(e.target.files[0])} />
+                                                 onChange={upload} />
                                         </label>
+                                        {preview && (
+                                        <img src={preview} alt="" style={{width: '100%', margin: '5px 0'}} />
+                                        )}
                                     </div>
                                     <div className="c-button">
                                         <button className='w-100' onClick={CreateNewPage}>Create</button>

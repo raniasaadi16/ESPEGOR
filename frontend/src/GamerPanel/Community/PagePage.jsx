@@ -46,7 +46,7 @@ export const PagePage = () => {
     };
 
 
-    const CreateNewPostPage = (e) => {
+    const CreateNewPostPage = async (e) => {
 
         e.preventDefault();
 
@@ -55,9 +55,9 @@ export const PagePage = () => {
         formData.append('title', title);
         formData.append('picture', file);
 
-        API.post(`${process.env.REACT_APP_SERVER_END_POINT}/community/page/post/${page_id.id}`, formData).then(res => {
-            window.location.reload();
+        await API.post(`${process.env.REACT_APP_SERVER_END_POINT}/community/page/post/${page_id.id}`, formData).then(res => {
         });
+        window.location.reload();
 
     }
 

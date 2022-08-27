@@ -24,7 +24,7 @@ export const PagePost = (props) => {
         <div className="post">
             <span>{props.data.title}</span>
             <div className="post-doc">
-                <img src={`${process.env.REACT_APP_SERVER_END_POINT}/assets/community/${props.data.path}`} alt="" />
+                <img src={props.data.path} alt="" />
             </div>
             <div className="post-inter f-b-c">
                 <div className="lef f gap10">

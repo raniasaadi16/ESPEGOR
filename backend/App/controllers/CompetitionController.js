@@ -220,7 +220,7 @@ function GetCompetitionAdmin(req, res) {
 
     
     const playersQuery = `
-        SELECT p.profile_image, u.name, p.id as player_id, u.id as user_id
+        SELECT p.profile_image,u.phone, u.name, u.email, p.id as player_id, u.id as user_id
         FROM players_competitions pc JOIN players p ON pc.player_id = p.id JOIN users u ON u.id = p.user_id
         WHERE pc.competition_id = ? 
     `;
@@ -246,7 +246,7 @@ function GetAuthCompetitions(req, res){
     conn.getConnection((err, connection) => {
 
         const query = `SELECT c.* FROM players_competitions pc
-            INNER JOIN competitions c WHERE pc.player_id = ?
+            INNER JOIN competitions c ON pc.competition_id = c.id WHERE pc.player_id = ?
         `;
 
         connection.query(query, player_id, (err, result) => {

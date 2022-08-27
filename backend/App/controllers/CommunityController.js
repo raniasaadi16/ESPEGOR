@@ -1,7 +1,7 @@
 const conn = require('../database/connection').pool;
 const cloudinary = require('../utils/cloudinary')
 
-function CreateNewGroup(req, res) {
+async function CreateNewGroup(req, res) {
     const user = req.user;
     if (user.type !== 2) return res.json({
         msg: 'You cannot create a group because you are not an admin',
@@ -9,21 +9,21 @@ function CreateNewGroup(req, res) {
     try {
         const {name, description} = req.body;
         
-        let icon;
-        if (!req.files || Object.keys(req.files).length === 0){
-            icon = 'defaultGroupIcon.jpg';
-        } else {
-            const file = req.files.icon;
-            icon = file.name;
-            var uploadDir = './assets/community/' + icon;
-            file.mv(uploadDir);
+        let picture
+        if(req.file){
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'egor',
+                use_filename: true
+            });
+            picture = result.secure_url;
         }
+       
         
         const group = {
             name: name,
             description: description,
             // Icon
-            icon: icon,
+            icon: picture,
             user_id: user.id,
         };
         
@@ -40,29 +40,28 @@ function CreateNewGroup(req, res) {
     }
 }
 
-function CreateNewPage(req, res) {
+async function CreateNewPage(req, res) {
     const user = req.user;
     try {
         const {name, description} = req.body;
         
-        let icon;
-        if (!req.files || Object.keys(req.files).length === 0){
-            icon = 'defaultGroupIcon.jpg';
-        } else {
-            const file = req.files.icon;
-            icon = file.name;
-            var uploadDir = './assets/community/' + icon;
-            file.mv(uploadDir);
+        let picture
+        if(req.file){
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'egor',
+                use_filename: true
+            });
+            picture = result.secure_url;
         }
+      
         
         const page = {
             name: name,
             description: description,
             // Icon
-            icon: icon,
+            icon: picture,
             user_id: user.id,
         };
-        
         conn.getConnection((err, connection) => {
             connection.query('INSERT INTO pages SET ?', page, (err, result) => {
                 connection.release();
@@ -174,18 +173,21 @@ function DeleteGroup (req, res){
     });
 }
 
-function UpdateGroup (req, res){ 
+async function UpdateGroup (req, res){ 
 
     try {
 
         const {name, description} = req.body;
         const id = req.params.id;
+        
+        if (req.file){
+            let picture
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'egor',
+                use_filename: true
+            });
+            picture = result.secure_url;
 
-        if (req.files && Object.keys(req.files).length !== 0){
-
-            const file = req.files.icon;
-            var uploadDir = './assets/community/' + file.name;
-            file.mv(uploadDir);
 
             conn.getConnection((err, connection) => {
                 const query = `UPDATE groups SET 
@@ -193,7 +195,7 @@ function UpdateGroup (req, res){
                         description = ?,
                         icon = ?
                     WHERE id = ?`;
-                connection.query(query, [name, description, file.name, id], (err, result) => {
+                connection.query(query, [name, description, picture, id], (err, result) => {
                     connection.release();
                     res.json({
                         msg: 'Data has been updated successfully',
@@ -275,7 +277,7 @@ function JoinGroup(req, res){
         user_id: user.id,
         group_id: req.body.id
     };
-
+    console.log(record)
     conn.getConnection((err, connection) => {
         const query  = 'INSERT INTO users_groups SET ?';
         connection.query(query, record, (err, result) => {

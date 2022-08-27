@@ -15,13 +15,12 @@ export const Group = (props) => {
         });
     }, []);
 
-    const JoinGroup = () => {
-        const formData = new FormData();
-        formData.append('id', props.data.id);
-        API.post(`${process.env.REACT_APP_SERVER_END_POINT}/community/join/group`, formData).then(res => {
+    const JoinGroup = async () => {
+       
+        await API.post(`${process.env.REACT_APP_SERVER_END_POINT}/community/join/group`, {id : props.data.id}).then(res => {
             console.log(res);
-            window.location.reload();
         });
+        window.location.reload();
     }
 
     
@@ -37,7 +36,7 @@ export const Group = (props) => {
             </div>
             <div className="bottom f gap10">
                 <div className="left">
-                    <img src="./../fortnight.jpg" alt="" />
+                    <img src={props.data.icon} alt="" className='h-full' />
                 </div>
                 <div className="right">
                     <div className="data f-b-c">

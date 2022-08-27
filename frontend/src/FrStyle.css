@@ -1535,7 +1535,21 @@ div.ql-container.ql-snow{
 .champ .f{
     flex-wrap: wrap !important;
 }
-
+.PhoneInputInput{
+    padding: 0 20px;
+    height: 40px;
+    outline: none;
+    color: #9ca3af;
+}
+.PhoneInputCountry{
+    background: rgb(255, 255, 255);
+    padding: 4px;
+    margin-right: 0 !important;
+    outline: none;
+}
+.PhoneInputCountrySelectArrow{
+    border-color: #000 !important;
+}
 .swiper {
     width: 100%;
     height: 100%;

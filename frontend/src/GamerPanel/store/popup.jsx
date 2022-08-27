@@ -4,6 +4,7 @@ import { FaWpforms } from 'react-icons/fa';
 import { MdOutlineAddPhotoAlternate } from 'react-icons/md'
 import { useHistory } from "react-router-dom"
 import Cookies from 'universal-cookie';
+import Popup from '../../Components/Popup';
 
 import API from './../../Services/AuthIntercepteurs';
 
@@ -13,9 +14,22 @@ export const BuyTokensPopup = (props) => {
         document.getElementById("popup-form").style.display = 'none';
     }
 
-
+    const [err, seterr] = useState('');
     const [screenShoot, setScreenShoot] = useState(null);
+    const [preview, setpreview] = useState('');
 
+    const upload = e => {
+        var reader = new FileReader();
+        var url = reader.readAsDataURL(e.target.files[0]);
+        if(e.target.files[0].type.split('/')[0] == 'image'){
+            reader.onloadend = function (e) {
+                setpreview(reader.result);
+            }
+            setScreenShoot(e.target.files[0]);
+        }else{
+           seterr('please insert a valid file')
+        }
+    };
     let history = useHistory()
 
     const submitOffer = async (e) => {
@@ -27,10 +41,9 @@ export const BuyTokensPopup = (props) => {
         if (!cookies.get('auth_token')){
             return history.push("/login");
         } else if(screenShoot===null) {
-            return alert('You Need To Send The Receipt Before You Ask For Tokens');
+            return seterr('You Need To Send The Receipt Before You Ask For Tokens');
         }
     
-
         const formData = new FormData();
         formData.append('offer_id', props.data.id);
         formData.append('price', props.data.new_price);
@@ -42,12 +55,13 @@ export const BuyTokensPopup = (props) => {
             console.log(res.data);
         });
         closeTokenScreenShoot();
-        history.push('/');
+        window.location.reload()
     }
 
 
     return (
         <div id="popup-form">
+            <Popup err={err} seterr={seterr} />
             <div className="f-c-c">
                 <div className="form-content">
                     <div className="pop-top f-b-c">
@@ -66,8 +80,11 @@ export const BuyTokensPopup = (props) => {
                             <label class="uploadLabel f-b-c">
                                 <MdOutlineAddPhotoAlternate style={{width: '200px'}}/>
                                 <span className="upload-file-span"></span>
-                                <input type="file" class="uploadButton" name="icon" accept="image/*" onChange={(e) => setScreenShoot(e.target.files[0])} />
+                                <input type="file" class="uploadButton" name="icon" accept="image/*" onChange={upload} />
                             </label>
+                            {preview && (
+                                        <img src={preview} alt="" style={{width: '100%', margin: '5px 0'}} />
+                                    )}
                             <button onClick={submitOffer}>Send</button>
                         </div>
                     </form>

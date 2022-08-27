@@ -1,21 +1,25 @@
 const conn = require('../database/connection').pool;
 const bcrypt = require('bcrypt');
+const cloudinary = require('../utils/cloudinary')
 
-function PlayerRegister (req, res){
-    conn.getConnection((err, connection) => {
-
-        const { name, email, password, bio } = req.body;
-
-        let profileImage = 'defaultPlayerProfile.png';
-
-        const hashedPassword = bcrypt.hashSync(password, 10);
-
-        if (req.files && Object.keys(req.files).length > 0){
-            const file = req.files.profile;
-            profileImage = file.name;
-            var uploadDir = './assets/profiles/' + profileImage;
-            file.mv(uploadDir);
+async function PlayerRegister (req, res){
+    const { name, email, password, bio, phone } = req.body;
+    
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    
+    let picture
+    try{
+        if(req.file){
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'egor',
+                use_filename: true
+            });
+            picture = result.secure_url;
         }
+    }catch(err){
+        console.log(err)
+    }
+    conn.getConnection((err, connection) => {
 
         connection.query("SELECT email FROM users WHERE email = ?", [email], (err, result) => {
             if (err) throw err;
@@ -26,9 +30,10 @@ function PlayerRegister (req, res){
                     name, 
                     email,
                     user_password: hashedPassword,
+                    phone
                 }
                 connection.query("INSERT INTO users SET ?", saveUser ,(err, userResult) => {
-                    connection.query("INSERT INTO players (user_id, profile_image, bio) VALUES (?,?,?)", [userResult.insertId, profileImage, bio] ,(err, result) => {
+                    connection.query("INSERT INTO players (user_id, profile_image, bio) VALUES (?,?,?)", [userResult.insertId, picture, bio] ,(err, result) => {
                         connection.release();
                         res.json({
                             logged: true,
@@ -95,7 +100,7 @@ function PlayerJoin(req, res){
 
     const player_id = req.params.player_id;
     const competition_id = req.params.competition_id;
-
+ 
     conn.getConnection((err, connection) => {
 
         const playerQuery = 'SELECT * FROM players WHERE id=?';
@@ -103,11 +108,12 @@ function PlayerJoin(req, res){
 
         connection.query(playerQuery, player_id, function (error, presult) {
             connection.query(competitionQuery, competition_id, function (err, cresult){
-
                 if (presult[0].diamonds >= cresult[0].price_diamond && presult[0].golds >= cresult[0].price_gold){
                     if (!IsFullCompetition(cresult[0].id, cresult[0].max_players)){
                         // logic here 
-                        connection.query('INSERT INTO players_competitions VALUES (?, ?)', [player_id, competition_id]);
+                        connection.query('INSERT INTO players_competitions VALUES (?, ?)', [player_id, competition_id], function(err, res){
+                            console.log(err)
+                        });
                         const reduceQuery = `UPDATE players p SET p.diamonds = p.diamonds - ${cresult[0].price_diamond}, p.golds = p.golds - ${cresult[0].price_gold} WHERE p.id = ?`;
                         connection.query(reduceQuery, player_id);
                         connection.release();
@@ -167,7 +173,7 @@ function GetPlayerInfo(req, res){
 
     conn.getConnection((err, connection) => {
 
-        const getUserQuery =`SELECT p.*, u.name, u.email, u.id AS user_id,
+        const getUserQuery =`SELECT p.*, u.name, u.phone, u.email, u.id AS user_id,
             (SELECT count(*) FROM players_competitions pc WHERE p.id = pc.player_id) AS comps
             FROM players p JOIN users u ON u.id = p.user_id
             WHERE u.id = ?`;
@@ -180,28 +186,30 @@ function GetPlayerInfo(req, res){
     });
 }
 
-function ChangeProfilePicture(req, res){
+async function ChangeProfilePicture(req, res){
     const user  = req.user;
-
-    if (req.files && Object.keys(req.files).length > 0){
-        const file = req.files.profile;
-        const profileImage = file.name;
-        var uploadDir = './assets/profiles/' + profileImage;
-        file.mv(uploadDir);
-
-        console.log(profileImage);
-
-        conn.getConnection((err, connection) => {
-            const profilePictureQuery =`UPDATE players SET profile_image = ? WHERE user_id = ?`;
-            connection.query(profilePictureQuery, [profileImage, user.id], function (error, results) {
-                connection.release();
-                if (error) throw error;
-                res.json({
-                    msg: 'Profile has been changed successfully',
-                    picture: profileImage,
+    if (req.file){
+        let picture
+        try{
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'egor',
+                use_filename: true
+            });
+            picture = result.secure_url;
+            conn.getConnection((err, connection) => {
+                const profilePictureQuery =`UPDATE players SET profile_image = ? WHERE user_id = ?`;
+                connection.query(profilePictureQuery, [picture, user.id], function (error, results) {
+                    connection.release();
+                    if (error) throw error;
+                    res.json({
+                        msg: 'Profile has been changed successfully',
+                        picture: profileImage,
+                    });
                 });
             });
-        });
+        }catch(err){
+            console.log(err)
+        }
     } else {
         return res.json('no file was uploaded');
     }

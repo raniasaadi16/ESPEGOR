@@ -33,7 +33,6 @@ export const Page = (props) => {
             data.forEach(element => {
                 setTransitions((list) => [...list, element]);
             });
-            console.log(data)
         });
         return () => {
             setShowpagination(false);

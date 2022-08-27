@@ -89,13 +89,17 @@ export const CompetitionDetail = () => {
                             </div>
                             
                         </div>
-                        <div className="competition-right">
+                        <div className="competition-right space-y-3">
                             {
                                 players.map((item, i) => {
                                     return (
-                                    <div className="player f-n-c" key={i}>
-                                        <img src={item.profile_image} alt="" width="18" />
-                                        <span>{item.name}</span>
+                                    <div className="bg-gray-900 px-2 py-2 rounded-md flex" key={i}>
+                                        <img src={item.profile_image} alt="" className='w-16 mr-3' />
+                                        <div className='space-y-1'>
+                                            <p>name: {item.name}</p>
+                                            <p className=''>email: {item.email}</p>
+                                            <p>phone: {item.phone}</p>
+                                        </div>
                                     </div>
                                     )
                                 })

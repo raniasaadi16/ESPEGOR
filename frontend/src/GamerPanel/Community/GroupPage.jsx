@@ -60,7 +60,7 @@ export const GroupPage = () => {
     };
 
 
-    const CreateNewPostGroup = (e) => {
+    const CreateNewPostGroup = async (e) => {
 
         e.preventDefault();
 
@@ -69,9 +69,9 @@ export const GroupPage = () => {
         formData.append('title', title);
         formData.append('picture', file);
 
-        API.post(`${process.env.REACT_APP_SERVER_END_POINT}/community/group/post/${group_id.id}`, formData).then(res => {
-            window.location.reload();
+        await API.post(`${process.env.REACT_APP_SERVER_END_POINT}/community/group/post/${group_id.id}`, formData).then(res => {
         });
+        window.location.reload();
 
     }
 

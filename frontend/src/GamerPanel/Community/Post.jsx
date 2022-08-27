@@ -21,7 +21,7 @@ export const Post = (props) => {
     return (
         <div className="post">
             <div className="top f-n-c">
-                <img src={props.data.icon} alt="" />
+                <img src={props.data.icon} className='h-8 w-8' alt="" />
                 <span className="ml-1">{props.data.name}</span>
             </div>
             <p>{props.data.title}</p>

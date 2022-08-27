@@ -8,6 +8,7 @@ export const InfosHolder = ({transitions}) => {
     const [profileInfo, setProfileInfo] = useState({});
     useEffect(() => {
         API.get(`${process.env.REACT_APP_SERVER_END_POINT}/player/profile`).then(res => {
+            console.log(res)
             setProfileInfo(res.data);
             setName(res.data.name);
             setDesc(res.data.bio);
@@ -126,7 +127,8 @@ export const InfosHolder = ({transitions}) => {
                     <button onClick={() => navigateEditInfoPanel(1)}>Edit Profile</button>
                 </div>
                 <p className="id">G-{profileInfo.id}</p>
-                <p className="email">{profileInfo.email}</p>
+                <p className="email">email: {profileInfo.email}</p>
+                <p className="email">phone: {profileInfo.phone}</p>
                 <p className="desc">
                     <Interweave content={profileInfo.bio} />
                 </p>

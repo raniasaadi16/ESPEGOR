@@ -4,7 +4,6 @@ import '../../App.css';
 
 function Element(props) {
     
-    console.log(props.data)
     const OpenScreenShoot = () => {
         props.SetSelectedOffer(props.data);
         document.getElementById("popup-form").style.display = 'block';

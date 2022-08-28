@@ -28,7 +28,7 @@ async function CreateNewGroup(req, res) {
         };
         
         conn.getConnection((err, connection) => {
-            connection.query('INSERT INTO groups SET ?', group, (err, result) => {
+            connection.query('INSERT INTO `groups` SET ?', group, (err, result) => {
                 connection.release();
                 res.json({
                     success: true,
@@ -84,15 +84,7 @@ function GetGroups(req, res){
     const offset = (page - 1) * limit;
 
     conn.getConnection((err, connection) => {
-        const query = `
-            SELECT  g.*, 
-                    (SELECT count(*) FROM users_groups ug WHERE g.id = ug.group_id) AS members,
-                    (SELECT count(*) FROM groupposts gp WHERE g.id = gp.group_id) AS posts,
-                    (SELECT count(*) FROM groupposts_reactions gpr JOIN groupposts gpp ON gpp.id = gpr.grouppost_id WHERE (gpr.grouppost_id = gpp.id AND gpr.reaction = 2)) AS total_likes,
-                    (SELECT count(*) FROM groupposts_reactions gpr JOIN groupposts gpp ON gpp.id = gpr.grouppost_id WHERE (gpr.grouppost_id = gpp.id AND gpr.reaction = 1)) AS total_dislikes
-            FROM groups g
-            LIMIT ${limit} OFFSET ${offset}
-        `;
+        const query = 'SELECT  g.*, (SELECT count(*) FROM users_groups ug WHERE g.id = ug.group_id) AS members,(SELECT count(*) FROM groupposts gp WHERE g.id = gp.group_id) AS posts, (SELECT count(*) FROM groupposts_reactions gpr JOIN groupposts gpp ON gpp.id = gpr.grouppost_id WHERE (gpr.grouppost_id = gpp.id AND gpr.reaction = 2)) AS total_likes, (SELECT count(*) FROM groupposts_reactions gpr JOIN groupposts gpp ON gpp.id = gpr.grouppost_id WHERE (gpr.grouppost_id = gpp.id AND gpr.reaction = 1)) AS total_dislikes FROM `groups` g LIMIT '+ limit+ ' OFFSET ' +offset;
         connection.query(query, (err, result) => {
             connection.query('SELECT COUNT(*) AS count FROM groups', (err, resCount) => {
                 connection.release();
@@ -140,14 +132,7 @@ function GetPages(req, res){
 
 function GetGroupInfos(req, res){
     conn.getConnection((err, connection) => {
-        const query = `
-            SELECT g.*,
-                (SELECT count(*) FROM groupposts WHERE group_id = ?) as posts,
-                (SELECT count(*) FROM users_groups WHERE group_id = ?) as followers, 
-                (SELECT count(*) FROM groupposts_reactions gpr JOIN groupposts gp ON gp.id = gpr.grouppost_id WHERE (gp.id = gpr.grouppost_id AND gpr.reaction = 2)) AS total_likes,
-                (SELECT count(*) FROM groupposts_reactions gpr JOIN groupposts gp ON gp.id = gpr.grouppost_id WHERE (gp.id = gpr.grouppost_id AND gpr.reaction = 1)) AS total_dislikes
-            FROM groups g WHERE g.id = ?
-        `;
+        const query = 'SELECT g.*, (SELECT count(*) FROM groupposts WHERE group_id = ?) as posts, (SELECT count(*) FROM users_groups WHERE group_id = ?) as followers, (SELECT count(*) FROM groupposts_reactions gpr JOIN groupposts gp ON gp.id = gpr.grouppost_id WHERE (gp.id = gpr.grouppost_id AND gpr.reaction = 2)) AS total_likes, (SELECT count(*) FROM groupposts_reactions gpr JOIN groupposts gp ON gp.id = gpr.grouppost_id WHERE (gp.id = gpr.grouppost_id AND gpr.reaction = 1)) AS total_dislikes FROM `groups` g WHERE g.id = ?';
 
         const group_id = req.params.group_id;
 
@@ -160,9 +145,7 @@ function GetGroupInfos(req, res){
 
 function DeleteGroup (req, res){ 
     conn.getConnection((err, connection) => {
-        const query = `
-            DELETE FROM groups WHERE id = ?
-        `;
+        const query = 'DELETE FROM `groups` WHERE id = ?';
 
         const id = req.params.id;
 
@@ -192,11 +175,7 @@ async function UpdateGroup (req, res){
 
 
             conn.getConnection((err, connection) => {
-                const query = `UPDATE groups SET 
-                        name = ?,
-                        description = ?,
-                        icon = ?
-                    WHERE id = ?`;
+                const query = 'UPDATE `groups` SET name = ?, description = ?, icon = ? WHERE id = ?';
                 connection.query(query, [name, description, picture, id], (err, result) => {
                     connection.release();
                     res.json({
@@ -207,10 +186,7 @@ async function UpdateGroup (req, res){
             });
         } else {
             conn.getConnection((err, connection) => {
-                const query = `UPDATE groups SET 
-                        name = ?,
-                        description = ?
-                    WHERE id = ?`;
+                const query = 'UPDATE `groups` SET name = ?, description = ? WHERE id = ?';
                 connection.query(query, [name, description, id], (err, result) => {
                     connection.release();
                     res.json({
@@ -247,7 +223,7 @@ function GetPageInfos(req, res){
 
 function GetMyGroups(req, res){
     conn.getConnection((err, connection) => {
-        connection.query('SELECT * FROM groups WHERE user_id = ?', req.user.id, (err, result) => {
+        connection.query('SELECT * FROM `groups` WHERE user_id = ?', req.user.id, (err, result) => {
             connection.release();
             res.json(result);
         });
@@ -374,9 +350,7 @@ async function PagePost(req, res) {
 function GetGroupName(req, res){
 
     conn.getConnection((err, connection) => {
-        const query = `
-            SELECT name FROM groups WHERE id = ?
-        `;
+        const query = 'SELECT name FROM `groups` WHERE id = ?';
 
         connection.query(query, req.params.group_id, (err, result) => {
             connection.release();

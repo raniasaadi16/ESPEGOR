@@ -1629,6 +1629,9 @@ div.ql-container.ql-snow{
         grid-gap: 10px;
     }
 }
+#popup-form .form-content .form button.full-submit-btn, #popup-form-w .form-content .form button.full-submit-btn{
+    display: flex !important;
+}
 @media screen and (max-width: 992px) {
     .header-content img{
         width: 400px !important;
@@ -1698,6 +1701,16 @@ div.ql-container.ql-snow{
     #offer .page .offer-holder .wrapper{
         grid-template-columns: repeat(3,1fr) !important;
     }
+    .page-content{
+        padding: 10px;
+        width: 100% !important;
+    }
+    .page-content .game-detail, .competition-detail{
+        grid-template-columns: 1fr !important;
+    }
+    .f-n-s{
+        display: block !important;
+    }
 }
 @media screen and (max-width: 768px) {
     .header-content{
@@ -1742,6 +1755,12 @@ div.ql-container.ql-snow{
     }
     #offer .page .offer-holder .wrapper{
         grid-template-columns: repeat(2,1fr) !important;
+    }
+    .table{
+        display: block !important;
+    }
+    #popup-form .form-content.double .double-form, #popup-form-w .form-content.double .double-form{
+        grid-template-columns: 1fr !important;
     }
 }
 @media screen and (max-width: 576px) {
@@ -1794,5 +1813,11 @@ div.ql-container.ql-snow{
     #login .login-form .wrapper, #register .login-form .wrapper{
         padding: 0 7px;
         width: 100% !important;
+    }
+    .c-top .f-n-c input{
+        width: 100% !important;
+    }
+    #token .page .token-holder .wrapper{
+        grid-template-columns: 1fr !important;
     }
 }

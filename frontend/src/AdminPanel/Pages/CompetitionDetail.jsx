@@ -93,7 +93,7 @@ export const CompetitionDetail = () => {
                             {
                                 players.map((item, i) => {
                                     return (
-                                    <div className="bg-gray-900 px-2 py-2 rounded-md flex" key={i}>
+                                    <div className="bg-gray-900 px-2 py-2 rounded-md md:flex" key={i}>
                                         <img src={item.profile_image} alt="" className='w-16 mr-3' />
                                         <div className='space-y-1'>
                                             <p>name: {item.name}</p>

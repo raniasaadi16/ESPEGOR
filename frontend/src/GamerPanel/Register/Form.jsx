@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import ReactQuill from 'react-quill';
 import 'react-phone-number-input/style.css'
@@ -8,9 +8,13 @@ import Popup from '../../Components/Popup';
 import { useHistory } from 'react-router-dom';
 import Loading from '../../Components/Loading';
 import Success from '../../Components/Success'
+import Google from '../Oauth/Google';
+import Facebook from '../Oauth/Facebook';
+
+import Discord from '../Oauth/Discord';
+import Tiktok from '../Oauth/Tiktok';
 
 export const Form = () => {
-    
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -22,6 +26,8 @@ export const Form = () => {
     const [loading, setloading] = useState(false);
     const [msg, setmsg] = useState('');
     const history = useHistory()
+ 
+
 
     const upload = e => {
         var reader = new FileReader();
@@ -86,6 +92,16 @@ export const Form = () => {
                 </div>
                 <button type="submit" className="btn">Sign up</button>
             </form>
+            <div className="mt-4">
+                <p className='text-center'>Or signup with:</p>
+            </div>
+            <div className='mt-4 space-x-5 flex items-center justify-center'>
+                <Discord seterr={seterr}/>
+                {/* <Tiktok seterr={seterr} /> */}
+                <Google seterr={seterr} />
+                <Facebook seterr={seterr} />
+            </div>
+               
         </div>
     );
 }

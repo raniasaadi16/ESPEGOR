@@ -4,6 +4,9 @@ import Cookies from 'universal-cookie';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import Popup from '../../Components/Popup';
+import Discord from '../Oauth/Discord';
+import Google from '../Oauth/Google';
+import Facebook from '../Oauth/Facebook';
 
 
 
@@ -64,8 +67,17 @@ export const Form = () => {
                         <p>Forget Password ? </p>
                     </div>
                 </div>
-                <button>Sign in</button>
+                <button className='login'>Sign in</button>
             </form>
+            <div className="mt-4">
+                <p className='text-center'>Or Login with:</p>
+            </div>
+            <div className='mt-4 space-x-5 flex items-center justify-center'>
+                <Discord seterr={seterr}/>
+                {/* <Tiktok seterr={seterr} /> */}
+                <Google seterr={seterr} />
+                <Facebook seterr={seterr} />
+            </div>
         </div>
     )
 }

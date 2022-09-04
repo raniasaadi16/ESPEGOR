@@ -75,7 +75,7 @@
     display: none;
 }
 
-#login .login-form .bottom  button,
+#login .login-form .bottom  .login,
 #register .login-form .bottom  button.btn{
     height: 40px;
     border: none;

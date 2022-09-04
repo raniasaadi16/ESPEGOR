@@ -7,6 +7,11 @@ const upload = require('../utils/uploadPhotos')
 
 
 playerRoutes.post('/register',upload,  playerController.PlayerRegister);
+playerRoutes.post('/register/google',  playerController.PlayerRegisterG);
+playerRoutes.post('/register/fb',  playerController.PlayerRegisterFB);
+// playerRoutes.get('/register/discord/get',  playerController.PlayerRegisterDiscordGet);
+playerRoutes.post('/register/discord',  playerController.PlayerRegisterDiscord);
+playerRoutes.get('/register/tiktok',  playerController.PlayerRegisterTiktok);
 playerRoutes.get('/all', playerController.PlayerAll);
 playerRoutes.get('/delete/:id', playerController.PlayerDelete);
 playerRoutes.get('/join/:player_id/:competition_id', [checkAuthToken, CheckPlayer], playerController.PlayerJoin);

@@ -1,6 +1,16 @@
 const conn = require('../database/connection').pool;
 const bcrypt = require('bcrypt');
 const cloudinary = require('../utils/cloudinary')
+const { OAuth2Client } = require('google-auth-library')
+const dotenv = require('dotenv')
+dotenv.config({path: '.env'});
+const jwtFuncs = require('../services/jwt');
+const fetch = require('node-fetch')
+const { URLSearchParams } = require('url'); // import URLSearchParams from url. You can also use form-data (const FormData = require('form-data');).
+const client = new OAuth2Client(process.env.GOOGLE_AUTH_API)
+const btoa = require('btoa');
+const { get, post } = require('snekfetch');
+const formData = require("form-data")
 
 async function PlayerRegister (req, res){
     const { name, email, password, bio, phone } = req.body;
@@ -46,6 +56,199 @@ async function PlayerRegister (req, res){
         });
     });
 }
+
+async function PlayerRegisterG (req, res){
+    const { tokenId} = req.body
+    let user
+    const response = await client.verifyIdToken({idToken : tokenId, audience: process.env.GOOGLE_AUTH_API})
+    const { email, given_name, family_name, picture, email_verified } = response.payload
+    if(!email_verified) return res.json({msg: 'auth failed'})
+  
+    const hashedPassword = bcrypt.hashSync(process.env.SECRET, 10);
+    user = {
+        name: `${given_name} ${family_name}`,
+        user_password: hashedPassword,
+        email: email,
+        oauth : true,
+        oauthtype : 'google'
+    }
+    
+    conn.getConnection((err, connection) => {
+        connection.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
+            if(err) return res.json({msg: 'error'})
+            if(result.length > 0){
+                if(!result[0].oauth) return res.json({msg: 'please login with your email and password'})
+                if(result[0].oauthtype !== 'google') return res.json({msg: `this user use ${result[0].oauthtype} to athenticate`})
+                const token = jwtFuncs.createAuthToken(result[0]);
+                    res.send({
+                        logged: true,
+                        msg: 'log in successfully',
+                        type: result[0].type,
+                        token: token,
+                    });
+            }else{
+                connection.query("INSERT INTO users SET ?", user ,(err, userResult) => {
+                    connection.query("INSERT INTO players (user_id, profile_image) VALUES (?,?)", [userResult.insertId, picture] ,(err, result) => {
+                        connection.release();
+                        const user = {id : userResult.insertId}
+                        const token = jwtFuncs.createAuthToken(user);
+                        res.send({
+                            logged: true,
+                            msg: 'log in successfully',
+                            type: 0,
+                            token: token,
+                        });
+                    }); 
+                });
+            }
+
+        })
+        
+    });
+}
+
+async function PlayerRegisterFB (req, res){
+    const { accessToken, userID} = req.body
+    let user
+    const response = await fetch(`https://graph.facebook.com/v2.11/${userID}?fields=email,first_name,last_name,picture&access_token=${accessToken}`, {
+        method: 'GET'
+    })
+    if(!response.ok) return res.json({msg: 'something went very wrong'})
+    const { first_name, last_name, email, picture } = await response.json()
+  
+    const hashedPassword = bcrypt.hashSync(process.env.SECRET, 10);
+    user = {
+        name: `${first_name} ${last_name}`,
+        user_password: hashedPassword,
+        email: email,
+        oauth : true,
+        oauthtype : 'fb'
+    }
+    conn.getConnection((err, connection) => {
+        connection.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
+            if(err) return res.json({msg: 'error'})
+            if(result.length > 0){
+                if(!result[0].oauth) return res.json({msg: 'please login with your email and password'})
+                if(result[0].oauthtype !== 'fb') return res.json({msg: `this user use ${result[0].oauthtype} to athenticate`})
+                const token = jwtFuncs.createAuthToken(result[0]);
+                    res.send({
+                        logged: true,
+                        msg: 'log in successfully',
+                        type: result[0].type,
+                        token: token,
+                    });
+            }else{
+                connection.query("INSERT INTO users SET ?", user ,(err, userResult) => {
+                    connection.query("INSERT INTO players (user_id, profile_image) VALUES (?,?)", [userResult.insertId, picture.data.url] ,(err, result) => {
+                        connection.release();
+                        const user = {id : userResult.insertId}
+                        const token = jwtFuncs.createAuthToken(user);
+                        res.send({
+                            logged: true,
+                            msg: 'log in successfully',
+                            type: 0,
+                            token: token,
+                        });
+                    }); 
+                });
+            }
+
+        })
+        
+    });
+}
+
+
+function PlayerRegisterTiktok (req, res){
+    const csrfState = Math.random().toString(36).substring(2);
+    let url = 'https://www.tiktok.com/auth/authorize/';
+
+    url += '?client_key=aw04cjmdo7dcxkjg';
+    url += '&scope=user.info.basic,video.list';
+    url += '&response_type=code';
+    url += '&redirect_uri='+ process.env.TIKTOK_URI;
+    url += '&state=' + csrfState;
+
+    res.redirect(url);
+}
+
+// function PlayerRegisterDiscordGet (req, res){
+//     res.redirect([
+//         'https://discordapp.com/oauth2/authorize',
+//         `?client_id=${process.env.DISCORD_CLIENT}`,
+//         '&scope=identify+email',
+//         '&response_type=code',
+//         `&callback_uri=${process.env.DISCORD_URI}`
+//       ].join(''));
+// }
+
+async function PlayerRegisterDiscord (req, res){ 
+    const code = req.body.code
+    if(!code) return res.json({msg: 'err'})
+    const data = new formData();
+    data.append("client_id", process.env.DISCORD_CLIENT)
+    data.append("client_secret", process.env.DISCORD_SECRET)
+    data.append("grant_type", "authorization_code")
+    data.append("redirect_uri", process.env.DISCORD_URI)
+    data.append("scope",'identify email')
+    data.append("code",code)
+
+    const tokenGet =  await fetch("https://discordapp.com/api/oauth2/token",{
+        method: 'POST',
+        body: data
+    })
+    const tokenResponse = await tokenGet.json()
+    const userGet = await fetch("https://discordapp.com/api/users/@me",{
+        method: 'GET',
+        headers:{
+          authorization: `${tokenResponse.token_type} ${tokenResponse.access_token}`
+        }
+    })
+    let user;
+    const { username, avatar, email } = await userGet.json()
+    const hashedPassword = bcrypt.hashSync(process.env.SECRET, 10);
+    user = {
+        name: username,
+        user_password: hashedPassword,
+        email: email,
+        oauth : true,
+        oauthtype : 'discord'
+    }
+    if(!user.email) return res.json({msg: 'something went very wrong!'})
+    conn.getConnection((err, connection) => {
+        connection.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
+            if(err) return res.json({msg: 'error'})
+            if(result.length > 0){
+                if(!result[0].oauth) return res.json({msg: 'please login with your email and password'})
+                if(result[0].oauthtype !== 'discord') return res.json({msg: `this user use ${result[0].oauthtype} to athenticate`})
+                const token = jwtFuncs.createAuthToken(result[0]);
+                    res.send({
+                        logged: true,
+                        msg: 'log in successfully',
+                        type: result[0].type,
+                        token: token,
+                    });
+            }else{
+                connection.query("INSERT INTO users SET ?", user ,(err, userResult) => {
+                    connection.query("INSERT INTO players (user_id, profile_image) VALUES (?,?)", [userResult.insertId, avatar? avatar : 'https://res.cloudinary.com/ddu6qxlpy/image/upload/v1627168233/iafh6yj3q0bdpthswtu3.jpg'] ,(err, result) => {
+                        connection.release();
+                        const user = {id : userResult.insertId}
+                        const token = jwtFuncs.createAuthToken(user);
+                        res.send({
+                            logged: true,
+                            msg: 'log in successfully',
+                            type: 0,
+                            token: token,
+                        });
+                    }); 
+                });
+            }
+
+        })
+        
+    });
+};
+
 
 function PlayerAll(req, res){
 
@@ -356,6 +559,11 @@ function EditInfos (req, res) {
 }
 
 module.exports.PlayerRegister = PlayerRegister;
+module.exports.PlayerRegisterG = PlayerRegisterG;
+module.exports.PlayerRegisterFB = PlayerRegisterFB;
+module.exports.PlayerRegisterDiscord = PlayerRegisterDiscord;
+// module.exports.PlayerRegisterDiscordGet = PlayerRegisterDiscordGet;
+module.exports.PlayerRegisterTiktok = PlayerRegisterTiktok;
 module.exports.PlayerAll = PlayerAll;
 module.exports.PlayerDelete = PlayerDelete;
 module.exports.PlayerJoin = PlayerJoin;

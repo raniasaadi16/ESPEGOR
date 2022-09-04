@@ -70,12 +70,6 @@ app.use('/api/community', communityRoute);
 app.use('/api/', authRoutes);
 
 
-app.use('/api/assets/games', express.static(path.join(__dirname, '/assets/games')));
-app.use('/api/assets/profiles', express.static(path.join(__dirname, '/assets/profiles')));
-app.use('/api/assets/transitions', express.static(path.join(__dirname, '/assets/transitions')));
-app.use('/api/assets/competitions', express.static(path.join(__dirname, '/assets/competitions')));
-app.use('/api/assets/community', express.static(path.join(__dirname, '/assets/community')));
-
 
 // Server Run
 const PORT = process.env.PORT || 8000;

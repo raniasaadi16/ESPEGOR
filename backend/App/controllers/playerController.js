@@ -72,7 +72,8 @@ async function PlayerRegisterG (req, res){
         oauth : true,
         oauthtype : 'google'
     }
-    
+console.log(user)
+    if(!user.email) return re.json({msg: 'something went very wrong'})   
     conn.getConnection((err, connection) => {
         connection.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
             if(err) return res.json({msg: 'error'})
@@ -88,6 +89,7 @@ async function PlayerRegisterG (req, res){
                     });
             }else{
                 connection.query("INSERT INTO users SET ?", user ,(err, userResult) => {
+			console.log('err',err)
                     connection.query("INSERT INTO players (user_id, profile_image) VALUES (?,?)", [userResult.insertId, picture] ,(err, result) => {
                         connection.release();
                         const user = {id : userResult.insertId}

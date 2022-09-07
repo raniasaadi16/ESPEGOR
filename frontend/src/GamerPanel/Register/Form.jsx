@@ -50,10 +50,10 @@ export const Form = () => {
         setloading(true)
         await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/player/register`, fm).then(res=>{
             if(res.data.logged){
-                setmsg('user register successfullym please login')
+                setmsg('user register successfully please login')
                 
             }else{
-                seterr('something went very wrong , please try again')
+                seterr(res.data.msg)
             }
         });
         setloading(false)

@@ -25,7 +25,6 @@ async function PlayerRegister (req, res){
         user_password: hashedPassword,
         phone
     }
-    console.log(saveUser)
     conn.getConnection((err, connection) => {
         connection.query("SELECT email FROM users WHERE email = ?", [email], (err, result) => {
             if (err) return res.json({msg: 'something went very wrong'});
@@ -33,8 +32,6 @@ async function PlayerRegister (req, res){
                 return res.json({msg: "This Email Has Already Been Used"});
             } else {
                 connection.query("INSERT INTO users SET ?", saveUser ,(err, userResult) => {
-                    console.log('err',err)
-                    console.log(userResult)
                     connection.query("INSERT INTO players (user_id, profile_image, bio) VALUES (?,?,?)", [userResult.insertId, picture, bio] ,(err, result) => {
                         connection.release();
                         res.json({

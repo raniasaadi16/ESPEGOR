@@ -205,8 +205,11 @@ function GetCompetition(req, res) {
 
     conn.getConnection((err, connection) => {
         connection.query(compQquery, id, (err, result) => {
-            connection.release();
-            res.json(result[0]);
+            connection.query('SELECT COUNT(*) AS players FROM players_competitions WHERE competition_id = ?', id, (err, resl)=> {
+                connection.release();
+                result[0].player_joined = resl[0].players
+                res.json(result[0]);
+            })
         });
     });
 }

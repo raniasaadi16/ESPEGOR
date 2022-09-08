@@ -111,7 +111,7 @@ function PlayerJoin(req, res){
                     if (!IsFullCompetition(cresult[0].id, cresult[0].max_players)){
                         // logic here 
                         connection.query('INSERT INTO players_competitions VALUES (?, ?)', [player_id, competition_id], function(err, res){
-                            console.log(err)
+                            console.log(res)
                         });
                         const reduceQuery = `UPDATE players p SET p.diamonds = p.diamonds - ${cresult[0].price_diamond}, p.golds = p.golds - ${cresult[0].price_gold} WHERE p.id = ?`;
                         connection.query(reduceQuery, player_id);

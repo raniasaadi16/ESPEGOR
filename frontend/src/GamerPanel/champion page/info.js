@@ -46,7 +46,9 @@ function Info(props) {
                 organizer_id: res.data.organizer_id,
                 price_diamond: res.data.price_diamond,
                 price_gold: res.data.price_gold,
+                player_joined: res.data.player_joined
             });
+            console.log(res.data)
             axios.get(`${process.env.REACT_APP_SERVER_END_POINT}/organizer/${res.data.organizer_id}`).then((respond)=>{
                 const oname = respond.data.name;
                 setComp(pcomp => ({...pcomp, organizer_name: oname }));
@@ -81,7 +83,7 @@ function Info(props) {
                         <p className="label">Date : <span className="ml-1"> {comp.competition_date}  <img src="./../calendar.svg" alt="" width="12" /> </span></p>
                         <p className="label">Gold required : <span className="ml-1"> {comp.price_gold} <img src="./../coin.png" alt="" width="12" /> </span></p>
                         <p className="label">Diamonds required: <span className="ml-1"> {comp.price_diamond} <img src="./../diamond.png" alt="" width="12" /> </span></p>
-                        <p className="label">Players Joined : <span>20 <img src="./../gamer-icon.svg" alt="" width="12" /> </span></p>
+                        <p className="label">Players Joined : <span>{comp.player_joined} <img src="./../gamer-icon.svg" alt="" width="12" /> </span></p>
                         <p className="label">Players Required : <span className="ml-1"> {comp.max_players} <img src="./../gamer-icon.svg" alt="" width="12" /> </span></p>
                         <div className="desc">
                             <p className="label">Description : </p>

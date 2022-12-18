@@ -41,8 +41,8 @@ app.use(cors(corsOptions));
  app.enable('trust proxy')
 // app.options('*', cors())
 app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', process.env.APP_CORS_URI);
-// res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+//   res.setHeader('Access-Control-Allow-Origin', 'https://egorgaming.com');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 //  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type', 'X-HTTP-Method-Override', 'X-Requested-With');
@@ -69,12 +69,6 @@ app.use('/api/competition', competitionRoute);
 app.use('/api/community', communityRoute);
 app.use('/api/', authRoutes);
 
-
-app.use('/api/assets/games', express.static(path.join(__dirname, '/assets/games')));
-app.use('/api/assets/profiles', express.static(path.join(__dirname, '/assets/profiles')));
-app.use('/api/assets/transitions', express.static(path.join(__dirname, '/assets/transitions')));
-app.use('/api/assets/competitions', express.static(path.join(__dirname, '/assets/competitions')));
-app.use('/api/assets/community', express.static(path.join(__dirname, '/assets/community')));
 
 
 // Server Run

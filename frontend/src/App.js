@@ -51,6 +51,7 @@ import { useEffect, useState } from 'react';
 import API from './Services/AuthIntercepteurs';
 import { UserContext } from './context/UserContext';
 // import 'swiper/css'
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 function App() {
 
@@ -67,6 +68,8 @@ function App() {
   }
   return (
     <UserContext.Provider value={{userType, setUserType}}>
+      
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_AUTH_API}>;
       <div className="App">
         <Router>
           <Switch>
@@ -141,6 +144,7 @@ function App() {
 
         </Router>
       </div>
+      </GoogleOAuthProvider>
     </UserContext.Provider>
   );
 }

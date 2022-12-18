@@ -16,8 +16,8 @@ import Popup from '../../Components/Popup'
 import Loading from '../../Components/Loading'
 import Success from '../../Components/Success'
 
+// let socket = io('https://egorgaming.com');
 let socket = io(process.env.REACT_APP_SOCKET);
-// let socket = io('http://localhost:8000');
 export const GroupPage = () => {
 
 

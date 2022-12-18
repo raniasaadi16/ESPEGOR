@@ -139,18 +139,20 @@ function ValidateCompetition(req, res){
 }
 
 function GetCompetitions(req, res){
-    const limit = 10;
-    const page = req.query.page;
-    const offset = (page - 1) * limit;
+    // const limit = 10;
+    // const page = req.query.page;
+    // const offset = (page - 1) * limit;
 
     const game_id = req.query.game_id;
 
     let paginatedGamesQuery;
 
     if(game_id !== undefined && game_id !==''){
-        paginatedGamesQuery = "SELECT c.*, (SELECT count(*) FROM players_competitions WHERE c.id = players_competitions.competition_id) AS players FROM competitions c WHERE c.game_id =" + game_id + " LIMIT " + limit + " OFFSET " + offset;
+        // paginatedGamesQuery = "SELECT c.*, (SELECT count(*) FROM players_competitions WHERE c.id = players_competitions.competition_id)AS players, org.name as organizer FROM competitions c JOIN (SELECT name , organizers.id FROM organizers JOIN users ON users.id = organizers.user_id) AS org ON org.id = c.organizer_id WHERE c.game_id =" + game_id + " LIMIT " + limit + " OFFSET " + offset;
+        paginatedGamesQuery = "SELECT c.*, (SELECT count(*) FROM players_competitions WHERE c.id = players_competitions.competition_id)AS players, org.name as organizer FROM competitions c JOIN (SELECT name , organizers.id FROM organizers JOIN users ON users.id = organizers.user_id) AS org ON org.id = c.organizer_id WHERE c.game_id =" + game_id ;
     } else {
-        paginatedGamesQuery = "SELECT c.*, (SELECT count(*) FROM players_competitions WHERE c.id = players_competitions.competition_id) AS players FROM competitions c LIMIT " + limit + " OFFSET " + offset;
+        // paginatedGamesQuery = "SELECT c.*, org.name as organizer, (SELECT count(*) FROM players_competitions WHERE c.id = players_competitions.competition_id) AS players FROM competitions c  JOIN (SELECT name , organizers.id FROM users JOIN organizers ON users.id = organizers.user_id) AS org ON org.id = c.organizer_id LIMIT " + limit + " OFFSET " + offset;
+        paginatedGamesQuery = "SELECT c.*, org.name as organizer, (SELECT count(*) FROM players_competitions WHERE c.id = players_competitions.competition_id) AS players FROM competitions c  JOIN (SELECT name , organizers.id FROM users JOIN organizers ON users.id = organizers.user_id) AS org ON org.id = c.organizer_id";
     }
 
     const countQuery = 'SELECT COUNT(*) AS count FROM competitions';
@@ -160,8 +162,8 @@ function GetCompetitions(req, res){
                 connection.release();
                 if (error) throw error;
                 var jsonResult = {
-                    'pages': Math.ceil(countResult[0].count/limit),
-                    'current_number': page,
+                    // 'pages': Math.ceil(countResult[0].count/limit),
+                    // 'current_number': page,
                     'competitions':results,
                 }
                 res.json(jsonResult);
@@ -185,7 +187,7 @@ function DeleteCompetition(req, res){
 function GetTopAndRecentCompetitions(req, res){
     const event = 0;
     const accepted = 2;
-    const query = 'SELECT c.*, g.name as game_name FROM competitions c LEFT OUTER JOIN games g ON c.game_id = g.id WHERE c.event = ? AND c.competition_status = ? ORDER BY c.competition_status DESC LIMIT 10';
+    const query = 'SELECT c.*, g.name as game_name, org.name as organizer FROM competitions c LEFT OUTER JOIN games g ON c.game_id = g.id JOIN (SELECT name, organizers.id as orgId FROM organizers JOIN users On users.id = organizers.user_id) AS org ON org.orgId = c.organizer_id WHERE c.event = ? AND c.competition_status = ? ORDER BY c.competition_status DESC LIMIT 10';
     conn.getConnection((err, connection) => {
         connection.query(query, [event, accepted], (err, result) => {
             connection.release();
@@ -198,9 +200,9 @@ function GetCompetition(req, res) {
     const id = req.params.id;
 
     const compQquery = `
-        SELECT c.*, g.name as game_name
-        FROM competitions c LEFT OUTER JOIN games g ON c.game_id = g.id 
-        WHERE c.id=? LIMIT 1
+        SELECT c.*, g.name as game_name, org.name as organizer
+        FROM competitions c LEFT OUTER JOIN games g ON c.game_id = g.id JOIN (SELECT name, organizers.id as orgId FROM users JOIN organizers ON organizers.user_id = users.id) AS org ON org.orgId = c.organizer_id
+        WHERE c.id= ? LIMIT 1
     `;
 
     conn.getConnection((err, connection) => {
@@ -223,7 +225,6 @@ function GetCompetitionAdmin(req, res) {
         WHERE c.id=? LIMIT 1
     `;
 
-    
     const playersQuery = `
         SELECT p.profile_image,u.phone, u.name, u.email, p.id as player_id, u.id as user_id
         FROM players_competitions pc JOIN players p ON pc.player_id = p.id JOIN users u ON u.id = p.user_id
@@ -250,12 +251,13 @@ function GetAuthCompetitions(req, res){
     
     conn.getConnection((err, connection) => {
 
-        const query = `SELECT c.* FROM players_competitions pc
-            INNER JOIN competitions c ON pc.competition_id = c.id WHERE pc.player_id = ?
+        const query = `SELECT c.*, org.name as organizer FROM players_competitions pc
+        INNER JOIN competitions c ON pc.competition_id = c.id JOIN (SELECT name, organizers.id as orgId FROM organizers JOIN users WHERE users.id = organizers.user_id) AS org ON org.orgId = c.organizer_id WHERE pc.player_id = ?
         `;
 
         connection.query(query, player_id, (err, result) => {
             connection.release();
+            console.log(result)
             res.json(result);
         });
     });

@@ -64,9 +64,14 @@ function GetAuthUser(req, res){
     const user = req.user;
 
     conn.getConnection((err, connection) => {
-        const query = 'SELECT id, name, type, email FROM users WHERE id = ?';
+        const query = 'SELECT * FROM users JOIN players ON players.user_id = users.id WHERE users.id = ?';
         connection.query(query, user.id, (err, result) => {
-            res.json(result[0]);
+            res.json({
+                data: result[0],
+                msg: 'success',
+                type: result[0] ? result[0].type : 8,
+                isAuth: true
+            });
         });
     });
         

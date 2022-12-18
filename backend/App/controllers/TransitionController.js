@@ -7,7 +7,7 @@ async function CreateTransiiton(req, res){
 
     if (!isPlayer){
         const msg = 'You Are Not a Gamer You Cannot Buy Tokens';
-        return res.json(msg);
+        return res.json({msg});
     }
     const {offer_id, price, golds, diamonds} = req.body;
     const user_id = req.user.id;
@@ -21,7 +21,10 @@ async function CreateTransiiton(req, res){
             picture = result.secure_url;
         }
     }catch(err){
-        console.log(err)
+        return res.json({msg: 'Error sending the picture please check your internet connetion or try again'})
+    }
+    if(!picture){
+        return res.json({msg: 'Please insert a picture'})
     }
     const transition = {
         user_id,

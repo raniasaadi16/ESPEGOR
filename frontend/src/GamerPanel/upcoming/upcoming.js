@@ -7,9 +7,7 @@ import { GameCard } from './GameCard';
 import React, { useEffect, useState } from 'react';
 
 import axios from 'axios';
-import API from '../../Services/AuthIntercepteurs';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from "swiper";
+
 import Carousel from 'nuka-carousel'
 // Import Swiper styles
 function Upcoming() {
@@ -44,7 +42,7 @@ function Upcoming() {
         <div className="g-home">
             <div className="header">
                 <Navbar />
-                <div style={{marginTop: '60px'}} className='flex items-center'>
+                <div style={{marginTop: '37px'}} className='flex items-center'>
                     <Carousel
                         >
                             <img src='./g1.jpg' style={{width: '100%'}} />

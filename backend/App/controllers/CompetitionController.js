@@ -157,6 +157,7 @@ function GetCompetitions(req, res){
 
     const countQuery = 'SELECT COUNT(*) AS count FROM competitions';
     conn.getConnection((err, connection) => {
+        console.log(err, 'db error')
         connection.query(paginatedGamesQuery, function (error, results) {
             connection.query(countQuery, function (err, countResult){
                 connection.release();

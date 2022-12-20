@@ -5,11 +5,11 @@ dotenv.config({path: __dirname + './../../.env'});
 
 
 const pool = mysql.createPool({
-    host: process.env.DB_HOST,
-    database: process.env.DB_DATABASE,
-    user: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT
+    host:'dbaas-db-3227774-do-user-13026201-0.b.db.ondigitalocean.com',
+    database: 'egor',
+    user: 'doadmin',
+    password: 'AVNS_OIr5Ksa0leWStmwmDJd',
+    port: 25060
     // host: 'localhost',
     // database: 'egor',
     // user: 'root',

@@ -33,7 +33,7 @@ dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 var corsOptions = {
-    origin: ['https://egorgaming.com', 'http://localhost:3000'],
+    origin: ['https://egorgaming.com', 'http://localhost:3000', 'http://138.68.67.137'],
     credentials : true
 }
 app.use(cors(corsOptions));
@@ -42,7 +42,7 @@ app.use(cors(corsOptions));
 // app.options('*', cors())
 app.use(function (req, res, next) {
 //   res.setHeader('Access-Control-Allow-Origin', 'https://egorgaming.com');
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Origin', 'http://138.68.67.137');
 //  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type', 'X-HTTP-Method-Override', 'X-Requested-With');

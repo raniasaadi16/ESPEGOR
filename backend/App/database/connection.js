@@ -5,16 +5,16 @@ dotenv.config({path: __dirname + './../../.env'});
 
 
 const pool = mysql.createPool({
-    // host:'db-mysql-fra1-59892-do-user-13026201-0.b.db.ondigitalocean.com',
-    // database: 'egor',
-    // user: 'egor',
-    // password: 'AVNS_-0v-XDvwIb1rU0P8392',
-    // port: 25060
-    host: 'localhost',
+    host:'db-mysql-fra1-59892-do-user-13026201-0.b.db.ondigitalocean.com',
     database: 'egor',
-    user: 'root',
-    password: '',
-    port:3307
+    user: 'egor',
+    password: 'AVNS_-0v-XDvwIb1rU0P8392',
+    port: 25060
+    // host: 'localhost',
+    // database: 'egor',
+    // user: 'root',
+    // password: '',
+    // port:3307
 });
 
 

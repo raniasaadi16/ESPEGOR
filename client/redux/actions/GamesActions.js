@@ -2,17 +2,16 @@ import { returnErrors } from "./errActions";
 import { GET_ALL_GAMES, GET_SINGLE_GAME, CLEAR_MSG } from './types'
 
 
-const url = 'http://localhost:8000/api'
-const origin = "http://localhost:3000"
+
 
 export const getAllGames = () => async dispatch => {
     try {
 
-        const res = await fetch(`${url}/game/all`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/game/all`, {
             method: 'GET',
             credentials:'include',
             headers: {
-                "Access-Control-Allow-Origin": origin
+                "Access-Control-Allow-Origin": process.env.NEXT_PUBLIC_ORIGIN
             },
         })
         

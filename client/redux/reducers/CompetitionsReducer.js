@@ -1,5 +1,5 @@
 import { HYDRATE } from "next-redux-wrapper"
-import { CHECK_IF_USER_JOINED_COMPETITION, GET_ALL_COMPETITIONS, GET_SINGLE_COMPETITION, GET_TOP_COMPETITIONS } from '../actions/types'
+import { CHECK_IF_USER_JOINED_COMPETITION, GET_ALL_COMPETITIONS, GET_SINGLE_COMPETITION, GET_TOP_COMPETITIONS, JOIN_COMPETITION } from '../actions/types'
 
 const initialState = {
     competitions: null,
@@ -31,6 +31,11 @@ const CompetitionsReducer = (state = initialState, action)=>{
             return {
                 ...state, 
                 competition: {...state.competition, joined: action.payload}
+            }
+        case JOIN_COMPETITION:
+            return {
+                ...state,
+                msg: action.payload
             }
         default:
             return state;

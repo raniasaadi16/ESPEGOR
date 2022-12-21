@@ -1,13 +1,19 @@
 import Image from 'next/image'
-import React from 'react'
-import { FaMapMarkerAlt, FaUserFriends } from 'react-icons/fa'
+import { useRouter } from 'next/router'
+import React, { useState } from 'react'
+import { FaMapMarkerAlt } from 'react-icons/fa'
+import Modal from './Modal'
 
 export default function Header({item}) {
-
-    //join
-    //update user wallet
+  
+    const [open, setopen] = useState(false);
+    const join = () => {
+       setopen(true)
+    }
+    
   return (
     <div className="relative bg-comp">
+        <Modal isOpen={open} setopen={setopen}/>
         <div className="relative w-full h-[400px] rounded-lg ">
             <Image src={item.icon} layout='fill' objectFit="cover" className="rounded-lg" />
         </div>
@@ -30,7 +36,7 @@ export default function Header({item}) {
                             )
                             :
                             (
-                                <button className='py-2 px-10 rounded-lg bg-egor-primary-100 text-white text-lg font-semibold'>JOIN</button>
+                                <button className='py-2 px-10 rounded-lg bg-egor-primary-100 text-white text-lg font-semibold' onClick={() => join()}>JOIN</button>
                             )
                         }
                         <div className='rounded-full px-4 py-1.5 flex space-x-7 w-max'>

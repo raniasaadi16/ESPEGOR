@@ -73,6 +73,7 @@ const AuthReducer = (state = initialState, action)=>{
                 ...state,
                 msg: null
             }
+        
         default:
             return state;
     }

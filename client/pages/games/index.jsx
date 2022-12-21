@@ -9,7 +9,7 @@ export default function AllGames({games}) {
 
   return (
     <div className="space-y-9">
-        <p className="text-2xl font-bold">Featured Competitions</p>
+        <p className="text-2xl font-bold">Featured Games</p>
         <div className="flex flex-wrap gap-y-5 gap-x-4">
             {games.length > 0 && games.map(game => (
                 <div className='w-[250px]' key={game.id}>

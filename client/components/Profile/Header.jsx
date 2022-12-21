@@ -16,7 +16,7 @@ export default function Header({user}) {
                 <p className='text-2xl font-bold text-center'>{user.name}</p>
                 <p className='bg-egor-primary-100 px-7 py-1 rounded-full text-center w-max mx-auto mt-2 text-lg'>player</p>
             </div>
-            <div className="mt-10 grid grid-cols-3 gap-x-5">
+            <div className="mt-10 grid md:grid-cols-3 gap-y-2 gap-x-5">
                 <div className="rounded-xl bg-egor-primary-400 px-4 py-3 flex justify-between">
                     <div className="flex items-center space-x-4">
                         <div className="relative w-[45px] h-[45px]">
@@ -29,7 +29,7 @@ export default function Header({user}) {
                             </div>
                         </div>
                     </div>
-                    <Link href='/store'>
+                    <Link href='/store/offers'>
                         <p className='text-xs bg-egor-primary-100 px-4 py-1 rounded-full h-max cursor-pointer'>Buy more</p>
                     </Link>
                 </div>
@@ -46,7 +46,7 @@ export default function Header({user}) {
                             </div>
                         </div>
                     </div>
-                    <Link href='/store'>
+                    <Link href='/store/offers'>
                         <p className='text-xs bg-egor-primary-100 px-4 py-1 rounded-full h-max cursor-pointer'>Buy more</p>
                     </Link>
                 </div>

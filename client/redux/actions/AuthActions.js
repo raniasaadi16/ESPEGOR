@@ -1,13 +1,13 @@
 import { IS_LOADED, USER_LOADED, LOGIN_SUCCESS, LOGIN_FAIL, AUTH_ERROR, LOGOUT_SUCCESS, REGISTER_SUCCESS, REGISTER_FAIL, ACTIVATE_ACCOUNT, ACTIVATE_FAIL, RESEND_ACTIVATE, CLEAR_MSG, ADD_PROFILE, FORGET_PASS, RESET_PASS, RESET_PASSGET, UPDATE_PASS, UPDATE_EMAIL, UPDATE_ME, CONFIRM_NEWEMAIL, DELETE_ME, GET_PROFILE, GET_PLAYER_COMPS, GET_PLAYER_OFFERS } from "./types";
 import { returnErrors } from "./errActions";
 import Cookies from 'universal-cookie';
+import { loading } from "./UiActions";
 
-const url = 'http://localhost:8000/api'
-const origin = "http://localhost:3000"
+
 export const loadUser = (token) => async dispatch => {
     try {
         if(token){
-            const res = await fetch(`${url}/get/auth/user`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API}/get/auth/user`, {
                 method: 'GET',
                 credentials:'include',
                 headers: {
@@ -30,13 +30,14 @@ export const loadUser = (token) => async dispatch => {
 }
 
 export const register = (user)=> async dispatch =>{
+    dispatch(loading(true))
     try{
         console.log(user, 'user')
-        const res = await fetch(`${url}/player/register`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/player/register`, {
             method: 'POST',
             body: user,
             headers: {
-                "Access-Control-Allow-Origin": origin
+                "Access-Control-Allow-Origin": process.env.NEXT_PUBLIC_ORIGIN
             }
         })
         const data = await res.json()
@@ -59,18 +60,20 @@ export const register = (user)=> async dispatch =>{
         dispatch(returnErrors(err.message));
         dispatch({type: REGISTER_FAIL})
     }
+    dispatch(loading(false))
 };
 
 export const login = (user) => async dispatch => {
+    dispatch(loading(true))
     try{
         const data = JSON.stringify(user);
-        const res = await fetch(`${url}/signin` ,{
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/signin` ,{
             method: 'POST',
             body: data,
             headers:{
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Credentials': true,
-                "Access-Control-Allow-Origin": origin
+                "Access-Control-Allow-Origin": process.env.NEXT_PUBLIC_ORIGIN
             },
             credentials: "include"
         }) 
@@ -94,11 +97,13 @@ export const login = (user) => async dispatch => {
         dispatch(returnErrors(err.message));
         dispatch({type: LOGIN_FAIL})
     }
+    dispatch(loading(false))
 };
 
 export const googleLogin = (tokenId)=> async dispatch =>{
+    dispatch(loading(true))
     try{
-        const res = await fetch(`${url}/player/register/google`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/player/register/google`, {
             method: 'POST',
             body: JSON.stringify({tokenId}),
             headers: {
@@ -127,11 +132,13 @@ export const googleLogin = (tokenId)=> async dispatch =>{
         dispatch(returnErrors(err.message));
         dispatch({type: REGISTER_FAIL})
     }
+    dispatch(loading(false))
 };
 
 export const fbLogin = (accessToken, userId)=> async dispatch =>{
+    dispatch(loading(true))
     try{
-        const res = await fetch(`${url}/player/register/fb`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/player/register/fb`, {
             method: 'POST',
             body: JSON.stringify({accessToken, userId}),
             headers: {
@@ -160,11 +167,13 @@ export const fbLogin = (accessToken, userId)=> async dispatch =>{
         dispatch(returnErrors(err.message));
         dispatch({type: REGISTER_FAIL})
     }
+    dispatch(loading(false))
 };
 
 export const discordLogin = (code)=> async dispatch =>{
+    dispatch(loading(true))
     try{
-        const res = await fetch(`${url}/player/register/discord`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/player/register/discord`, {
             method: 'POST',
             body: JSON.stringify({code}),
             headers: {
@@ -193,6 +202,7 @@ export const discordLogin = (code)=> async dispatch =>{
         dispatch(returnErrors(err.message));
         dispatch({type: REGISTER_FAIL})
     }
+    dispatch(loading(false))
 };
 
 export const logout = () => async dispatch => {
@@ -210,7 +220,7 @@ export const logout = () => async dispatch => {
 export const getProfile = (token) => async dispatch => {
     try {
 
-        const res = await fetch(`${url}/player/profile`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/player/profile`, {
             method: 'GET',
             credentials:'include',
             headers: {
@@ -232,7 +242,7 @@ export const getProfile = (token) => async dispatch => {
 export const getPlayerComps = (authPlayerId, token) => async dispatch => {
     try {
 
-        const res = await fetch(`${url}/competition/auth/${authPlayerId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/competition/auth/${authPlayerId}`, {
             method: 'GET',
             credentials:'include',
             headers: {
@@ -254,7 +264,7 @@ export const getPlayerComps = (authPlayerId, token) => async dispatch => {
 export const getPlayerOffers = (authPlayerId, token) => async dispatch => {
     try {
 
-        const res = await fetch(`${url}/transition/auth`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/transition/auth`, {
             method: 'GET',
             credentials:'include',
             headers: {
@@ -272,6 +282,7 @@ export const getPlayerOffers = (authPlayerId, token) => async dispatch => {
         dispatch(returnErrors(err.message))
     }
 }
+
 
 export const clearMsg = () => {
     return {

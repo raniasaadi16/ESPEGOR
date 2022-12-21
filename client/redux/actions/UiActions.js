@@ -1,4 +1,4 @@
-import { SET_ACTIVE_MENU } from "./types"
+import { END_LOADING, LOADING, SET_ACTIVE_MENU } from "./types"
 
 
 export const setActiveMenu = (path) => dispatch => {
@@ -7,3 +7,13 @@ export const setActiveMenu = (path) => dispatch => {
         payload: path
     })
 }
+
+
+
+export const loading = (data) => dispatch => {
+    dispatch({
+        type: LOADING,
+        payload: data
+    })
+}
+

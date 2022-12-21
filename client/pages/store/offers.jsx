@@ -6,8 +6,11 @@ import { loadUser } from "../../redux/actions/AuthActions"
 import { getAllOffers } from "../../redux/actions/OffersActions"
 import { setActiveMenu } from "../../redux/actions/UiActions"
 import { wrapper } from "../../redux/store"
+import { useSelector } from "react-redux"
+import { Button, message } from "antd"
 
 export default function Offers({ offers, user }) {
+  
   return (
     <div>
         <p className="text-3xl font-bold">Check our offers</p>

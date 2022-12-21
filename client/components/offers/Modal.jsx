@@ -1,22 +1,21 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
-import { Button, Upload } from 'antd'
+import { Button, Upload, message } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
 import { MdOutlineAddPhotoAlternate } from 'react-icons/md'
 import Image from 'next/image'
 import { createTransition } from '../../redux/actions/OffersActions'
 import Cookies from 'universal-cookie'
+import { returnErrors } from '../../redux/actions/errActions'
 
 export default function Modal({isOpen, setopen, item}) {
     const isAuth = useSelector(state => state.auth.isAuth)
     const router = useRouter()
-    const [err, seterr] = useState('');
     const [screenShoot, setScreenShoot] = useState(null);
     const [preview, setpreview] = useState('');
-    const [loading, setloading] = useState(false);
-    const [msg, setmsg] = useState('');
     const dispatch = useDispatch()
+    const msg = useSelector(state => state.offers.msg)
 
     const upload = e => {
         var reader = new FileReader();
@@ -27,7 +26,8 @@ export default function Modal({isOpen, setopen, item}) {
             }
             setScreenShoot(e.target.files[0]);
         }else{
-           seterr('please insert a valid file')
+          dispatch(returnErrors('please insert a valid file'))
+           
         }
     };
     const handleSubmit = () => {
@@ -35,15 +35,12 @@ export default function Modal({isOpen, setopen, item}) {
             return router.push('/login')
         }
         const cookies = new Cookies();
-        console.log(cookies.get('auth_token'))
         const formData = new FormData();
         formData.append('offer_id', item.id);
         formData.append('price', item.new_price);
         formData.append('golds', item.gold_amount);
         formData.append('diamonds', item.diamonds_amount);
         formData.append('picture', screenShoot);
-        // console.log(item)
-        // setloading(true)
         dispatch(createTransition(cookies.get('auth_token'),formData))
     }
   return (
@@ -77,6 +74,7 @@ export default function Modal({isOpen, setopen, item}) {
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
+                    {msg && <p className='text-green-700'>{msg}</p>}
                     Make Sure To Do The Following Before You Send Us The ScreenShoot! 
                   </Dialog.Title>
                   <div className="mt-2">

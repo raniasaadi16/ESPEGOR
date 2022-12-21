@@ -1,18 +1,17 @@
+import { loading } from "./UiActions";
 import { returnErrors } from "./errActions";
 import { GET_ALL_OFFERS, GET_SINGLE_OFFER, CLEAR_MSG, SUCCUSS_TRANSITION } from './types'
 
 
-const url = 'http://localhost:8000/api'
-const origin = "http://localhost:3000"
 
 export const getAllOffers = () => async dispatch => {
     try {
 
-        const res = await fetch(`${url}/offer/all`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/offer/all`, {
             method: 'GET',
             credentials:'include',
             headers: {
-                "Access-Control-Allow-Origin": origin
+                "Access-Control-Allow-Origin":process.env.NEXT_PUBLIC_ORIGIN
             },
         })
         
@@ -28,9 +27,10 @@ export const getAllOffers = () => async dispatch => {
 }
 
 export const createTransition = (token, data) => async dispatch => {
+    dispatch(loading(true))
     try {
 
-        const res = await fetch(`${url}/transition/create`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/transition/create`, {
             method: 'POST',
             credentials:'include',
             body: data,
@@ -42,6 +42,7 @@ export const createTransition = (token, data) => async dispatch => {
         
         const transition = await res.json()
         if(!transition.transition){
+            dispatch(loading(false))
             return dispatch(returnErrors(transition.msg));
         }
 
@@ -52,6 +53,7 @@ export const createTransition = (token, data) => async dispatch => {
     }catch(err){
         dispatch(returnErrors(err.message));
     }
+    dispatch(loading(false))
 }
 
 

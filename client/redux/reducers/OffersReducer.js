@@ -1,5 +1,5 @@
 import { HYDRATE } from "next-redux-wrapper"
-import { GET_ALL_OFFERS, GET_SINGLE_OFFER, SUCCUSS_TRANSITION } from '../actions/types'
+import { CLEAR_MSG, GET_ALL_OFFERS, GET_SINGLE_OFFER, SUCCUSS_TRANSITION } from '../actions/types'
 
 const initialState = {
     offers: null,
@@ -25,6 +25,11 @@ const OffersReducer = (state = initialState, action)=>{
             return {
                 ...state,
                 msg: action.payload.msg
+            }
+        case CLEAR_MSG:
+            return {
+                ...state,
+                msg: null
             }
         default:
             return state;

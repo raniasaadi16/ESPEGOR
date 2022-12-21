@@ -1,18 +1,18 @@
+import { loading } from "./UiActions";
 import { returnErrors } from "./errActions";
-import { GET_ALL_COMPETITIONS, GET_SINGLE_COMPETITION, GET_TOP_COMPETITIONS, CLEAR_MSG, CHECK_IF_USER_JOINED_COMPETITION } from './types'
+import { GET_ALL_COMPETITIONS, GET_SINGLE_COMPETITION, GET_TOP_COMPETITIONS, CLEAR_MSG, CHECK_IF_USER_JOINED_COMPETITION, JOIN_COMPETITION } from './types'
 
 
-const url = 'http://localhost:8000/api'
-const origin = "http://localhost:3000"
+
 
 export const getRecentComps = () => async dispatch => {
     try {
 
-        const res = await fetch(`${url}/competition/recent`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/competition/recent`, {
             method: 'GET',
             credentials:'include',
             headers: {
-                "Access-Control-Allow-Origin": origin
+                "Access-Control-Allow-Origin":process.env.NEXT_PUBLIC_ORIGIN
             },
         })
         
@@ -30,11 +30,11 @@ export const getRecentComps = () => async dispatch => {
 export const getAllComps = () => async dispatch => {
     try {
 
-        const res = await fetch(`${url}/competition/all`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/competition/all`, {
             method: 'GET',
             credentials:'include',
             headers: {
-                "Access-Control-Allow-Origin": origin
+                "Access-Control-Allow-Origin":process.env.NEXT_PUBLIC_ORIGIN
             },
         })
         
@@ -52,11 +52,11 @@ export const getAllComps = () => async dispatch => {
 export const getSingleComp = (id) => async dispatch => {
     try {
 
-        const res = await fetch(`${url}/competition/${id}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/competition/${id}`, {
             method: 'GET',
             credentials:'include',
             headers: {
-                "Access-Control-Allow-Origin": origin
+                "Access-Control-Allow-Origin":process.env.NEXT_PUBLIC_ORIGIN
             },
         })
         
@@ -72,7 +72,7 @@ export const getSingleComp = (id) => async dispatch => {
 
 export const checkJoined = (token, authId, compId) => async dispatch => {
     try {
-        const res = await fetch(`${url}/player/check/${authId}/${compId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/player/check/${authId}/${compId}`, {
             method: 'GET',
             credentials:'include',
             headers: {
@@ -89,6 +89,34 @@ export const checkJoined = (token, authId, compId) => async dispatch => {
     }catch(err){
         dispatch(returnErrors(err.message))
     }
+}
+
+export const joinComp = (token, authId, compId) => async dispatch => {
+    dispatch(loading(true))
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/player/join/${authId}/${compId}`, {
+            method: 'GET',
+            credentials:'include',
+            headers: {
+                'Access-Control-Allow-Credentials': true,
+                authorization: `bearer ${token}`
+            },
+        })
+        
+        const data = await res.json()
+        if(data.join){
+            dispatch({
+                type: JOIN_COMPETITION,
+                payload: data.message
+            })
+        }else{
+            throw data
+        }
+    }catch(err){
+        dispatch(returnErrors(err.message))
+    }
+    dispatch(loading(false))
+
 }
 
 export const clearMsg = () => {

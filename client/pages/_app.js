@@ -5,13 +5,14 @@ import Loading from '../components/layouts/global/Loading'
 import Layout from '../components/layouts/Layout'
 import { wrapper } from '../redux/store'
 import '../styles/globals.css'
-import Modal from '../components/offers/Modal'
 import { useSelector } from 'react-redux'
+import Modal from '../components/layouts/global/ErrModal'
 
 
 function MyApp({ Component, pageProps }) {
   const [loading, setloading] = useState(false)
   const err = useSelector(state=> state.err.msg)
+  const stateLoading = useSelector(state => state.ui.loading)
 
   Router.events.on('routeChangeStart', () => {
     setloading(true)
@@ -22,8 +23,8 @@ function MyApp({ Component, pageProps }) {
 
   const getLayout = Component.getLayout || ((page) => (
     <Layout>
-      <Modal isOpen={err ? true : false} err={err} />
-      {loading && <Loading/>}
+      {err && <Modal isOpen={err ? true : false} err={err} />}
+      {(loading || stateLoading) && <Loading/>}
       {page}
     </Layout>
   ))

@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { AiFillHome } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux'
-import { loadUser, login } from '../redux/actions/AuthActions'
+import { googleLogin, loadUser, login } from '../redux/actions/AuthActions'
 import { wrapper } from '../redux/store'
 import { BsFacebook } from 'react-icons/bs'
 import { FaDiscord } from 'react-icons/fa'
@@ -13,6 +13,8 @@ import { FcGoogle } from 'react-icons/fc'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import Google from '../components/oauth/Google'
 import Modal from '../components/layouts/global/ErrModal'
+import Facebook from '../components/oauth/Facebook'
+import Discord from '../components/oauth/Discord'
 
 export default function Login() {
     const [user, setuser] = useState({email: '', password: ''});
@@ -30,6 +32,7 @@ export default function Login() {
             router.push('/')
         } 
     }
+ 
     useEffect(() => {
         if(isAuth){
             router.push('/')
@@ -62,13 +65,9 @@ export default function Login() {
                 </form>
                 <p className='text-xl text-center mt-5 font-bold'>OR</p>
                 <div className="flex items-center justify-center space-x-4 mt-3">
-                    <div className="bg-purple-700 text-white w-[50px] py-3 rounded-lg flex items-center justify-center cursor-pointer">
-                        <FaDiscord size={20}/>
-                    </div>
+                    <Discord/>
                     <Google/>
-                    <div className="bg-blue-700 text-white w-[50px] py-3 rounded-lg flex items-center justify-center cursor-pointer">
-                        <BsFacebook size={20}/>
-                    </div>
+                    <Facebook/>
                 </div>
             </div>
         </div>

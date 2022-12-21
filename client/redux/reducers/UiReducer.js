@@ -1,8 +1,9 @@
 import { HYDRATE } from "next-redux-wrapper"
-import { SET_ACTIVE_MENU } from "../actions/types";
+import { END_LOADING, LOADING, SET_ACTIVE_MENU } from "../actions/types";
 
 const initialState = {
-    activeMenu: 'Home'
+    activeMenu: 'Home',
+    loading: false
 };
 
 const UiReducer = (state = initialState, action)=>{
@@ -13,6 +14,12 @@ const UiReducer = (state = initialState, action)=>{
             return {
                 ...state,
                 activeMenu: action.payload
+            }
+        }
+        case LOADING: {
+            return {
+                ...state,
+                loading: action.payload
             }
         }
         default:

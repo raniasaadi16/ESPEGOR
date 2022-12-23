@@ -19,6 +19,7 @@ import { Select } from 'antd'
 import { returnErrors } from '../redux/actions/errActions'
 import { Dialog, Transition } from '@headlessui/react'
 import Modal from '../components/layouts/global/ErrModal'
+import Loading from '../components/layouts/global/Loading'
 const ReactQuill = dynamic(import('react-quill'), {	
 	ssr: false,
 	loading: () => <p>Loading ...</p>,
@@ -34,6 +35,8 @@ export default function Register() {
     const msg = useSelector(state => state.auth.msg)
     const err = useSelector(state=> state.err.msg)
     const [open, setopen] = useState(false);
+    const stateLoading = useSelector(state => state.ui.loading)
+    
 
     const upload = e => {
         var reader = new FileReader();
@@ -74,13 +77,19 @@ export default function Register() {
         }
     }
     useEffect(() => {
-        if(msg){
+        if(msg && !isAuth){
             setopen(true)
         }
-    }, [msg]);
+     
+          if(isAuth){
+            router.push('/')
+        }
+        
+    }, [msg, isAuth]);
   
   return (
     <div className='py-7 md:px-0 px-3 flex justify-center items-center'>
+      {stateLoading && <Loading/>}
         <Modal err={err} />
         <div className="bg-egor-primary-300 px-4 py-3 rounded-lg md:w-2/5">
             <Link href='/'>
@@ -209,6 +218,7 @@ export default function Register() {
   )
 }
 Register.getLayout = function getLayout(page){
+  
     return(
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_AUTH_API}>
             {page}

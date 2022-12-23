@@ -15,6 +15,7 @@ import Google from '../components/oauth/Google'
 import Modal from '../components/layouts/global/ErrModal'
 import Facebook from '../components/oauth/Facebook'
 import Discord from '../components/oauth/Discord'
+import Loading from '../components/layouts/global/Loading'
 
 export default function Login() {
     const [user, setuser] = useState({email: '', password: ''});
@@ -22,7 +23,7 @@ export default function Login() {
     const isAuth = useSelector(state => state.auth.isAuth)
     const err = useSelector(state=> state.err.msg)
     const router = useRouter()
-
+    const stateLoading = useSelector(state => state.ui.loading)
 
   
     const handleLogin = async (e) => {
@@ -40,6 +41,7 @@ export default function Login() {
     }, [isAuth]);
   return (
     <div className='py-7 md:px-0 px-3 flex justify-center items-center'>
+        {stateLoading && <Loading/>}
         <Modal err={err} />
         <div className="bg-egor-primary-300 px-4 py-3 rounded-lg md:w-2/5">
             <Link href='/'>
@@ -75,6 +77,7 @@ export default function Login() {
   )
 }
 Login.getLayout = function getLayout(page){
+    
     return(
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_AUTH_API}>
             {page}

@@ -95,16 +95,22 @@ async function PlayerRegisterG (req, res){
                     });
             }else{
                 connection.query("INSERT INTO users SET ?", user ,(err, userResult) => {
-                    connection.query("INSERT INTO players (user_id, profile_image) VALUES (?,?)", [userResult.insertId, picture] ,(err, result) => {
+                    console.log(userResult.insertId)
+                    console.log('err',err)
+
+                    connection.query("INSERT INTO players (user_id, profile_image) VALUES (?,?)", [userResult?.insertId, picture] ,(err, result) => {
                         connection.release();
                         const user = {id : userResult.insertId}
                         const token = jwtFuncs.createAuthToken(user);
-                        res.send({
-                            logged: true,
-                            msg: 'log in successfully',
-                            type: 0,
-                            token: token,
-                        });
+                        if(result){
+                            console.log('result', result)
+                            res.send({
+                                logged: true,
+                                msg: 'register successfully',
+                                type: 0,
+                                token: token,
+                            });
+                        }
                     }); 
                 });
             }

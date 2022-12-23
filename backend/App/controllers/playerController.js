@@ -42,7 +42,8 @@ async function PlayerRegister (req, res){
                     name, 
                     email,
                     user_password: hashedPassword,
-                    phone
+                    phone,
+                    oauth : false
                 }
                 connection.query("INSERT INTO users SET ?", saveUser ,(err, userResult) => {
                     console.log(err, 'err2')

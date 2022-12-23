@@ -142,7 +142,7 @@ export const fbLogin = (accessToken, userId)=> async dispatch =>{
     try{
         const res = await fetch(`${process.env.NEXT_PUBLIC_API}/player/register/fb`, {
             method: 'POST',
-            body: JSON.stringify({accessToken, userId}),
+            body: JSON.stringify({accessToken, userID:userId}),
             headers: {
                 'Content-Type': 'application/json',
             }

@@ -37,8 +37,10 @@ export const register = (user)=> async dispatch =>{
             method: 'POST',
             body: user,
             headers: {
+                'Access-Control-Allow-Credentials': true,
                 "Access-Control-Allow-Origin": process.env.NEXT_PUBLIC_ORIGIN
-            }
+            },
+            credentials: "include"
         })
         const data = await res.json()
         

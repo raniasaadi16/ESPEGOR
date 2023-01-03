@@ -1,0 +1,89 @@
+#login .login-form,
+#register .login-form{
+    overflow-y: auto;
+}
+
+#login .login-form .wrapper,
+#register .login-form .wrapper{
+    width: 400px;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+#login .login-form .wrapper .top img,
+#register .login-form .wrapper .top img{
+    width: 100px;
+    margin-bottom: 10px;
+}
+
+#login .login-form .top h3,
+#register .login-form .top h3{
+    margin-bottom: 10px;
+    text-align: center;
+    font-family: 'Fredoka One', cursive;
+    font-weight: 100;
+    font-size: 30px;
+    color: #FFF;
+}
+
+#login .login-form .top p,
+#register .login-form .top p{
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 100;
+    font-size: 13px;
+    color: #94959c;
+}
+
+#login .login-form .bottom input[type="email"],
+#login .login-form .bottom input[type="password"],
+#register .login-form .bottom input[type="email"],
+#register .login-form .bottom input[type="text"],
+#register .login-form .bottom input[type="password"]{
+    height: 40px;
+    border: none;
+    outline: none;
+    background-color: rgb(255, 255, 255);
+    color: black;
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+#login .login-form .bottom input[type="checkbox"]{
+    margin-right: 10px;
+}
+
+#login .login-form label{
+    font-size: 13px;
+}
+
+#login .login-form p{
+    font-size: 13px;
+    color: #07d574;
+
+}
+
+#login .login-form .bottom .rem-for{
+    margin-bottom: 20px;
+}
+
+#register .login-form .bottom .uploadFile{
+    margin: 20px 0;
+}
+
+#register .login-form .bottom .uploadFile input{
+    display: none;
+}
+
+#login .login-form .bottom  .login,
+#register .login-form .bottom  button.btn{
+    height: 40px;
+    border: none;
+    outline: none;
+    background-color: #07d574;
+    color: white;
+    border-radius: 5px;
+    font-family: 'Fredoka One', cursive;
+    font-weight: 100;
+    font-size: 15px;
+}

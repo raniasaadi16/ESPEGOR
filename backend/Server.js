@@ -32,23 +32,37 @@ dotenv.config();
 // app.use(fileupload());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-var corsOptions = {
-    origin: ['https://egorgaming.com', 'http://localhost:3000', 'http://138.68.67.137'],
-    credentials : true
+// var corsOptions = {
+//     origin: ['https://egorgaming.com', 'http://localhost:3000', 'http://138.68.67.137'],
+//     credentials : true
+// }
+// app.use(cors(corsOptions));
+// // app.use(cors());
+//  app.enable('trust proxy')
+// // app.options('*', cors())
+// app.use(function (req, res, next) {
+//   res.setHeader('Access-Control-Allow-Origin', process.env.APP_CORS_URI);
+//   //  res.setHeader('Access-Control-Allow-Origin', 'http://138.68.67.137');
+// //  res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type', 'X-HTTP-Method-Override', 'X-Requested-With');
+//   res.setHeader('Access-Control-Allow-Credentials', true);
+//   next();
+// });
+
+
+var whitelist = ['https://egorgaming.com', 'http://localhost:3000', 'http://138.68.67.137','http://localhost:3001']
+var corsOptions = {
+    credentials: true,
+  origin: function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
 }
-app.use(cors(corsOptions));
-// app.use(cors());
- app.enable('trust proxy')
-// app.options('*', cors())
-app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', process.env.APP_CORS_URI);
-  //  res.setHeader('Access-Control-Allow-Origin', 'http://138.68.67.137');
-//  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type', 'X-HTTP-Method-Override', 'X-Requested-With');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  next();
-});
+app.use(cors(corsOptions ))
 
 // set up the socket
 

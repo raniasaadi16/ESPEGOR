@@ -51,7 +51,7 @@ app.use(express.urlencoded({extended: false}));
 // });
 
 
-var whitelist = ['https://egorgaming.com', 'http://localhost:3000', 'http://138.68.67.137','http://localhost:3001']
+var whitelist = ['https://egorgaming.com', 'http://localhost:3000', 'http://138.68.67.137','http://localhost:3001','https://api.egorgaming.com']
 var corsOptions = {
     credentials: true,
   origin: function (origin, callback) {

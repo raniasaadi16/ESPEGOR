@@ -16,12 +16,11 @@ export default function Layout({children}) {
   return (
     <div className='md:flex p-5 md:space-x-7'>
         <Sidebar/>
-        <div className='md:space-y-5 flex-1'>
+        <div className='md:space-y-5 flex-1 md:w-[calc(100vw-205px)]'>
             <div className='flex justify-between items-center pr-7'>
                 <div className="relative w-[85px] h-[68px] md:hidden">
                     <Image src='/images/20220824_152035.png' layout='fill' />
                 </div>
-                
                 <div className='hidden md:block'>
                     <Searchbar/>
                 </div>

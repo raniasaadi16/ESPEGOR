@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const dotenv = require('dotenv');
 
-dotenv.config({path: __dirname + './../../.env'});
+dotenv.config({ path: __dirname + './../../.env' });
 
 
 const pool = mysql.createPool({
@@ -14,38 +14,21 @@ const pool = mysql.createPool({
     // database: 'egor',
     // user: 'root',
     // password: '',
-    // port:3307
+    // port: 3307,
+    // connectionLimit: 5,
+    // waitForConnections: true,
 });
 
 
-// function pool ()
-//     {
-//         return new Promise((resolve, reject) => {
-//             let pool = mysql.createPool({
-//                 host:'dbaas-db-3227774-do-user-13026201-0.b.db.ondigitalocean.com',
-//                 database: 'egor',
-//                 user: 'doadmin',
-//                 password: 'AVNS_OIr5Ksa0leWStmwmDJd',
-//                 port: 25060
-//             });
-
-//             pool.getConnection((err, con) =>
-//             {
-//                 try
-//                 {
-//                     if (con)
-//                     {
-//                         con.release();
-//                         resolve({"status":"success", "data":"MySQL connected.", "con":pool});
-//                     }
-//                 }
-//                 catch (err)
-//                 {
-//                     reject({"status":"failed", "error":`MySQL error. ${err}`});
-//                 }
-//                 resolve({"status":"failed", "error":"Error connecting to MySQL."});
-//             });
-//         });
-//     }
-
-    exports.pool = pool;
+pool.on('connection', function (connection) {
+      connection.query('SET SESSION auto_increment_increment=1')
+    console.log('connection')
+});
+pool.on('enqueue', function () {
+      console.log('Waiting for available connection slot');
+});
+pool.query('SELECT 1 AS sln', function (error, results, fields) {
+  if (error) throw error;
+  console.log('The solution is: ', results[0].solution);
+});
+exports.pool = pool;

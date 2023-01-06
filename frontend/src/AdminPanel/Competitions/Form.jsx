@@ -74,9 +74,10 @@ export const Form = ({competiton}) => {
             await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/competition/update/${id}`, formData).then( res => {
                 if(!res.data.success){
                     seterr('something went very wrong please try again')
-                }else{
-                    window.location.reload();
                 }
+                // else{
+                //     window.location.reload();
+                // }
             });
         } else {
             await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/competition/create`, formData).then( res => {
@@ -84,9 +85,9 @@ export const Form = ({competiton}) => {
                 if(!res.data.success){
                     seterr('something went very wrong please try again')
                 }
-                else{
-                    window.location.reload();
-                }
+                // else{
+                //     window.location.reload();
+                // }
             });
         }
         setloading(false)

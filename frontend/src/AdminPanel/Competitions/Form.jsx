@@ -80,6 +80,7 @@ export const Form = ({competiton}) => {
             });
         } else {
             await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/competition/create`, formData).then( res => {
+                console.log(res.data)
                 if(!res.data.success){
                     seterr('something went very wrong please try again')
                 }

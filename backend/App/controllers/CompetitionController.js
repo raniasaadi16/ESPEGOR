@@ -36,7 +36,7 @@ async function CreateCompetition(req, res){
         conn.getConnection((err, connection) => {
             connection.query('INSERT INTO competitions SET ?', competition, (err, result) => {
                 connection.release();
-                console.log(result, err)
+                console.log(err)
                 res.json({
                     success: true,
                     msg: 'data has been inserted successfully',
@@ -44,6 +44,7 @@ async function CreateCompetition(req, res){
             });
         });
     } catch (error) {
+        console.log(error, 'rrr')
         res.json({msg: 'something went very wrong'})
     }
 }
@@ -258,7 +259,6 @@ function GetAuthCompetitions(req, res){
 
         connection.query(query, player_id, (err, result) => {
             connection.release();
-            console.log(result)
             res.json(result);
         });
     });

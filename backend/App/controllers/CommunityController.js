@@ -150,7 +150,7 @@ function GetPages(req, res){
 function GetGroupInfos(req, res){
     conn.getConnection((err, connection) => {
         if(err) console.log(err)
-        const query = 'SELECT g.*, (SELECT count(*) FROM groupposts WHERE group_id = ?) as posts, (SELECT count(*) FROM users_groups WHERE group_id = ?) as followers, (SELECT count(*) FROM groupposts_reactions gpr JOIN groupposts gp ON gp.id = gpr.grouppost_id WHERE (gp.id = gpr.grouppost_id AND gpr.reaction = 2)) AS total_likes, (SELECT count(*) FROM groupposts_reactions gpr JOIN groupposts gp ON gp.id = gpr.grouppost_id WHERE (gp.id = gpr.grouppost_id AND gpr.reaction = 1)) AS total_dislikes FROM `groups` g WHERE g.id = ?';
+        const query = 'SELECT g.*, (SELECT count(*) FROM users_groups WHERE group_id = ?) as members_count, (SELECT count(*) FROM groupposts_reactions gpr JOIN groupposts gp ON gp.id = gpr.grouppost_id WHERE (gp.id = gpr.grouppost_id AND gpr.reaction = 2)) AS total_likes, (SELECT count(*) FROM groupposts_reactions gpr JOIN groupposts gp ON gp.id = gpr.grouppost_id WHERE (gp.id = gpr.grouppost_id AND gpr.reaction = 1)) AS total_dislikes FROM `groups` g WHERE g.id = ?';
 
         const group_id = req.params.group_id;
 
@@ -274,14 +274,14 @@ function JoinGroup(req, res){
     const user = req.user;
     const record = {
         user_id: user.id,
-        group_id: req.body.id
+        group_id: req.params.id
     };
-    console.log(record)
     conn.getConnection((err, connection) => {
         const query  = 'INSERT INTO users_groups SET ?';
         connection.query(query, record, (err, result) => {
             connection.release();
             res.json({
+                success: true,
                 msg: 'User Has Been Joined',
             });
         });
@@ -290,20 +290,23 @@ function JoinGroup(req, res){
 
 async function GroupPost(req, res) {
 
-    if (!req.file){
-        return res.json({msg: 'No File Is Here'});
-    }
+    // if (!req.file){
+    //     return res.json({msg: 'No File Is Here'});
+    // }
     try {
         let picture 
-        const result = await cloudinary.uploader.upload(req.file.path, {
-            folder: 'egor',
-            use_filename: true
-        });
-        picture = result.secure_url;
+        if(req.file){
+
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'egor',
+                use_filename: true
+            });
+            picture = result.secure_url;
+        }
 
         const record = {
             title: req.body.title,
-            path: picture,
+            path: picture ? picture : '',
             user_id: req.user.id,
             group_id: req.params.group_id,
         };
@@ -321,6 +324,7 @@ async function GroupPost(req, res) {
         });
 
     } catch (error) {
+        console.log(error)
         res.json({msg: 'something went very wrong'})
     }
     
@@ -404,12 +408,12 @@ function GetGroupPosts(req, res){
 
     conn.getConnection((err, connection) => {
         const query = `
-            SELECT g.*,
-                (SELECT count(*) FROM groupposts_reactions gr WHERE (gr.reaction = 2 AND gr.grouppost_id = g.id)) AS likes,
-                (SELECT count(*) FROM groupposts_reactions gr WHERE (gr.reaction = 1 AND gr.grouppost_id = g.id)) AS dislikes,
-                (SELECT reaction FROM groupposts_reactions gr WHERE (gr.user_id = ? AND gr.grouppost_id = g.id)) AS reaction
-            FROM groupposts g
-            WHERE g.group_id = ?
+        SELECT g.*,users.name, users.type, users.type,players.profile_image,
+        (SELECT count(*) FROM groupposts_reactions gr WHERE (gr.reaction = 2 AND gr.grouppost_id = g.id)) AS likes,
+        (SELECT count(*) FROM groupposts_reactions gr WHERE (gr.reaction = 1 AND gr.grouppost_id = g.id)) AS dislikes,
+        (SELECT reaction FROM groupposts_reactions gr WHERE (gr.user_id = ? AND gr.grouppost_id = g.id)) AS reaction
+    FROM groupposts g JOIN players On players.user_id = g.user_id JOIN users ON users.id = players.user_id
+    WHERE g.group_id = ?
         `;
 
         const group_id = req.params.group_id;
@@ -544,7 +548,23 @@ function GetFollowedPosts(req, res) {
     });
 }
 
+function GetGroupMembers(req, res){
 
+    conn.getConnection((err, connection) => {
+        const query = `
+        SELECT g.*,users.name, users.type, users.type,players.profile_image,
+    FROM groupposts g JOIN players On players.user_id = g.user_id JOIN users ON users.id = players.user_id
+    WHERE g.group_id = ?
+        `;
+
+        const group_id = req.params.id;
+
+        connection.query(query, [group_id], (err, result) => {
+            connection.release();
+            res.json(result);
+        });
+    });
+}
 
 module.exports.CreateNewGroup = CreateNewGroup;
 module.exports.CreateNewPage = CreateNewPage;
@@ -572,3 +592,4 @@ module.exports.FollowPage = FollowPage;
 module.exports.GetPageInfos = GetPageInfos; 
 module.exports.GetGroupInfos = GetGroupInfos; 
 module.exports.GetFollowedPosts = GetFollowedPosts; 
+module.exports.GetGroupMembers=GetGroupMembers

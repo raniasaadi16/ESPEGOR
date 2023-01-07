@@ -13,8 +13,11 @@ communityRoute.get('/', communityController.GetAllGroups);
 communityRoute.get('/get/pages', checkAuthToken, communityController.GetPages);
 communityRoute.get('/my/groups', checkAuthToken, communityController.GetMyGroups);
 communityRoute.get('/joint/groups', checkAuthToken, communityController.GetJointGroups);
-communityRoute.post('/join/group', checkAuthToken, communityController.JoinGroup);
+communityRoute.post('/join/group/:id', checkAuthToken, communityController.JoinGroup);
 communityRoute.get('/check/group/:groupid', checkAuthToken, communityController.CheckJoinGroup);
+
+communityRoute.get('/group/members/:id', checkAuthToken, communityController.GetGroupMembers);
+
 
 
 

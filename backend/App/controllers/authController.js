@@ -66,6 +66,7 @@ function GetAuthUser(req, res){
     conn.getConnection((err, connection) => {
         const query = 'SELECT * FROM users JOIN players ON players.user_id = users.id WHERE users.id = ?';
         connection.query(query, user.id, (err, result) => {
+            connection.release();
             res.json({
                 data: result[0],
                 msg: 'success',

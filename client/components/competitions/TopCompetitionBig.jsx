@@ -30,9 +30,9 @@ export default function TopCompetitionBig({item}) {
                         <p className="text-lg font-semibold">{item.organizer}</p>
                     </div>
                     <Link href={`/competitions/${item.id}`}>
-                        <a className="bg-egor-red px-11 py-2 rounded-lg text-lg font-semibold hover:text-white block w-max">
+                        <p className="bg-egor-red px-11 py-2 rounded-lg text-lg font-semibold hover:text-white block w-max">
                             Check it
-                        </a>
+                        </p>
                     </Link>
                 </div>
         </div>

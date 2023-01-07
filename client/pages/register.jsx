@@ -150,11 +150,11 @@ export default function Register() {
                         </label>
                     </div>
                     <Link href='forget-password'>
-                        <a className="flex justify-end mt-2">Forget password?</a>
+                        <p className="flex justify-end mt-2">Forget password?</p>
                     </Link>
                     <button className='bg-egor-primary-200 rounded-lg w-full py-2 text-center mt-4' type='submit'>Register</button>
                     <Link href='/login'>
-                        <a className="flex justify-center mt-2">Already have an account?  <span className='text-egor-primary-200 ml-2'>Login</span></a>
+                        <p className="flex justify-center mt-2">Already have an account?  <span className='text-egor-primary-200 ml-2'>Login</span></p>
                     </Link>
                 </form>
                 <p className='text-xl text-center mt-5 font-bold'>OR</p>

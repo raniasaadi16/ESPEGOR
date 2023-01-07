@@ -61,7 +61,7 @@ export default function Login() {
                         <input type="password" className='w-full px-3 py-2 rounded-lg bg-transparent border border-egor-primary-200 text-egor-primary-200' placeholder='Password' value={user.password} onChange={(e) => setuser({...user, password: e.target.value})} />
                     </div>
                     <Link href='forget-password'>
-                        <a className="flex justify-end mt-2">Forget password?</a>
+                        <p className="flex justify-end mt-2">Forget password?</p>
                     </Link>
                     <button className='bg-egor-primary-200 rounded-lg w-full py-2 text-center mt-4' type='submit'>Login</button>
                 </form>

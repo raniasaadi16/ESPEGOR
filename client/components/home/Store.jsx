@@ -14,9 +14,9 @@ export default function Store() {
         </p>
         <div className="mt-5">
             <Link href='/store/offers'>
-            <a className="bg-egor-red px-8 py-2.5 rounded-lg text-lg font-semibold hover:text-white">
+            <p className="bg-egor-red px-8 py-2.5 rounded-lg text-lg font-semibold hover:text-white">
                 Store
-            </a>
+            </p>
             </Link>
         </div>
         </div>

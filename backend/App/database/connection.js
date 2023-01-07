@@ -5,18 +5,17 @@ dotenv.config({ path: __dirname + './../../.env' });
 
 
 const pool = mysql.createPool({
-    // host:'db-mysql-fra1-59892-do-user-13026201-0.b.db.ondigitalocean.com',
-    // database: 'egor',
-    // user: 'egor',
-    // password: 'AVNS_-0v-XDvwIb1rU0P8392',
-    // port: 25060
-    host: 'localhost',
+    host:'db-mysql-fra1-59892-do-user-13026201-0.b.db.ondigitalocean.com',
     database: 'egor',
-    user: 'root',
-    password: '',
-    port: 3307,
-    connectionLimit: 50,
-    waitForConnections: true,
+    user: 'egor',
+    password: 'AVNS_-0v-XDvwIb1rU0P8392',
+    port: 25060,
+    // host: 'localhost',
+    // database: 'egor',
+    // user: 'root',
+    // password: '',
+    // port: 3307,
+    connectionLimit: 30,
 });
 
 pool.on('release', function (connection) {
@@ -29,10 +28,10 @@ pool.on('release', function (connection) {
 pool.on('enqueue', function () {
       console.log('Waiting for available connection slot');
 });
-pool.query('SELECT 1 AS sln', function (error, results, fields) {
-  if (error) throw error;
-  console.log('The solution is: ', results[0].solution);
-});
+
+pool.on('acquire', function (connection) {
+    console.log('Connection %d acquired', connection.threadId);
+  });
 // function keepAlive() { 
 //     pool.getConnection(function(err, connection){
 //       if(err) { console.error('mysql keepAlive err', err); return; }

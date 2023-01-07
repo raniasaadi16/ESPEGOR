@@ -100,7 +100,7 @@ function GetGroups(req, res){
 
 function GetAllGroups(req, res){
     conn.getConnection((err, connection) => {
-        const query = 'SELECT * FROM groups' ;
+        const query = 'SELECT * FROM `groups`' ;
         if(err) console.log(err)
         connection.query(query, (err, result) => {
             connection.release();

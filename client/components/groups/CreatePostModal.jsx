@@ -33,7 +33,6 @@ export default function CreatePostModal({isOpen, setopen}) {
         }
     };
     const handleSubmit = () => {
-        dispatch(clearMsg())
        if(!picture && !title) return dispatch(returnErrors('please insert something!'))
         const cookies = new Cookies();
         const formData = new FormData();

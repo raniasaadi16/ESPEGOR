@@ -92,7 +92,6 @@ export const createPost = (token, id, data) => async dispatch => {
         })
         
         const post = await res.json()
-        console.log(post)
         if(!post.success){
             dispatch(loading(false))
             return dispatch(returnErrors(post.msg));
@@ -103,6 +102,7 @@ export const createPost = (token, id, data) => async dispatch => {
             payload: {msg: post.msg}
         })
     }catch(err){
+        console.log('errrrrrrrrrrrerereeeeeeeeeeeeee')
         dispatch(returnErrors(err.message));
     }
     dispatch(loading(false))

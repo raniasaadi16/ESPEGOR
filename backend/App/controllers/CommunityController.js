@@ -103,13 +103,11 @@ function GetAllGroups(req, res){
         const query = 'SELECT * FROM groups' ;
         if(err) console.log(err)
         connection.query(query, (err, result) => {
-            connection.query('SELECT COUNT(*) AS count FROM groups', (err, resCount) => {
-                connection.release();
-                if(err) console.log(err)
-                res.json({
-                    'groups': result,
-                   // 'pages': Math.ceil(resCount[0].count/limit),
-                });
+            connection.release();
+            if(err) console.log(err)
+            res.json({
+                'groups': result,
+                // 'pages': Math.ceil(resCount[0].count/limit),
             });
         });
     });

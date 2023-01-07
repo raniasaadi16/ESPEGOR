@@ -6,6 +6,7 @@ import ErrReducer from "./ErrReducer";
 import GamesReducer from "./GamesReducer";
 import OffersReducer from "./OffersReducer";
 import UiReducer from "./UiReducer";
+import GroupsReducer from "./GroupsReducer ";
 
 
 const combinedReducer = combineReducers({
@@ -14,7 +15,8 @@ const combinedReducer = combineReducers({
     games: GamesReducer,
     offers: OffersReducer,
     ui: UiReducer,
-    err: ErrReducer
+    err: ErrReducer,
+    groups: GroupsReducer
 })
 const reducers = (state, action) => {
     if (action.type === HYDRATE) {

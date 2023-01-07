@@ -18,7 +18,6 @@ exports.checkAuthToken = (req, res, next) => {
     if (req.headers.authorization) {
         token = req.headers.authorization.split(' ')[1];   
     }
-    console.log(token)
     if (!token) return res.json({type: 0, isAuth: false, data: null});
     
     const user = jwt.verify(token, process.env.APP_SECRET_TOKEN);

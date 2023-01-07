@@ -9,6 +9,7 @@ communityRoute.post('/update/group/:id',upload, checkAuthToken, communityControl
 communityRoute.get('/delete/group/:id', checkAuthToken, communityController.DeleteGroup);
 communityRoute.post('/create/page',upload, checkAuthToken, communityController.CreateNewPage);
 communityRoute.get('/get/groups', checkAuthToken, communityController.GetGroups);
+communityRoute.get('/', communityController.GetAllGroups);
 communityRoute.get('/get/pages', checkAuthToken, communityController.GetPages);
 communityRoute.get('/my/groups', checkAuthToken, communityController.GetMyGroups);
 communityRoute.get('/joint/groups', checkAuthToken, communityController.GetJointGroups);

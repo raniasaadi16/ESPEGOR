@@ -24,6 +24,9 @@ export const GET_SINGLE_GAME = 'GET_SINGLE_GAME';
 export const GET_ALL_OFFERS = 'GET_ALL_OFFERS';
 export const GET_SINGLE_OFFER = 'GET_SINGLE_OFFER';
 
+export const GET_ALL_GROUPS = 'GET_ALL_GROUPS';
+export const GET_SINGLE_GROUP = 'GET_SINGLE_GROUP';
+
 export const GET_ERRORS = 'GET_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const CLEAR_MSG = 'CLEAR_MSG';

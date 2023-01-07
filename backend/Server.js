@@ -100,6 +100,9 @@ process.on('SIGTERM', () => {
     })
   })
 
+  process.on('uncaughtException', function (error) {
+    console.log('uncaughtException',error.stack);
+ });
 const socket_server = io(server, { 
     cors: {
         origin: "*",

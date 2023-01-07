@@ -98,6 +98,23 @@ function GetGroups(req, res){
     });
 }
 
+function GetAllGroups(req, res){
+    conn.getConnection((err, connection) => {
+        const query = 'SELECT * FROM groups' ;
+        if(err) console.log(err)
+        connection.query(query, (err, result) => {
+            connection.query('SELECT COUNT(*) AS count FROM groups', (err, resCount) => {
+                connection.release();
+                if(err) console.log(err)
+                res.json({
+                    'groups': result,
+                   // 'pages': Math.ceil(resCount[0].count/limit),
+                });
+            });
+        });
+    });
+}
+
 function GetPages(req, res){
     
     const limit = 15;
@@ -132,12 +149,14 @@ function GetPages(req, res){
 
 function GetGroupInfos(req, res){
     conn.getConnection((err, connection) => {
+        if(err) console.log(err)
         const query = 'SELECT g.*, (SELECT count(*) FROM groupposts WHERE group_id = ?) as posts, (SELECT count(*) FROM users_groups WHERE group_id = ?) as followers, (SELECT count(*) FROM groupposts_reactions gpr JOIN groupposts gp ON gp.id = gpr.grouppost_id WHERE (gp.id = gpr.grouppost_id AND gpr.reaction = 2)) AS total_likes, (SELECT count(*) FROM groupposts_reactions gpr JOIN groupposts gp ON gp.id = gpr.grouppost_id WHERE (gp.id = gpr.grouppost_id AND gpr.reaction = 1)) AS total_dislikes FROM `groups` g WHERE g.id = ?';
 
         const group_id = req.params.group_id;
 
         connection.query(query, [group_id, group_id, group_id], (err, result) => {
             connection.release();
+            if(err) console.log(err)
             res.json(result[0]);
         });
     });
@@ -545,6 +564,7 @@ module.exports.GetPagePosts = GetPagePosts;
 module.exports.GroupPostReraction = GroupPostReraction; 
 module.exports.PagePostReraction = PagePostReraction; 
 module.exports.IsReacted = IsReacted;
+module.exports.GetAllGroups = GetAllGroups;
 
 
 module.exports.CheckFollowPage = CheckFollowPage; 

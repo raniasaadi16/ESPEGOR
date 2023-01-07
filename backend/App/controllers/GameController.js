@@ -81,7 +81,9 @@ async function UpdateGame(req, res){
 
 function GetGames(req, res){
     conn.getConnection((err, connection) => {
+        console.log(err)
         connection.query('SELECT *, (SELECT count(*) FROM competitions c WHERE c.game_id = g.id) AS competitions FROM games g', (err, result) => {
+            console.log(err)
             connection.release();
             res.json({
                 msg: 'Get All Data ...',

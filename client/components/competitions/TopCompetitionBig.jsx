@@ -26,14 +26,18 @@ export default function TopCompetitionBig({item}) {
                         <p className="text-lg italic">{item.competition_date}</p>
                     </div>
                     <div className="space-x-3 flex items-center">
-                        <div className="w-[35px] h-[35px] rounded-full bg-gray-300"></div>
+                            <div className="relative w-[35px] h-[35px] rounded-full">
+                                <Image src={item.profile_image} fill className="rounded-full"/>
+                            </div>
                         <p className="text-lg font-semibold">{item.organizer}</p>
                     </div>
-                    <Link href={`/competitions/${item.id}`}>
-                        <p className="bg-egor-red px-11 py-2 rounded-lg text-lg font-semibold hover:text-white block w-max">
-                            Check it
-                        </p>
-                    </Link>
+                    <div>
+                        <Link href={`/competitions/${item.id}`}>
+                            <p className="bg-egor-red px-11 py-2 rounded-lg text-lg font-semibold hover:text-white block w-max">
+                                Check it
+                            </p>
+                        </Link>
+                    </div>
                 </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { setActiveMenu } from '../../../redux/actions/UiActions'
 import { loadUser } from '../../../redux/actions/AuthActions'
 import { checkJoined, getGroupInfos, getGroupPosts } from '../../../redux/actions/GroupsActions'
@@ -7,9 +7,11 @@ import Header from '../../../components/groups/Header'
 import CreatePost from '../../../components/groups/CreatePost'
 import SinglePost from '../../../components/groups/SinglePost'
 import About from '../../../components/groups/About'
+import { useSelector } from 'react-redux'
 
 
-export default function Group({group,posts}) {
+export default function Group({group}) {
+  const posts = useSelector(state => state.groups.posts)
   return (
     <div className="space-y-9">
         <div className=" bg-egor-primary-400 rounded-lg">

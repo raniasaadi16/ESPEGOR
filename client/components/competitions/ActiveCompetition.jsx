@@ -14,7 +14,9 @@ export default function ActiveCompetition({item}) {
                 </Link>
                 <Link href={`/organizers/${item.organizer_id}`}>
                     <div className="space-x-3 flex items-center cursor-pointer">
-                        <div className="w-[20px] h-[20px] rounded-full bg-gray-300"></div>
+                        <div className="relative w-[20px] h-[20px] rounded-full">
+                            <Image src={item.profile_image} fill className="rounded-full"/>
+                        </div>
                         <p className="font-semibold">{item.organizer}</p>
                     </div>
                 </Link>

@@ -19,9 +19,7 @@ export default function Modal({isOpen, setopen}) {
         
     }
     useEffect(() => {
-        if(msg){ 
-            Router.reload()
-        }
+        setopen(false)
     }, [msg]);
   return (
     <Transition appear show={isOpen} as={Fragment}>

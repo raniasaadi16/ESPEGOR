@@ -1,19 +1,21 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Cookies from 'universal-cookie'
 import { useEffect } from 'react'
 import { getGroupMembers } from '../../redux/actions/GroupsActions'
+import Image from 'next/image'
 
 export default function SeeMembers({isOpen, setopen, id}) {
+  const members = useSelector(state => state.groups.members)
   
     const dispatch = useDispatch()
 
   
-    // useEffect(() => {
-    //     const cookies = new Cookies();
-    //     dispatch(getGroupMembers(id,cookies.get('auth_token')))
-    // }, []);
+    useEffect(() => {
+      const cookies = new Cookies();
+      if(isOpen && members.length === 0) dispatch(getGroupMembers(id,cookies.get('auth_token')))
+  }, [isOpen, members]);
   return (
     <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={() => setopen(false)}>
@@ -49,8 +51,15 @@ export default function SeeMembers({isOpen, setopen, id}) {
                   </Dialog.Title>
                  
 
-                  <div className="mt-2">
-                   
+                  <div className="mt-2 space-y-3">
+                   {
+                    members?.length > 0 && members.map(member => (
+                      <div key={member.id} className='flex space-x-4 items-center text-gray-900'>
+                        <Image src={member.profile_image} width={30} height={30} className='rounded-full' />
+                        <p>{member.name}</p>
+                      </div>
+                    ))
+                   }
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

@@ -7,8 +7,9 @@ import { FaUser } from "react-icons/fa";
 import { GiGamepadCross } from "react-icons/gi";
 import { IoMdLogOut } from "react-icons/io";
 import { MdLocalOffer } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../../../redux/actions/AuthActions";
+import { useEffect } from "react";
 
 
 const Content = ({user, handleLogout}) => (
@@ -58,11 +59,15 @@ const Content = ({user, handleLogout}) => (
 
 export default function ProfilePic({user}) {
     const dispatch = useDispatch()
-    const router =  useRouter()
+    // const router =  useRouter()
+    // const isAuth = useSelector(state => state.auth.isAuth)
     const handleLogout = () => {
         dispatch(logout())
-        // router.push('/')
+        // router.push('/login')
     }
+    // useEffect(() => {
+    //     if(!isAuth) router.push('/login')
+    // }, [isAuth, router]);
   return (
     <div className="">
         <Popover 

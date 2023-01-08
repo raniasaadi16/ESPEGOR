@@ -17,6 +17,7 @@ export default function CreatePostModal({isOpen, setopen}) {
     const [preview, setpreview] = useState('');
     const dispatch = useDispatch()
     const group = useSelector(state => state.groups.group)
+    const err = useSelector(state=> state.err.msg)
     
 
     const upload = e => {
@@ -39,10 +40,17 @@ export default function CreatePostModal({isOpen, setopen}) {
         formData.append('title', title);
         formData.append('picture', picture);
         dispatch(createPost(cookies.get('auth_token'),group.id,formData))
+        
+    }
+    const onClose = () => {
+      setopen(false)
+      setpreview('')
+      setpicture('')
+      settitle('')
     }
   return (
     <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={() => setopen(false)}>
+        <Dialog as="div" className="relative z-10" onClose={onClose}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"

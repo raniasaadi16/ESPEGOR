@@ -150,10 +150,10 @@ function GetCompetitions(req, res){
 
     if(game_id !== undefined && game_id !==''){
         // paginatedGamesQuery = "SELECT c.*, (SELECT count(*) FROM players_competitions WHERE c.id = players_competitions.competition_id)AS players, org.name as organizer FROM competitions c JOIN (SELECT name , organizers.id FROM organizers JOIN users ON users.id = organizers.user_id) AS org ON org.id = c.organizer_id WHERE c.game_id =" + game_id + " LIMIT " + limit + " OFFSET " + offset;
-        paginatedGamesQuery = "SELECT c.*, (SELECT count(*) FROM players_competitions WHERE c.id = players_competitions.competition_id)AS players, org.name as organizer FROM competitions c JOIN (SELECT name , organizers.id FROM organizers JOIN users ON users.id = organizers.user_id) AS org ON org.id = c.organizer_id WHERE c.game_id =" + game_id ;
+        paginatedGamesQuery = "SELECT c.*, (SELECT count(*) FROM players_competitions WHERE c.id = players_competitions.competition_id)AS players, org.name as organizer, org.profile_image FROM competitions c JOIN (SELECT name , organizers.id, organizers.profile_image FROM organizers JOIN users ON users.id = organizers.user_id) AS org ON org.id = c.organizer_id WHERE c.game_id =" + game_id ;
     } else {
-        // paginatedGamesQuery = "SELECT c.*, org.name as organizer, (SELECT count(*) FROM players_competitions WHERE c.id = players_competitions.competition_id) AS players FROM competitions c  JOIN (SELECT name , organizers.id FROM users JOIN organizers ON users.id = organizers.user_id) AS org ON org.id = c.organizer_id LIMIT " + limit + " OFFSET " + offset;
-        paginatedGamesQuery = "SELECT c.*, org.name as organizer, (SELECT count(*) FROM players_competitions WHERE c.id = players_competitions.competition_id) AS players FROM competitions c  JOIN (SELECT name , organizers.id FROM users JOIN organizers ON users.id = organizers.user_id) AS org ON org.id = c.organizer_id";
+        // paginatedGamesQuery = "SELECT c.*, org.name as organizer, org.profile_image, (SELECT count(*) FROM players_competitions WHERE c.id = players_competitions.competition_id) AS players FROM competitions c  JOIN (SELECT name , organizers.id, organizers.profile_image FROM users JOIN organizers ON users.id = organizers.user_id) AS org ON org.id = c.organizer_id LIMIT " + limit + " OFFSET " + offset;
+        paginatedGamesQuery = "SELECT c.*, org.name as organizer, org.profile_image, (SELECT count(*) FROM players_competitions WHERE c.id = players_competitions.competition_id) AS players FROM competitions c  JOIN (SELECT name , organizers.id, organizers.profile_image FROM users JOIN organizers ON users.id = organizers.user_id) AS org ON org.id = c.organizer_id";
     }
 
     const countQuery = 'SELECT COUNT(*) AS count FROM competitions';
@@ -189,7 +189,7 @@ function DeleteCompetition(req, res){
 function GetTopAndRecentCompetitions(req, res){
     const event = 0;
     const accepted = 2;
-    const query = 'SELECT c.*, g.name as game_name, org.name as organizer FROM competitions c LEFT OUTER JOIN games g ON c.game_id = g.id JOIN (SELECT name, organizers.id as orgId FROM organizers JOIN users On users.id = organizers.user_id) AS org ON org.orgId = c.organizer_id WHERE c.event = ? AND c.competition_status = ? ORDER BY c.competition_status DESC LIMIT 10';
+    const query = 'SELECT c.*, g.name as game_name, org.name as organizer, org.profile_image FROM competitions c LEFT OUTER JOIN games g ON c.game_id = g.id JOIN (SELECT name, organizers.id as orgId, organizers.profile_image FROM organizers JOIN users On users.id = organizers.user_id) AS org ON org.orgId = c.organizer_id WHERE c.event = ? AND c.competition_status = ? ORDER BY c.competition_status DESC LIMIT 10';
     conn.getConnection((err, connection) => {
         connection.query(query, [event, accepted], (err, result) => {
             connection.release();
@@ -202,9 +202,9 @@ function GetCompetition(req, res) {
     const id = req.params.id;
 
     const compQquery = `
-        SELECT c.*, g.name as game_name, org.name as organizer
-        FROM competitions c LEFT OUTER JOIN games g ON c.game_id = g.id JOIN (SELECT name, organizers.id as orgId FROM users JOIN organizers ON organizers.user_id = users.id) AS org ON org.orgId = c.organizer_id
-        WHERE c.id= ? LIMIT 1
+    SELECT c.*, g.name as game_name, org.name as organizer, org.profile_image, org.bio as about_org
+    FROM competitions c LEFT OUTER JOIN games g ON c.game_id = g.id JOIN (SELECT name, organizers.id as orgId, organizers.profile_image, organizers.bio FROM users JOIN organizers ON organizers.user_id = users.id) AS org ON org.orgId = c.organizer_id
+    WHERE c.id= ? LIMIT 1
     `;
 
     conn.getConnection((err, connection) => {

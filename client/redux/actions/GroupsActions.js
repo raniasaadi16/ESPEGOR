@@ -71,7 +71,6 @@ export const getGroupPosts = (id, token) => async dispatch => {
 
         }
     }catch(err){
-        console.log('brrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr')
 
         dispatch(returnErrors(err.message));
     }
@@ -101,8 +100,8 @@ export const createPost = (token, id, data) => async dispatch => {
             type: CREATE_POST,
             payload: {msg: post.msg}
         })
+        dispatch(getGroupPosts(id, token))
     }catch(err){
-        console.log('errrrrrrrrrrrerereeeeeeeeeeeeee')
         dispatch(returnErrors(err.message));
     }
     dispatch(loading(false))
@@ -172,6 +171,7 @@ export const getGroupMembers = (id, token) => async dispatch => {
         })
         
         const data = await res.json()
+        console.log(data)
         if(data?.length >0){
             dispatch({
                 type: GET_GROUP_MEMBERS,

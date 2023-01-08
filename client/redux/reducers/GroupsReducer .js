@@ -5,8 +5,8 @@ const initialState = {
     groups: null,
     group: null,
     msg: null,
-    posts: null,
-    members: null
+    posts: [],
+    members: []
 };
 
 const GroupsReducer = (state = initialState, action)=>{
@@ -31,7 +31,7 @@ const GroupsReducer = (state = initialState, action)=>{
         case CREATE_POST:
             return {
                 ...state,
-                posts: [...state.posts, action.payload.post],
+                // posts: state.posts.unshift(action.payload.post),
                 msg: action.payload.msg
             }
         case CHECK_IF_USER_JOINED_GROUP:

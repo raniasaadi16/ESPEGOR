@@ -148,7 +148,7 @@ function GetPages(req, res){
 function GetGroupInfos(req, res){
     conn.getConnection((err, connection) => {
         if(err) console.log(err)
-        const query = 'SELECT g.*, (SELECT count(*) FROM users_groups WHERE group_id = ?) as members_count, (SELECT count(*) FROM groupposts_reactions gpr JOIN groupposts gp ON gp.id = gpr.grouppost_id WHERE (gp.id = gpr.grouppost_id AND gpr.reaction = 2)) AS total_likes, (SELECT count(*) FROM groupposts_reactions gpr JOIN groupposts gp ON gp.id = gpr.grouppost_id WHERE (gp.id = gpr.grouppost_id AND gpr.reaction = 1)) AS total_dislikes FROM `groups` g WHERE g.id = ?';
+        const query = 'SELECT g.*, (SELECT count(*) FROM users_groups WHERE group_id = ?) as members_count,(SELECT count(*) FROM groupposts WHERE group_id = ?) as posts_count, (SELECT count(*) FROM groupposts_reactions gpr JOIN groupposts gp ON gp.id = gpr.grouppost_id WHERE (gp.id = gpr.grouppost_id AND gpr.reaction = 2)) AS total_likes, (SELECT count(*) FROM groupposts_reactions gpr JOIN groupposts gp ON gp.id = gpr.grouppost_id WHERE (gp.id = gpr.grouppost_id AND gpr.reaction = 1)) AS total_dislikes FROM `groups` g WHERE g.id = ?';
 
         const group_id = req.params.group_id;
 
@@ -316,7 +316,7 @@ async function GroupPost(req, res) {
                 connection.release();
                 res.json({
                     success: true,
-                    msg: 'Post Has Been Saved',
+                    msg: 'Post Has Been Saved'
                 });
             });
         });
@@ -411,7 +411,7 @@ function GetGroupPosts(req, res){
         (SELECT count(*) FROM groupposts_reactions gr WHERE (gr.reaction = 1 AND gr.grouppost_id = g.id)) AS dislikes,
         (SELECT reaction FROM groupposts_reactions gr WHERE (gr.user_id = ? AND gr.grouppost_id = g.id)) AS reaction
     FROM groupposts g JOIN players On players.user_id = g.user_id JOIN users ON users.id = players.user_id
-    WHERE g.group_id = ?
+    WHERE g.group_id = ? ORDER BY g.created_at DESC
         `;
 
         const group_id = req.params.group_id;
@@ -550,8 +550,8 @@ function GetGroupMembers(req, res){
 
     conn.getConnection((err, connection) => {
         const query = `
-        SELECT g.*,users.name, users.type, users.type,players.profile_image,
-    FROM groupposts g JOIN players On players.user_id = g.user_id JOIN users ON users.id = players.user_id
+        SELECT g.id,users.name, users.type, users.type,players.profile_image
+    FROM users_groups g JOIN players On players.user_id = g.user_id JOIN users ON users.id = players.user_id
     WHERE g.group_id = ?
         `;
 

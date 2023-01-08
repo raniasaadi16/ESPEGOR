@@ -28,7 +28,6 @@ async function CreateOffer(req, res){
     conn.getConnection((err, connection) => {
         connection.query('INSERT INTO offers SET ?', offer, (err, result) => {
             connection.release();
-            console.log(offer)
             res.json({
                 msg: 'data has been inserted successfully',
             });

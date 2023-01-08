@@ -11,7 +11,7 @@ export default function About({ item }) {
         <p className='font-semibold'>About the Group:</p>
         <div dangerouslySetInnerHTML={{ __html: item.description }} className='mt-2 mb-2.5 text-gray-300 ' />
         <div className="space-y-1">
-          <p className='font-bold'>Number of posts: <span className='font-normal text-gray-300'>{item.posts}</span></p>
+          <p className='font-bold'>Number of posts: <span className='font-normal text-gray-300'>{item.posts_count}</span></p>
           <p className='font-bold'>Number of members: <span className='font-normal text-gray-300'>{item.members_count}</span></p>
         </div>
         {item.members_count > 0 && (

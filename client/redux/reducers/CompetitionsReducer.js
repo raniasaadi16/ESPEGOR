@@ -35,7 +35,8 @@ const CompetitionsReducer = (state = initialState, action)=>{
         case JOIN_COMPETITION:
             return {
                 ...state,
-                msg: action.payload
+                msg: action.payload,
+                competition: {...state.competition, joined: true}
             }
         default:
             return state;

@@ -1,18 +1,22 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Organizer({item}) {
   return (
     <div>
-        <div className="bg-gray-300 w-[70px] h-[70px] block mx-auto rounded-full"></div>
+        <div className="relative w-[70px] h-[70px] block mx-auto rounded-full">
+            <Image src={item.profile_image} fill className="rounded-full"/>
+        </div>
         <p className="mt-2 text-xl font-bold text-center">{item.organizer}</p>
-        <div className="mt-5 space-y-2 text-lg">
-            <p>about</p>
-            <div className="flex items-center">
+        <div className="mt-5 text-lg flex items-start">
+            <p>about :</p>
+            <p>{item.about_org}</p>
+            {/* <div className="flex items-center">
                 <p>joined at: </p>
             </div>
             <div className="flex items-center">
                 <p>competition: </p>
-            </div>
+            </div> */}
             {/* <div className="flex items-center">
                 <p>followers: </p>
             </div> */}

@@ -43,9 +43,15 @@ export default function Modal({isOpen, setopen, item}) {
         formData.append('picture', screenShoot);
         dispatch(createTransition(cookies.get('auth_token'),formData))
     }
+
+    const onClose = () => {
+      setopen(false)
+      setpreview('')
+      setScreenShoot('')
+    }
   return (
     <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={() => setopen(false)}>
+        <Dialog as="div" className="relative z-10" onClose={onClose}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"

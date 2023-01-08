@@ -3,12 +3,21 @@ import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { FaMapMarkerAlt } from 'react-icons/fa'
 import Modal from './Modal'
+import { useDispatch, useSelector } from 'react-redux'
+import { returnErrors } from '../../redux/actions/errActions'
 
 export default function Header({item}) {
   
     const [open, setopen] = useState(false);
+    const isAuth = useSelector(state => state.auth.isAuth)
+    const isJoined = useSelector(state => state.comps.competition)?.joined
+    const dispatch = useDispatch()
     const join = () => {
-       setopen(true)
+        if(isAuth){
+            setopen(true)
+        }else{
+            dispatch(returnErrors('Please login to join!'))
+        }
     }
     
   return (
@@ -31,7 +40,7 @@ export default function Header({item}) {
                     </div>
                     <div className="flex space-x-7 items-center">
                         {
-                            item.joined ? (
+                            isJoined ? (
                                 <button className='py-2 px-10 rounded-lg bg-egor-primary-400 text-white text-lg font-semibold italic cursor-not-allowed'>Already Joined</button>
                             )
                             :

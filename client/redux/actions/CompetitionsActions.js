@@ -109,6 +109,7 @@ export const joinComp = (token, authId, compId) => async dispatch => {
                 type: JOIN_COMPETITION,
                 payload: data.message
             })
+            dispatch(checkJoined(token, authId, compId))
         }else{
             throw data
         }

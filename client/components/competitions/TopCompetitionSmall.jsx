@@ -27,7 +27,9 @@ export default function TopCompetitionSmall({item}) {
                         <p className="text-md italic">{item.competition_date}</p>
                     </div>
                     <div className="space-x-3 flex items-center">
-                        <div className="w-[20px] h-[20px] rounded-full bg-gray-300"></div>
+                        <div className="relative w-[20px] h-[20px] rounded-full">
+                            <Image src={item.profile_image} fill className="rounded-full"/>
+                        </div>
                         <p className="font-semibold">{item.organizer}</p>
                     </div>
                 </div>

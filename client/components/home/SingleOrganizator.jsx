@@ -8,8 +8,8 @@ export default function SingleOrganizator({item}) {
     <div className='flex justify-between items-center'>
         <div className='flex space-x-12 items-center'>
             <div className="flex items-center md:space-x-3">
-                <div className="relative w-[50px] h-[50px] hidden md:block">
-                    <Image src='/images/call.jpg' layout='fill' objectFit='cover' className='rounded-lg' />
+                <div className="relative w-[50px] h-[50px] hidden md:block bg-black rounded-lg">
+                    {/* <Image src='/images/call.jpg' layout='fill' objectFit='cover' className='rounded-lg' /> */}
                 </div>
                 <div>
                     <p className='md:text-lg font-semibold'>{item.name}</p>

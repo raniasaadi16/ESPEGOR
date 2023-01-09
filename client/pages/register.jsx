@@ -115,7 +115,7 @@ export default function Register() {
                             onChange={val => setuser({...user, phone: val})}
                             className='w-full px-3 py-2 rounded-lg bg-transparent border border-egor-primary-200 text-egor-primary-200'
                         /> 
-                        <Select
+                        {/* <Select
                             placeholder='select account type'
                             value={user.type}
                             style={{
@@ -141,7 +141,7 @@ export default function Register() {
                                     label: 'Social media creator'
                                 },
                             ]}                 
-                            /> 
+                            />  */}
                         <ReactQuill theme="snow" value={user.bio} onChange={(val) => setuser({...user, bio: val})} className='w-full rounded-lg bg-transparent border border-egor-primary-200 text-egor-primary-200' placeholder='Bio' />
                         <label className="mt-11 flex space-x-3 items-center text-gray-400">
                                 {preview ? <Image src={preview} alt="" width="100" height={100} className='rounded-full' /> : <Image width='100' height={100} src="/images/profile-pic.svg" alt="" />}

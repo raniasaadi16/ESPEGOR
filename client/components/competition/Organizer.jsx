@@ -8,9 +8,9 @@ export default function Organizer({item}) {
             <Image src={item.profile_image} fill className="rounded-full"/>
         </div>
         <p className="mt-2 text-xl font-bold text-center">{item.organizer}</p>
-        <div className="mt-5 text-lg flex items-start">
+        <div className="mt-5 text-lg ">
             <p>about :</p>
-            <p>{item.about_org}</p>
+            <p className="text-gray-300">{item.about_org}</p>
             {/* <div className="flex items-center">
                 <p>joined at: </p>
             </div>

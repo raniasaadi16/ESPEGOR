@@ -50,13 +50,12 @@ async function CreateTransiiton(req, res){
 function CheckTransition(req, res){
     const {status} = req.body;
     const id = req.params.id;
-    const user  = req.params.user;
+    // const user  = req.params.user;
     // one is rejected two is accepted
     // 1 ====> reject
     // 2 ====> accept
     const updateBalanceQuery =`UPDATE players  JOIN transitions ON players.user_id = transitions.user_id SET players.golds = players.golds + transitions.golds, players.diamonds = players.diamonds + transitions.diamonds, status = ? WHERE transitions.id = ?`;
-    console.log(status, user)
-    if(status === 2 && user){
+    if(status === 2 ){
         conn.getConnection((err, connection) => {
             connection.query(updateBalanceQuery, [status, id] ,(err, upresult) => {
                 connection.release();

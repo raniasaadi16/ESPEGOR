@@ -54,20 +54,19 @@ function CheckTransition(req, res){
     // one is rejected two is accepted
     // 1 ====> reject
     // 2 ====> accept
-    const updateBalanceQuery =`UPDATE players p JOIN (SELECT SUM(golds) golds_s , SUM(diamonds) diamonds_s, user_id FROM transitions WHERE status = 2 GROUP BY user_id) t ON p.user_id = t.user_id SET p.golds = golds_s, p.diamonds = diamonds_s WHERE p.user_id = ?`;
+    const updateBalanceQuery =`UPDATE players  JOIN transitions ON players.user_id = transitions.user_id SET players.golds = players.golds + transitions.golds, players.diamonds = players.diamonds + transitions.diamonds, status = ? WHERE transitions.id = ?`;
     console.log(status, user)
     if(status === 2 && user){
         conn.getConnection((err, connection) => {
-            connection.query('UPDATE transitions SET status=? where id=? ', [status, id] ,(err, result) => {
-                connection.query(updateBalanceQuery, user ,(err, upresult) => {
-                    connection.release();
-                    console.log('balance')
-                    res.json({
-                        msg: 'data has been updated successfully',
-                    });
+            connection.query(updateBalanceQuery, [status, id] ,(err, upresult) => {
+                connection.release();
+                if(err) throw err
+                console.log('balance')
+                res.json({
+                    msg: 'data has been updated successfully',
                 });
-
             });
+
         });    
     }else{
         conn.getConnection((err, connection) => {

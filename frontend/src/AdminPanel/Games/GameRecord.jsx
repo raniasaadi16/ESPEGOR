@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
+import Popup from '../../Components/Popup';
 
 
 export const GameRecord = (props) => {
+    const [err, seterr] = useState('');
 
     const DeleteGame = () => {
         axios.get(`${process.env.REACT_APP_SERVER_END_POINT}/game/delete/${props.data.id}`).then( res => {
-            window.location.reload();
-        });
+            props.setmsg('deleted succussfully')
+        }).catch(err => seterr(err));
     }
 
     const UpdateGame = () => {
@@ -20,6 +22,7 @@ export const GameRecord = (props) => {
     
     return (
         <tr>
+            {err && <Popup err={err} seterr={seterr} />}
             <td>U-{props.data.id}</td>
             <td className="c-name"><div className="f-n-c"><img src={props.data.icon} alt="" /><span>{props.data.name}</span></div></td>
             <td>{props.data.comps}</td>

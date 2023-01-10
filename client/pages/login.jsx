@@ -54,7 +54,7 @@ export default function Login() {
                     <Image src='/images/logo2.png' layout='fill' />
                 </div>
                 <p className="mt-3 text-center text-2xl font-bold">Weclome to Egorgaming</p>
-                <p className='text-center text-gray-300 mt-2'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet, unde.</p>
+                <p className='text-center text-gray-300 mt-2'>predict the future so you can live your past (now in/with/through) EGOR GAMING</p>
                 <form className='mt-7 px-5' onSubmit={handleLogin}>
                     <div className='space-y-4'>
                         <input type="text" className='w-full px-3 py-2 rounded-lg bg-transparent border border-egor-primary-200 text-egor-primary-200' placeholder='Email' value={user.email} onChange={(e) => setuser({...user, email: e.target.value})} />

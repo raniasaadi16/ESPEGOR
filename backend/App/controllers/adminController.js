@@ -80,9 +80,23 @@ function TopRecentCompetitions(req, res){
     });
 }
 
+function GiveTokens(req, res){
+    const user = req.params.user_id;
+    const {golds, diamonds} = req.body
+    console.log(req.body)
+    conn.getConnection((err, connection) => {
+        const query = `UPDATE players SET golds = ?, diamonds = ? WHERE user_id = ?`
+        connection.query(query,[golds, diamonds, user], (err, result) => {
+            connection.release()
+            if(err) throw err
+            res.json({success: true, msg: 'balance updated successfully'})
+        })
+    })
+}
 
 module.exports.AdminRegister = AdminRegister;
 module.exports.DashboardInfo = DashboardInfo;
 module.exports.TopRankedGames = TopRankedGames;
 module.exports.TopRecentCompetitions = TopRecentCompetitions;
+module.exports.GiveTokens = GiveTokens;
 

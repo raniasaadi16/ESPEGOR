@@ -10,9 +10,10 @@ import 'react-quill/dist/quill.snow.css';
 import axios from 'axios'
 import Popup from '../../Components/Popup'
 import Loading from '../../Components/Loading'
+import Success from '../../Components/Success'
 
 
-export const Form = ({competiton}) => {
+export const Form = ({competiton, msg, setmsg}) => {
 
     const id = competiton ? competiton.id : undefined;
     const [organziersList, setOrganziersList] = useState([]);
@@ -75,19 +76,20 @@ export const Form = ({competiton}) => {
                 if(!res.data.success){
                     seterr('something went very wrong please try again')
                 }
-                // else{
-                //     window.location.reload();
-                // }
+                else{
+                    setmsg('updated successfully')
+                    closeGame()
+                }
             });
         } else {
             await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/competition/create`, formData).then( res => {
-                console.log(res.data)
                 if(!res.data.success){
                     seterr('something went very wrong please try again')
                 }
-                // else{
-                //     window.location.reload();
-                // }
+                else{
+                    setmsg('created successfully')
+                    closeGame()
+                }
             });
         }
         setloading(false)
@@ -130,6 +132,7 @@ export const Form = ({competiton}) => {
     return (
         <div id="popup-form">
             {loading && <Loading/>}
+            <Success msg={msg} setmsg={setmsg}/>
             <div className="f-c-c">
                 <div className="form-content double">
                     <div className="pop-top f-b-c">

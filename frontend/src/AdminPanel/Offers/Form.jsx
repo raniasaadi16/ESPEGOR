@@ -5,9 +5,11 @@ import {RiSendPlaneLine} from 'react-icons/ri'
 import axios from 'axios'
 import { MdOutlineAddPhotoAlternate } from 'react-icons/md'
 import Popup from '../../Components/Popup'
+import Loading from '../../Components/Loading'
+import Success from '../../Components/Success'
 
 
-export const Form = ({offer}) => {
+export const Form = ({offer, msg, setmsg}) => {
 
     const id = offer ? offer.id : undefined;
     const [name, setName] = useState('');
@@ -19,6 +21,11 @@ export const Form = ({offer}) => {
     const [picture, setpicture] = useState('');
     const [preview, setpreview] = useState('');
     const [err, seterr] = useState('');
+    const [loading, setloading] = useState(false);
+
+    const closeOffer = () => {
+        document.getElementById("popup-form").style.display = 'none';
+    }
 
     const upload = e => {
         var reader = new FileReader();
@@ -45,22 +52,30 @@ export const Form = ({offer}) => {
         formData.append("diamonds", diamonds);
         formData.append("picture", picture);
         if(!name || !description ) return seterr('missed field !')
+        setloading(true)
         if (id) {
             await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/offer/update/${id}`, formData).then( res => {
-                console.log('Update', res)
+                if(!res.data.success){
+                    seterr(res.data.msg)
+                   }else{
+                        setmsg('updated succussfully')
+                        closeOffer()
+                   }
             });
         } else {
             await axios.post(`${process.env.REACT_APP_SERVER_END_POINT}/offer/create`, formData).then( res => {
-                console.log('Create', res)
+                if(!res.data.success){
+                    seterr(res.data.msg)
+                   }else{
+                        setmsg('created succussfully')
+                        closeOffer()
+                   }
             });
         }
-
-        window.location.reload();
+        setloading(false)
     }
 
-    const closeOffer = () => {
-        document.getElementById("popup-form").style.display = 'none';
-    }
+   
 
     useEffect(() => {        
         setName(id?offer.name:'');
@@ -75,6 +90,8 @@ export const Form = ({offer}) => {
 
     return (
         <div id="popup-form">
+            {loading && <Loading/>}
+            <Success msg={msg} setmsg={setmsg}/>
             <div className="f-c-c">
                 <div className="form-content">
                     <div className="pop-top f-b-c">

@@ -24,4 +24,5 @@ playerRoutes.post('/change/infos', checkAuthToken, playerController.EditInfos);
 playerRoutes.get('/auth', checkAuthToken, playerController.GetAuthPlayer);
 playerRoutes.get('/admin/:id', checkAuthToken, playerController.GetPlayerAdmin);
 
+
 module.exports = playerRoutes;

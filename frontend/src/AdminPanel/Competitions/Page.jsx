@@ -12,26 +12,10 @@ export const Page = (props) => {
         props.SetCompetition(null);
     };
 
-    const [competitions, setCompetitions] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [pages, setPages] = useState(1);
-    const [showpagination, setShowpagination] = useState(false);
+    
 
 
-    useEffect(() => {
-        axios.get(`${process.env.REACT_APP_SERVER_END_POINT}/competition/all?page=${currentPage}`).then(res => {
-            const comps = res.data.competitions;
-            setPages(parseInt(res.data.pages));
-            setShowpagination(true);
-            comps.forEach(element => {
-                setCompetitions((list) => [...list, element]);
-            });
-        });
-
-        return () => {
-            setCompetitions([]);
-        }
-    }, [currentPage]);
+   
 
     
     return (
@@ -62,14 +46,14 @@ export const Page = (props) => {
                                 <th width="80">Actions</th>
                             </thead>
                             <tbody>
-                                {competitions.map((item, index) => {
-                                    return <CompetitionRecord key={index} data={item} SetCompetition={props.SetCompetition} />;
+                                {props.competitions.map((item, index) => {
+                                    return <CompetitionRecord setmsg={props.setmsg} key={index} data={item} SetCompetition={props.SetCompetition} />;
                                 })}
                             </tbody>
                         </table>
                         <div className="competition-pagination">         
                         {
-                            (showpagination&&pages>1)&&<Pagination currentPage={currentPage} pages={pages} SetCurrentPage={setCurrentPage} />
+                            (props.showpagination&&props.pages>1)&&<Pagination currentPage={props.currentPage} pages={props.pages} SetCurrentPage={props.setCurrentPage} />
                         }
                         </div>
                     </div>

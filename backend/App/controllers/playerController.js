@@ -267,32 +267,56 @@ function PlayerAll(req, res){
 
     const limit = 20;
     // page number
-    const page = req.query.page;
+    const page = req.query?.page ? req.query.page : null;
     // calculate offset
-    const offset = (page - 1) * limit;
     // query for fetching data with page number and offset
-    const paginatedPlayersQuery = `
-        SELECT p.*, u.name, u.email, u.id AS user_id , (SELECT count(*) FROM players_competitions pc WHERE p.id = pc.player_id) AS comps
-        FROM players p JOIN users u ON u.id = p.user_id 
-        LIMIT ${limit} OFFSET ${offset}`;
-
+    
     const countQuery = 'SELECT COUNT(*) AS count FROM players';
+    if(page){
+        const offset = (page - 1) * limit;
 
-    conn.getConnection((err, connection) => {
-        // we need to join the table user(type 0) with player *later*
-        connection.query(paginatedPlayersQuery, function (error, results) {
-            connection.query(countQuery, function (err, countResult){
-                connection.release();
-                if (error) throw error;
-                var jsonResult = {
-                    'pages': Math.ceil(countResult[0].count/limit),
-                    'current_number':page,
-                    'players':results,
-                }
-                res.json(jsonResult);
+        const paginatedPlayersQuery = `
+            SELECT p.*, u.name, u.email, u.id AS user_id , (SELECT count(*) FROM players_competitions pc WHERE p.id = pc.player_id) AS comps
+            FROM players p JOIN users u ON u.id = p.user_id 
+            LIMIT ${limit} OFFSET ${offset}`;
+    
+    
+        conn.getConnection((err, connection) => {
+            // we need to join the table user(type 0) with player *later*
+            connection.query(paginatedPlayersQuery, function (error, results) {
+                connection.query(countQuery, function (err, countResult){
+                    connection.release();
+                    if (error) throw error;
+                    var jsonResult = {
+                        'pages': Math.ceil(countResult[0].count/limit),
+                        'current_number':page,
+                        'players':results,
+                    }
+                    res.json(jsonResult);
+                });
             });
         });
-    });
+    }else{
+
+        const query = `
+            SELECT p.*, u.name, u.email, u.id AS user_id , (SELECT count(*) FROM players_competitions pc WHERE p.id = pc.player_id) AS comps
+            FROM players p JOIN users u ON u.id = p.user_id `;
+    
+    
+        conn.getConnection((err, connection) => {
+            // we need to join the table user(type 0) with player *later*
+            connection.query(query, function (error, results) {
+                connection.query(countQuery, function (err, countResult){
+                    connection.release();
+                    if (error) throw error;
+                    var jsonResult = {
+                        'players':results,
+                    }
+                    res.json(jsonResult);
+                });
+            });
+        });
+    }
 }
 
 function PlayerDelete(req, res){

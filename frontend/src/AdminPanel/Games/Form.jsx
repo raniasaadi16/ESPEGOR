@@ -14,9 +14,10 @@ import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import Popup from '../../Components/Popup'
 import Loading from '../../Components/Loading'
+import Success from '../../Components/Success'
 
 
-export const Form = ({game}) => {
+export const Form = ({game, msg, setmsg}) => {
 
     const id = game ? game.id : undefined;
 
@@ -62,7 +63,8 @@ export const Form = ({game}) => {
                 if(!res.data.success){
                     seterr(res.data.msg)
                 }else{
-                    window.location.reload()
+                    setmsg('updated succussfully')
+                    closeGame()
                 }
             });
         } else {
@@ -70,7 +72,8 @@ export const Form = ({game}) => {
                 if(!res.data.success){
                     seterr(res.data.msg)
                 }else{
-                    window.location.reload()
+                    setmsg('created succussfully')
+                    closeGame()
                 }
             });
             
@@ -94,6 +97,7 @@ export const Form = ({game}) => {
     return (
         <div id="popup-form">
             {loading && <Loading />}
+            <Success msg={msg} setmsg={setmsg}/>
             <div className="f-c-c">
                 <div className="form-content">
                     <div className="pop-top f-b-c">

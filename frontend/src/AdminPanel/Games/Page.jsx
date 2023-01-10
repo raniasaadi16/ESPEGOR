@@ -4,7 +4,6 @@ import {AiOutlinePlus} from 'react-icons/ai'
 import { Pagination } from '../Compoments/Pagination'
 import { GameRecord } from './GameRecord'
 
-import axios from 'axios'
 
 export const Page = (props) => {
 
@@ -13,24 +12,9 @@ export const Page = (props) => {
         props.SetGame(null);
     };
 
-    const [games, setGames] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [pages, setPages] = useState(1);
-    const [showpagination, setShowpagination] = useState(false);
 
-    useEffect(() => {
-        axios.get(`${process.env.REACT_APP_SERVER_END_POINT}/game/paginate?page=${currentPage}`).then(res => {
-            const games = res.data.games;
-            setPages(parseInt(res.data.pages));
-            setShowpagination(true);
-            games.forEach(element => {
-                setGames((list) => [...list, element]);
-            });
-        });
-        return () => {
-            setGames([]);
-        }
-    }, [currentPage]);
+
+ 
 
 
     return (
@@ -58,14 +42,14 @@ export const Page = (props) => {
                                 <th width="50"></th>
                             </thead>
                             <tbody>
-                                {games.map((item, index) => {
-                                    return <GameRecord key={index} data={item} SetGame={props.SetGame} />;
+                                {props.games.map((item, index) => {
+                                    return <GameRecord setmsg={props.setmsg} key={index} data={item} SetGame={props.SetGame} />;
                                 })}
                             </tbody>
                         </table>
                         <div className="game-pagination">      
                                 {
-                                    (showpagination&&pages>1)&&<Pagination currentPage={currentPage} pages={pages} SetCurrentPage={setCurrentPage} />
+                                    (props.showpagination&&props.pages>1)&&<Pagination currentPage={props.currentPage} pages={props.pages} SetCurrentPage={props.setCurrentPage} />
                                 }
                         </div>
                     </div>

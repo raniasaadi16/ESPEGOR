@@ -30,6 +30,7 @@ async function CreateOffer(req, res){
             connection.release();
             res.json({
                 msg: 'data has been inserted successfully',
+                success: true
             });
         });
     });
@@ -46,6 +47,7 @@ function UpdateOffer(req, res){
             connection.release();
             res.json({
                 msg: 'data has been updated successfully',
+                success: true
             });
         });
     });
@@ -70,6 +72,7 @@ function DeleteOffer(req, res){
             connection.release();
             res.json({
                 msg: 'data has been deleted successfully',
+                
             });
         });
     });

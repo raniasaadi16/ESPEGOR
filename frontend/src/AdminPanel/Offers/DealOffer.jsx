@@ -1,13 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {AiOutlineDelete, AiOutlineEdit} from 'react-icons/ai'
 import axios from 'axios'
+import Popup from '../../Components/Popup'
 
 export const DealOffer = (props) => {
-
+    const [err, seterr] = useState('');
     const DeleteOffer = function(){
         axios.get(`${process.env.REACT_APP_SERVER_END_POINT}/offer/delete/${props.data.id}`).then( res => {
-            window.location.reload();
-        });
+            props.setmsg('deleted succussfully')
+        }).catch(err => seterr(err));
     }
 
     const UpdateOffer = () => {
@@ -17,6 +18,7 @@ export const DealOffer = (props) => {
 
     return (
         <div className="offer">
+            {err && <Popup err={err} seterr={seterr} />}
             <div className="o-top">
                 <h4>{props.data.name}</h4>
                 <p className="f-c-c">

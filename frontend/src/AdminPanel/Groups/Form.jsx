@@ -6,9 +6,10 @@ import { MdOutlineAddPhotoAlternate } from 'react-icons/md'
 import API from '../../Services/AuthIntercepteurs'
 import Popup from '../../Components/Popup'
 import Loading from '../../Components/Loading'
+import Success from '../../Components/Success'
 
 
-export const Form = ({group}) => {
+export const Form = ({group, msg, setmsg}) => {
     const id = group ? group.id : undefined;
     
     const [name, setName] = useState('');
@@ -39,7 +40,7 @@ export const Form = ({group}) => {
         e.preventDefault();
 
         const formData = new FormData();
-
+        if(!name || !icon || !description) return seterr('missed field!')
         formData.append('name', name);
         formData.append('description', description);
         formData.append('picture', icon);
@@ -49,7 +50,8 @@ export const Form = ({group}) => {
                if(!res.data.success){
                 seterr(res.data.msg)
                }else{
-                    window.location.reload();
+                    setmsg('updated succussfully')
+                    closeGame()
                }
             });
         } else {
@@ -57,7 +59,8 @@ export const Form = ({group}) => {
                 if(!res.data.success){
                     seterr(res.data.msg)
                    }else{
-                        window.location.reload();
+                        setmsg('created succussfully')
+                        closeGame()
                    }
             });
         }
@@ -79,6 +82,7 @@ export const Form = ({group}) => {
         <div id="popup-form">
             {loading && <Loading/>}
             <Popup err={err} seterr={seterr} />
+            <Success msg={msg} setmsg={setmsg}/>
             <div className="f-c-c">
                 <div className="form-content">
                     <div className="pop-top f-b-c">

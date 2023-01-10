@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AiOutlineEye } from 'react-icons/ai';
 import {MdDeleteOutline, MdOutlineEdit} from 'react-icons/md'
 import API from '../../Services/AuthIntercepteurs';
+import Popup from '../../Components/Popup';
 
 
 export const GroupRecord = (props) => {
+    const [err, seterr] = useState('');
 
     
     const DeleteGroup = (e) => {
@@ -12,9 +14,8 @@ export const GroupRecord = (props) => {
         e.preventDefault();
 
         API.get(`${process.env.REACT_APP_SERVER_END_POINT}/community/delete/group/${props.data.id}`).then(res => {
-            alert(res.data.msg);
-            window.location.reload();
-        });
+            props.setmsg('deleted succussfully')
+        }).catch(err => seterr(err));
 
     }
 
@@ -27,6 +28,8 @@ export const GroupRecord = (props) => {
 
   return (
     <div className="group-wrapper f gap10">
+        {err && <Popup err={err} seterr={seterr} />}
+
         <div className="left">
             <img src={props.data.icon} alt="" />
         </div>

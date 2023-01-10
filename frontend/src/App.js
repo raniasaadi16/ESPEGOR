@@ -1,9 +1,9 @@
+import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import './App.css';
 import './Papp.css';
 import './Fapp.css';
 import './AuthStyle.css';
 import './FrStyle.css';
-
 
 import {
   BrowserRouter as Router,
